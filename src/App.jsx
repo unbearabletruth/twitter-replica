@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import './App.css'
 import Sidebar from './components/Sidebar';
-import Main from './components/Main';
+import Main from './components/Content';
 import { BrowserRouter } from 'react-router-dom';
 
 
