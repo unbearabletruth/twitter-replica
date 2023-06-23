@@ -7,17 +7,57 @@ function Sidebar() {
     <div id="sidebar">
       <div id='sidebarContent'>
         <div className="sidebarLinks">
-          <img src={logo} alt='logo' id='sidebarLogo'></img>
-          <Link to="/" className="sidebarLink">Home</Link>
-          <Link to="/explore" className="sidebarLink">Explore</Link>
-          <Link to="/notifications" className="sidebarLink">Notifications</Link>
-          <Link to="/messages" className="sidebarLink">Messages</Link>
-          <Link to="/lists" className="sidebarLink">Lists</Link>
-          <Link to="/bookmarks" className="sidebarLink">Bookmarks</Link>
-          <Link to="/verified" className="sidebarLink">Verified</Link>
-          <Link to="/profile" className="sidebarLink">Profile</Link>
-          <div className="sidebarLink">More</div>
-          <Link to="/compose" id='composeTweet'></Link>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <img src={logo} alt='logo' id='sidebarLogo'></img>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/" className="sidebarLink">Home</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/explore" className="sidebarLink">Explore</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/notifications" className="sidebarLink">Notifications</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/messages" className="sidebarLink">Messages</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/lists" className="sidebarLink">Lists</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/bookmarks" className="sidebarLink">Bookmarks</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/verified" className="sidebarLink">Verified</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <Link to="/profile" className="sidebarLink">Profile</Link>
+            </div>
+          </div>
+          <div className='sidebarLinkWrapper'>
+            <div className='sidebarLinkContent'>
+              <div className="sidebarLink">More</div>
+            </div>
+          </div>
+          <Link to="/compose" id='composeTweet'>Tweet</Link>
         </div>
         <div className="sidebarUserInfo">
           <img></img>

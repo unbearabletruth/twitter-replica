@@ -25,7 +25,18 @@ function Content(){
           </Routes>
         </div>
         <div id='sideContent'>
-          trends
+          <input type='search' id='search' placeholder='Search Twitter'></input>
+          <div id='getVerified'>
+            <p>Get Verified</p>
+            <p>Subscribe to unlock new features</p>
+            <a>Subscribe</a>
+          </div>
+          <div id='trends'>
+            <p>Trends for you</p>
+            <div id='trendsEntry'>
+              some text
+            </div>
+          </div>
         </div>
       </div>
     )
