@@ -1,0 +1,21 @@
+#sidebar{
+    width: 20vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#sidebarLogo{
+    width: 30px;
+    height: auto;
+}
+
+.sidebarLinks{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebarLink{
+    color: #111827;
+    font-size: 1.3rem;
+}
