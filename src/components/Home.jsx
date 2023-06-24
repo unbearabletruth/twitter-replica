@@ -1,16 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import uploadImage from '../assets/images/image-line-icon.svg'
 import '../assets/styles/Home.css'
 import uniqid from "uniqid";
+import { saveTweet, db, getTweets, saveTweetWithImage } from '../firebase/connection';
+
+
 
 function Home(){
   const [tweets, setTweets] = useState([])
   const [tweet, setTweet] = useState({
     text: "",
     image: null,
-    id: uniqid()
+    id: uniqid(),
   })
 
+  useEffect(() => {
+    async function readTweets(){
+      const tweetsPromise = getTweets(db);
+      const tweetsArray = await tweetsPromise;
+      setTweets(tweets.concat(tweetsArray))
+    }
+    readTweets()
+  }, [])
+    
   const onTextChange = (e) => {
     setTweet({
       ...tweet,
@@ -21,20 +33,26 @@ function Home(){
   const onImageChange = (e) => {
     setTweet({
       ...tweet,
-      image: URL.createObjectURL(e.target.files[0])
+      image: e.target.files[0]
   })  
   }
 
   const addTweet = (e) => {
     e.preventDefault();
-    setTweets(tweets.concat(tweet))
+    if (tweet.image !== null){
+      saveTweetWithImage(tweet.image, tweet.text, tweet.id)
+    } else{
+      saveTweet(db, tweet.text, tweet.id)
+    }
+    //setTweets(tweets.concat(tweet))
     setTweet({
+      ...tweet,
       text: "",
       image: null,
-      id: uniqid()
     })
+    
   }
-
+  
   return(
     <>
       <p id='homeTitle'>Home</p>
@@ -49,7 +67,7 @@ function Home(){
             onChange={onTextChange}
           >
           </textarea>
-          <img src={tweet.image} id='homeFormImagePreview'></img>
+          <img src={tweet.image? URL.createObjectURL(tweet.image) : null} id='homeFormImagePreview'></img>
           <div id="uploadAndTweet">
             <label>
               <input type="file" id='uploadInput' onChange={onImageChange}></input>
@@ -65,11 +83,11 @@ function Home(){
           return(
             <div key={tweet.id} className='tweet'>
               <div className='tweetAuthor'>
-
+                {tweet.timestamp.seconds}
               </div>
               <div className='tweetContent'>
                 <p className='tweetText'>{tweet.text}</p>
-                <img src={tweet.image} className='tweetImage'></img>
+                <img src={tweet.imageUrl} className='tweetImage'></img>
               </div>
               <div className='tweetLikesBar'>
 
