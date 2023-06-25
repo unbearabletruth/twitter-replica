@@ -1,8 +1,27 @@
 import '../assets/styles/Sidebar.css'
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/twitter-icon.svg'
+import { getUserName, getProfilePicUrl, isUserSignedIn, authStateObserver } from '../firebase/connection';
+import { useEffect, useState } from 'react';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
 
 function Sidebar() {
+  const [state, setState] = useState()
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(getAuth(), user => {
+    if(user){
+        setState(true);
+         }else{
+        setState(false);
+      }
+    });
+
+    // Cleanup subscription on unmount
+    return () => unsubscribe();
+  }, []);
+  
   return(
     <div id="sidebar">
       <div id='sidebarContent'>
@@ -60,12 +79,18 @@ function Sidebar() {
           <Link to="/compose" id='composeTweet'>Tweet</Link>
         </div>
         <div className="sidebarUserInfo">
-          <img></img>
-          <div>
-            <p>Name</p>
-            <p>profile name</p>
-          </div>
-          <img></img>
+          {state ?
+              <>
+                <img src={getProfilePicUrl()} alt='profilePic'></img>
+                <div>
+                  <p>{getUserName()}</p>
+                  <p>profile name</p>
+                </div>
+                <img></img>
+              </>
+            :
+              <Link to="/login">Log in</Link>
+          }
         </div>
       </div>
     </div>

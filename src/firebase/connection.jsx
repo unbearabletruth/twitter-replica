@@ -1,16 +1,21 @@
 import { initializeApp } from "firebase/app";
 import {
+  getAuth,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+  signInWithRedirect,
+} from 'firebase/auth';
+import {
     getFirestore,
     collection,
     doc,
     setDoc,
     addDoc,
     updateDoc,
-    getDoc,
     getDocs,
     query,
-    orderBy,
-    limit,
     serverTimestamp
   } from 'firebase/firestore';
 import { orderByChild } from "firebase/database";
@@ -20,7 +25,6 @@ import {
     uploadBytesResumable,
     getDownloadURL,
   } from 'firebase/storage';
-
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvJ-2uriYsQG8Qd5p4AfEVTrHHzn_EYTc",
@@ -34,8 +38,45 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+async function signIn() {
+  let provider = new GoogleAuthProvider();
+  await signInWithRedirect(getAuth(), provider);
+}
+
+function signOutUser() {
+  signOut(getAuth());
+}
+
+// Initialize firebase auth
+function initFirebaseAuth() {
+  // Listen to auth state changes.
+  onAuthStateChanged(getAuth(), authStateObserver);
+}
+
+async function authStateObserver(user) {
+  if (user) {
+   
+  } else {
+
+  }
+}
+
+function getProfilePicUrl() {
+  return getAuth().currentUser.photoURL || '/images/profile_placeholder.png';
+}
+
+function getUserName() {
+  return getAuth().currentUser.displayName;
+}
+
+function isUserSignedIn() {
+  return !!getAuth().currentUser;
+}
+
 async function saveTweet(db, text, id){
     await setDoc(doc(db, "tweets", id), {
+      profilePic: getProfilePicUrl(),
+      author: getUserName(),
       text: text,
       id: id,
       timestamp: serverTimestamp()
@@ -53,6 +94,8 @@ async function getTweets(db) {
 async function saveTweetWithImage(file, text, id) {
     try {
       const messageRef = await addDoc(collection(getFirestore(), 'tweets'), {
+        profilePic: getProfilePicUrl(),
+        author: getUserName(),
         text: text,
         id: id,
         timestamp: serverTimestamp()
@@ -72,4 +115,8 @@ async function saveTweetWithImage(file, text, id) {
       console.error('There was an error uploading a file to Cloud Storage:', error);
     }
   }
-export {db, saveTweet, getTweets, saveTweetWithImage}
+
+initFirebaseAuth();
+  
+export {db, saveTweet, getTweets, saveTweetWithImage,
+signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, authStateObserver}

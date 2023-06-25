@@ -8,6 +8,7 @@ import Lists from './Lists';
 import Bookmarks from './Bookmarks';
 import Verified from './Verified';
 import Profile from './Profile';
+import Login from './Login';
 
 function Content(){
     return(
@@ -22,6 +23,7 @@ function Content(){
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
         <div id='sideContent'>
