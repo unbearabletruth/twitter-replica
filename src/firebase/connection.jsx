@@ -16,9 +16,9 @@ import {
     updateDoc,
     getDocs,
     query,
-    serverTimestamp
+    serverTimestamp,
+    orderBy
   } from 'firebase/firestore';
-import { orderByChild } from "firebase/database";
 import {
     getStorage,
     ref,
@@ -84,7 +84,7 @@ async function saveTweet(db, text, id){
 }
 
 async function getTweets(db) {
-    const getTweets = query(collection(db, 'tweets'), orderByChild("timestamp"));
+    const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
     const tweetsSnapshot = await getDocs(getTweets);
     const tweets = tweetsSnapshot.docs.map(doc => doc.data())
     console.log(tweets)
@@ -116,7 +116,7 @@ async function saveTweetWithImage(file, text, id) {
     }
   }
 
-initFirebaseAuth();
+//initFirebaseAuth();
   
 export {db, saveTweet, getTweets, saveTweetWithImage,
 signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, authStateObserver}

@@ -2,26 +2,45 @@ import '../assets/styles/Sidebar.css'
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/twitter-icon.svg'
 import { getUserName, getProfilePicUrl, isUserSignedIn, authStateObserver } from '../firebase/connection';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { signIn, signOutUser } from "../firebase/connection";
 
 
 function Sidebar() {
-  const [state, setState] = useState()
+  const [userState, setUserState] = useState()
+  const [loginWindow, setLoginWindow] = useState(false)
+  const loginPopupWindow = useRef(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(getAuth(), user => {
+    const isUser = onAuthStateChanged(getAuth(), user => {
+      console.log("hey")
     if(user){
-        setState(true);
-         }else{
-        setState(false);
+        setUserState(true);
+    }else{
+        setUserState(false);
       }
     });
 
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
+    return () => isUser();
   }, []);
-  
+
+  /*useEffect(() => {
+    function handleClickOutside(e) {
+      if (loginPopupWindow.current && loginPopupWindow.current !== e.target) {
+        setLoginWindow(false)
+      }
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [loginPopupWindow]);*/
+
+  const loginPopup = () => {
+    setLoginWindow(true)
+  }
+
   return(
     <div id="sidebar">
       <div id='sidebarContent'>
@@ -78,22 +97,33 @@ function Sidebar() {
           </div>
           <Link to="/compose" id='composeTweet'>Tweet</Link>
         </div>
-        <div className="sidebarUserInfo">
-          {state ?
+          {userState ?
               <>
-                <img src={getProfilePicUrl()} alt='profilePic'></img>
-                <div>
-                  <p>{getUserName()}</p>
-                  <p>profile name</p>
+                <div className="sidebarUserInfo" onClick={loginPopup} ref={loginPopupWindow}>
+                  <div id='sidebarProfileBlock'>
+                    <img src={getProfilePicUrl()} alt='profilePic' id='profilePic'></img>
+                    <div className='profileNames'>
+                      <p id='realName'>{getUserName()}</p>
+                      <p id='profileName'>@{getUserName()}_profile</p>
+                    </div>
+                  </div>
+                  <p id='profileMenu'>&#8230;</p>
+                  
                 </div>
-                <img></img>
+                {loginWindow ? 
+                  <div className='loginPopup' >
+                    <a id='logoutLink' onClick={signOutUser}>Log out @{getUserName()}_profile</a>
+                  </div>
+                  :
+                  null
+                }
               </>
             :
               <Link to="/login">Log in</Link>
           }
         </div>
       </div>
-    </div>
+    
   )
 }
 

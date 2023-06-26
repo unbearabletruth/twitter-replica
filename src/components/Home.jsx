@@ -49,8 +49,17 @@ function Home(){
       ...tweet,
       text: "",
       image: null,
-    })
-    
+    })  
+  }
+
+  const convertDate = (timestamp) => {
+    let date = new Date(timestamp * 1000);
+    let stringDate = date.toLocaleString(undefined, {
+      month: "short",
+      day: "2-digit",
+      hour: "numeric", minute: "numeric", second: "numeric"
+    });
+    return stringDate
   }
   
   return(
@@ -82,17 +91,22 @@ function Home(){
         tweets.map(tweet => {
           return(
             <div key={tweet.id} className='tweet'>
-              <div className='tweetAuthor'>
-                {tweet.timestamp.seconds}
-              </div>
-              <div className='tweetContent'>
-                <p className='tweetText'>{tweet.text}</p>
-                <img src={tweet.imageUrl} className='tweetImage'></img>
-              </div>
-              <div className='tweetLikesBar'>
+              <img src={tweet.profilePic} className='tweetProfilePicture'></img>
+              <div className='tweetWrapper'>
+                <div className='tweetAuthor'>
+                  <p className='tweetRealName'>{tweet.author}</p>
+                  <p className='tweetProfileName'>@{tweet.author}_profile</p>
+                  <span>·</span>
+                  <p>{convertDate(tweet.timestamp.seconds)}</p>
+                </div>
+                <div className='tweetContent'>
+                  <p className='tweetText'>{tweet.text}</p>
+                  <img src={tweet.imageUrl} className='tweetImage'></img>
+                </div>
+                <div className='tweetLikesBar'>
 
+                </div>
               </div>
-              
             </div>
           )
         })
