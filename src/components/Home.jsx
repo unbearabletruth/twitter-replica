@@ -3,7 +3,7 @@ import uploadImage from '../assets/images/image-line-icon.svg'
 import '../assets/styles/Home.css'
 import uniqid from "uniqid";
 import { saveTweet, db, getTweets, saveTweetWithImage } from '../firebase/connection';
-
+import { Link } from 'react-router-dom';
 
 
 function Home(){
@@ -61,7 +61,7 @@ function Home(){
     });
     return stringDate
   }
-  
+  console.log(tweets)
   return(
     <>
       <p id='homeTitle'>Home</p>
@@ -90,24 +90,26 @@ function Home(){
       {tweets ? 
         tweets.map(tweet => {
           return(
-            <div key={tweet.id} className='tweet'>
-              <img src={tweet.profilePic} className='tweetProfilePicture'></img>
-              <div className='tweetWrapper'>
-                <div className='tweetAuthor'>
-                  <p className='tweetRealName'>{tweet.author}</p>
-                  <p className='tweetProfileName'>@{tweet.author}_profile</p>
-                  <span>·</span>
-                  <p>{convertDate(tweet.timestamp.seconds)}</p>
-                </div>
-                <div className='tweetContent'>
-                  <p className='tweetText'>{tweet.text}</p>
-                  <img src={tweet.imageUrl} className='tweetImage'></img>
-                </div>
-                <div className='tweetLikesBar'>
+            <Link to={`/tweet/${tweet.timestamp.seconds}`} key={tweet.id}>
+              <div className='tweet'>
+                <img src={tweet.profilePic} className='tweetProfilePicture'></img>
+                <div className='tweetWrapper'>
+                  <div className='tweetAuthor'>
+                    <p className='tweetRealName'>{tweet.author}</p>
+                    <p className='tweetProfileName'>@{tweet.author}_profile</p>
+                    <span>·</span>
+                    <p>{convertDate(tweet.timestamp.seconds)}</p>
+                  </div>
+                  <div className='tweetContent'>
+                    <p className='tweetText'>{tweet.text}</p>
+                    <img src={tweet.imageUrl} className='tweetImage'></img>
+                  </div>
+                  <div className='tweetLikesBar'>
 
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           )
         })
         : null

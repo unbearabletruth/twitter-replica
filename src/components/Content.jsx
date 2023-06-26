@@ -9,6 +9,7 @@ import Bookmarks from './Bookmarks';
 import Verified from './Verified';
 import Profile from './Profile';
 import Login from './Login';
+import Tweet from './Tweet';
 
 function Content(){
     return(
@@ -24,6 +25,7 @@ function Content(){
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/tweet/:id" element={<Tweet />} />
           </Routes>
         </div>
         <div id='sideContent'>

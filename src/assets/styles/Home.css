@@ -68,6 +68,10 @@
     gap: 10px;
 }
 
+.tweet:hover{
+    background-color: #fafafa;
+}
+
 .tweetWrapper{
     width: 100%;
     display: flex;
@@ -95,6 +99,10 @@
 
 .tweetRealName{
     font-weight: bold;
+    color: black;
+}
+
+.tweetText{
     color: black;
 }
 
