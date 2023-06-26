@@ -1,0 +1,51 @@
+.tweetBig{
+   padding: 15px;
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+}
+
+.tweetProfileBig{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tweetProfileNoMenuBig{
+    display: flex;
+    gap: 10px;
+}
+
+.tweetProfilePictureBig{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.tweetAuthorBig{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 1.1rem;
+    color: #6b7280;
+}
+
+.tweetRealNameBig{
+    font-weight: bold;
+    color: black;
+}
+
+.tweetTextBig{
+    font-size: 1.2rem;
+}
+
+.tweetImageBig{
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.tweetTimeBig{
+    color: #6b7280;
+    font-size: 1.1rem;
+}

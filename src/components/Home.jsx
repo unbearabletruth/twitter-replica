@@ -2,27 +2,18 @@ import { useEffect, useState } from 'react';
 import uploadImage from '../assets/images/image-line-icon.svg'
 import '../assets/styles/Home.css'
 import uniqid from "uniqid";
-import { saveTweet, db, getTweets, saveTweetWithImage } from '../firebase/connection';
+import { saveTweet, db, saveTweetWithImage } from '../firebase/connection';
 import { Link } from 'react-router-dom';
+import { getProfilePicUrl } from '../firebase/connection';
 
 
-function Home(){
-  const [tweets, setTweets] = useState([])
+function Home({tweets}){
   const [tweet, setTweet] = useState({
     text: "",
     image: null,
     id: uniqid(),
   })
 
-  useEffect(() => {
-    async function readTweets(){
-      const tweetsPromise = getTweets(db);
-      const tweetsArray = await tweetsPromise;
-      setTweets(tweets.concat(tweetsArray))
-    }
-    readTweets()
-  }, [])
-    
   const onTextChange = (e) => {
     setTweet({
       ...tweet,
@@ -44,7 +35,6 @@ function Home(){
     } else{
       saveTweet(db, tweet.text, tweet.id)
     }
-    //setTweets(tweets.concat(tweet))
     setTweet({
       ...tweet,
       text: "",
@@ -65,32 +55,31 @@ function Home(){
   return(
     <>
       <p id='homeTitle'>Home</p>
-      <form onSubmit={addTweet}>
-        <div id='tweetFormContent'>
-          <img id='homeComposeProfilePicture'></img>
-          <textarea 
-            id="homeCompose" 
-            name='text'
-            placeholder="What is happening?!"
-            value={tweet.text}
-            onChange={onTextChange}
-          >
-          </textarea>
-          <img src={tweet.image? URL.createObjectURL(tweet.image) : null} id='homeFormImagePreview'></img>
-          <div id="uploadAndTweet">
-            <label>
-              <input type="file" id='uploadInput' onChange={onImageChange}></input>
-              <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
-            </label>
-            <button type='submit'>Tweet</button>
-          </div>
-        </div>
-        
-      </form>
+      <div id='tweetComposeWrapper'>
+        <img alt='profilePic' id='homeComposeProfilePicture'></img>
+        <form onSubmit={addTweet} id='tweetForm'>
+            <textarea 
+              id="homeCompose" 
+              name='text'
+              placeholder="What is happening?!"
+              value={tweet.text}
+              onChange={onTextChange}
+            >
+            </textarea>
+            <img src={tweet.image? URL.createObjectURL(tweet.image) : null} id='homeFormImagePreview'></img>
+            <div id="uploadAndTweet">
+              <label>
+                <input type="file" id='uploadInput' onChange={onImageChange}></input>
+                <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+              </label>
+              <button id='homeComposeButton' type='submit'>Tweet</button>
+            </div>
+        </form>
+      </div>
       {tweets ? 
         tweets.map(tweet => {
           return(
-            <Link to={`/tweet/${tweet.timestamp.seconds}`} key={tweet.id}>
+            <Link to={`/tweet/${tweet.id}`} key={tweet.id}>
               <div className='tweet'>
                 <img src={tweet.profilePic} className='tweetProfilePicture'></img>
                 <div className='tweetWrapper'>

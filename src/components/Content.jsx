@@ -10,13 +10,26 @@ import Verified from './Verified';
 import Profile from './Profile';
 import Login from './Login';
 import Tweet from './Tweet';
+import { useState, useEffect } from 'react';
+import { getTweets, db } from '../firebase/connection';
 
 function Content(){
+  const [tweets, setTweets] = useState([])
+
+  useEffect(() => {
+    async function readTweets(){
+      const tweetsPromise = getTweets(db);
+      const tweetsArray = await tweetsPromise;
+      setTweets(tweets.concat(tweetsArray))
+    }
+    readTweets()
+  }, [])
+
     return(
       <div id='content'>
         <div id="mainContent">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home tweets={tweets}/>} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/messages" element={<Messages />} />
@@ -25,7 +38,7 @@ function Content(){
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/tweet/:id" element={<Tweet />} />
+            <Route path="/tweet/:id" element={<Tweet tweets={tweets}/>} />
           </Routes>
         </div>
         <div id='sideContent'>

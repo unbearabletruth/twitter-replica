@@ -1,13 +1,18 @@
-#tweetFormContent{
-    min-height: 200px;
+#tweetComposeWrapper{
+    min-height: 100px;
     padding: 10px;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     border-top: 1px solid;
     border-bottom: 1px solid;
     border-color: #e5e7eb;
     gap: 15px;
+}
+
+#tweetForm{
+    width: 100%;
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #homeTitle{
@@ -24,6 +29,7 @@
 #uploadAndTweet{
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 #homeCompose{
@@ -31,6 +37,12 @@
     border: 0px;
     font-size: 1.5rem;
     resize: none;
+}
+
+#homeComposeProfilePicture{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }
 
 #homeFormImagePreview{
@@ -45,9 +57,25 @@
 .uploadImage{
     width: 16px;
     height: auto;
+    filter: invert(49%) sepia(78%) saturate(1726%) hue-rotate(176deg) brightness(98%) contrast(93%);
 }
 
 .uploadImage:hover{
+    cursor: pointer;
+}
+
+#homeComposeButton{
+    border: 0px;
+    width: 90px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #1DA1F2;
+    color: white;
+    font-weight: bold;
+}
+
+#homeComposeButton:hover{
+    background-color: #198fd8;
     cursor: pointer;
 }
 
