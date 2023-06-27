@@ -87,7 +87,7 @@ function Home({tweets}){
                     <p className='tweetRealName'>{tweet.author}</p>
                     <p className='tweetProfileName'>@{tweet.author}_profile</p>
                     <span>·</span>
-                    <p>{convertDate(tweet.timestamp.seconds)}</p>
+                    <p>{tweet.timestamp ? convertDate(tweet.timestamp.seconds) : ""}</p>
                   </div>
                   <div className='tweetContent'>
                     <p className='tweetText'>{tweet.text}</p>

@@ -17,7 +17,8 @@ import {
     getDocs,
     query,
     serverTimestamp,
-    orderBy
+    orderBy,
+    onSnapshot
   } from 'firebase/firestore';
 import {
     getStorage,
@@ -80,6 +81,16 @@ async function saveTweet(db, text, id){
       text: text,
       id: id,
       timestamp: serverTimestamp()
+    });
+}
+
+async function getLastTweetTest(db) {
+    const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
+    onSnapshot(getTweets, (snapshot) => {
+        snapshot.docChanges().map(change => {
+            let newPost = change.doc.data()
+            return newPost
+        })
     });
 }
 

@@ -1,4 +1,4 @@
-import '../assets/styles/Main.css'
+import '../assets/styles/Content.css'
 import { Routes, Route } from "react-router-dom";
 import Home from './Home';
 import Explore from './Expole';
@@ -12,17 +12,36 @@ import Login from './Login';
 import Tweet from './Tweet';
 import { useState, useEffect } from 'react';
 import { getTweets, db } from '../firebase/connection';
+import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
 
 function Content(){
   const [tweets, setTweets] = useState([])
 
-  useEffect(() => {
+  /*useEffect(() => {
     async function readTweets(){
       const tweetsPromise = getTweets(db);
       const tweetsArray = await tweetsPromise;
+      console.log(tweetsArray)
       setTweets(tweets.concat(tweetsArray))
     }
     readTweets()
+  }, [])*/
+
+  useEffect(() => {
+    async function getLastTweet(db) {
+      const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
+      
+      onSnapshot(getTweets, (snapshot) => {
+        let newTweets = [];
+          snapshot.forEach(doc => {
+              let newPost = doc.data()
+              newTweets.push(newPost)
+              
+          })
+        setTweets(tweets.concat(newTweets))
+      });
+    }
+    getLastTweet(db);
   }, [])
 
     return(
