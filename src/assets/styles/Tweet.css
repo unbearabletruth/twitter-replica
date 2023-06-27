@@ -2,7 +2,6 @@
    padding: 15px;
    display: flex;
    flex-direction: column;
-   gap: 20px;
 }
 
 .tweetProfileBig{
@@ -45,7 +44,28 @@
     border-radius: 20px;
 }
 
+.tweetTimeAndViewsBig{
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    height: 50px;
+    align-items: center;
+}
+
 .tweetTimeBig{
     color: #6b7280;
     font-size: 1.1rem;
+}
+
+.tweetRetweetsAndLikesBig{
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    height: 50px;
+    align-items: center;
+}
+
+.tweetLikesBarBig{
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    height: 50px;
+    align-items: center;
 }

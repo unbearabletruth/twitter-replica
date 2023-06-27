@@ -48,20 +48,6 @@ function signOutUser() {
   signOut(getAuth());
 }
 
-// Initialize firebase auth
-function initFirebaseAuth() {
-  // Listen to auth state changes.
-  onAuthStateChanged(getAuth(), authStateObserver);
-}
-
-async function authStateObserver(user) {
-  if (user) {
-   
-  } else {
-
-  }
-}
-
 function getProfilePicUrl() {
   return getAuth().currentUser.photoURL || '/images/profile_placeholder.png';
 }
@@ -84,23 +70,13 @@ async function saveTweet(db, text, id){
     });
 }
 
-async function getLastTweetTest(db) {
-    const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
-    onSnapshot(getTweets, (snapshot) => {
-        snapshot.docChanges().map(change => {
-            let newPost = change.doc.data()
-            return newPost
-        })
-    });
-}
-
-async function getTweets(db) {
+/*async function getTweets(db) {
     const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
     const tweetsSnapshot = await getDocs(getTweets);
     const tweets = tweetsSnapshot.docs.map(doc => doc.data())
     console.log(tweets)
     return tweets;
-}
+}*/
 
 async function saveTweetWithImage(file, text, id) {
     try {
@@ -125,9 +101,17 @@ async function saveTweetWithImage(file, text, id) {
     } catch (error) {
       console.error('There was an error uploading a file to Cloud Storage:', error);
     }
-  }
+}
 
-//initFirebaseAuth();
+async function saveComment(db, text, id, tweetId){
+  await setDoc(doc(db, tweetId, id), {
+    profilePic: getProfilePicUrl(),
+    author: getUserName(),
+    text: text,
+    id: id,
+    timestamp: serverTimestamp()
+  });
+}
   
-export {db, saveTweet, getTweets, saveTweetWithImage,
-signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, authStateObserver}
+export {db, saveTweet, saveTweetWithImage, saveComment,
+signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, }

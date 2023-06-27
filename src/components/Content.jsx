@@ -11,7 +11,7 @@ import Profile from './Profile';
 import Login from './Login';
 import Tweet from './Tweet';
 import { useState, useEffect } from 'react';
-import { getTweets, db } from '../firebase/connection';
+import { db } from '../firebase/connection';
 import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
 
 function Content(){

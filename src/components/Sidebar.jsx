@@ -1,7 +1,7 @@
 import '../assets/styles/Sidebar.css'
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/twitter-icon.svg'
-import { getUserName, getProfilePicUrl, isUserSignedIn, authStateObserver } from '../firebase/connection';
+import { getUserName, getProfilePicUrl } from '../firebase/connection';
 import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { signIn, signOutUser } from "../firebase/connection";
