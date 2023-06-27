@@ -7,23 +7,12 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { signIn, signOutUser } from "../firebase/connection";
 
 
-function Sidebar() {
-  const [userState, setUserState] = useState()
+function Sidebar({userState}) {
+  
   const [loginWindow, setLoginWindow] = useState(false)
   const loginPopupWindow = useRef(null);
 
-  useEffect(() => {
-    const isUser = onAuthStateChanged(getAuth(), user => {
-      console.log("hey")
-    if(user){
-        setUserState(true);
-    }else{
-        setUserState(false);
-      }
-    });
-
-    return () => isUser();
-  }, []);
+  
 
   /*useEffect(() => {
     function handleClickOutside(e) {

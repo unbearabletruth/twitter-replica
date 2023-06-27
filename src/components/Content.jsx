@@ -14,8 +14,9 @@ import { useState, useEffect } from 'react';
 import { db } from '../firebase/connection';
 import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
 
-function Content(){
+function Content({userState}){
   const [tweets, setTweets] = useState([])
+  
 
   /*useEffect(() => {
     async function readTweets(){
@@ -43,12 +44,12 @@ function Content(){
     }
     getLastTweet(db);
   }, [])
-
+console.log(tweets)
     return(
       <div id='content'>
         <div id="mainContent">
           <Routes>
-            <Route path="/" element={<Home tweets={tweets}/>} />
+            <Route path="/" element={<Home tweets={tweets} userState={userState}/>} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/messages" element={<Messages />} />
@@ -57,7 +58,7 @@ function Content(){
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/tweet/:id" element={<Tweet tweets={tweets}/>} />
+            <Route path="/tweet/:id" element={<Tweet tweets={tweets} userState={userState}/>} />
           </Routes>
         </div>
         <div id='sideContent'>
