@@ -8,7 +8,7 @@ import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
 
 function Tweet({tweets, userState}){
     const {id} = useParams();
-    const [tweet, setTweet] = useState(tweets.find((item) => item.id === id))
+    const [tweet, setTweet] = useState()
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState({
       text: "",
@@ -19,11 +19,11 @@ function Tweet({tweets, userState}){
     useEffect(() => {
         const currentTweet = tweets.find((item) => item.id === id);
         setTweet(currentTweet);
-    }, [id]);
+    }, [id, tweets]);
 
     useEffect(() => {
       async function getComments(db) {
-        const getComments = query(collection(db, tweet.id), orderBy("timestamp", "desc"));
+        const getComments = query(collection(db, id), orderBy("timestamp", "desc"));
         
         onSnapshot(getComments, (snapshot) => {
           let newComments = [];
@@ -74,61 +74,65 @@ function Tweet({tweets, userState}){
       });
       return stringDate
     }
-
+    console.log(tweet)
     return(
       <>
-      <div className='tweetBig'>
-        <div className="tweetProfileBig">
-          <div className="tweetProfileNoMenuBig">
-            <img src={tweet.profilePic} className='tweetProfilePictureBig'></img>
-            <div className='tweetAuthorBig'>
-              <p className='tweetRealNameBig'>{tweet.author}</p>
-              <p className='tweetProfileNameBig'>@{tweet.author}_profile</p>
+      {tweet ?
+        <div className='tweetBig'>
+          <div className="tweetProfileBig">
+            <div className="tweetProfileNoMenuBig">
+              <img src={tweet.profilePic} className='tweetProfilePictureBig'></img>
+              <div className='tweetAuthorBig'>
+                <p className='tweetRealNameBig'>{tweet.author}</p>
+                <p className='tweetProfileNameBig'>@{tweet.author}_profile</p>
+              </div>
             </div>
+            <span>&#8230;</span>
           </div>
-          <span>&#8230;</span>
-        </div>
-        <div className='tweetContentBig'>
-          <p className='tweetTextBig'>{tweet.text}</p>
-          <img src={tweet.imageUrl} className='tweetImageBig'></img>
-        </div>
-        <div className="tweetTimeAndViewsBig">
-          <p className='tweetTimeBig'>{tweet.timestamp ? convertDate(tweet.timestamp.seconds) : ""}</p>
-          <p>views</p>
-        </div>
-        <div className="tweetRetweetsAndLikesBig">
-          <span>Retweets</span>
-          <span>Likes</span>
-        </div>
-        <div className='tweetLikesBarBig'>
-          <span>svg will be here</span>
-        </div>
-        {userState ? 
-          <div id='tweetComposeWrapper'>
-            <img src={getProfilePicUrl()} alt='profilePic' id='homeComposeProfilePicture'></img>
-            <form onSubmit={addComment} id='tweetForm'>
-                <textarea 
-                  id="homeCompose" 
-                  name='text'
-                  placeholder="Tweet your reply!"
-                  value={comment.text}
-                  onChange={onTextChange}
-                >
-                </textarea>
-                <img src={comment.image? URL.createObjectURL(comment.image) : null} id='homeFormImagePreview'></img>
-                <div id="uploadAndTweet">
-                  <label>
-                    <input type="file" id='uploadInput' onChange={onImageChange}></input>
-                    <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
-                  </label>
-                  <button id='homeComposeButton' type='submit'>Reply</button>
-                </div>
-            </form>
+          <div className='tweetContentBig'>
+            <p className='tweetTextBig'>{tweet.text}</p>
+            <img src={tweet.imageUrl} className='tweetImageBig'></img>
           </div>
-          :
-          null
-        }
-      </div>
+          <div className="tweetTimeAndViewsBig">
+            <p className='tweetTimeBig'>{tweet.timestamp ? convertDate(tweet.timestamp.seconds) : ""}</p>
+            <p>views</p>
+          </div>
+          <div className="tweetRetweetsAndLikesBig">
+            <span>Retweets</span>
+            <span>Likes</span>
+          </div>
+          <div className='tweetLikesBarBig'>
+            <span>svg will be here</span>
+          </div>
+          {userState ? 
+            <div id='tweetComposeWrapper'>
+              <img src={getProfilePicUrl()} alt='profilePic' id='homeComposeProfilePicture'></img>
+              <form onSubmit={addComment} id='tweetForm'>
+                  <textarea 
+                    id="homeCompose" 
+                    name='text'
+                    placeholder="Tweet your reply!"
+                    value={comment.text}
+                    onChange={onTextChange}
+                  >
+                  </textarea>
+                  <img src={comment.image? URL.createObjectURL(comment.image) : null} id='homeFormImagePreview'></img>
+                  <div id="uploadAndTweet">
+                    <label>
+                      <input type="file" id='uploadInput' onChange={onImageChange}></input>
+                      <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+                    </label>
+                    <button id='homeComposeButton' type='submit'>Reply</button>
+                  </div>
+              </form>
+            </div>
+            :
+            null
+          }
+        </div>
+        :
+        null
+      }
       {comments ? 
         comments.map(comment => {
           return(
