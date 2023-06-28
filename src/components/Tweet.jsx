@@ -104,31 +104,32 @@ function Tweet({tweets, userState}){
           <div className='tweetLikesBarBig'>
             <span>svg will be here</span>
           </div>
-          {userState ? 
-            <div id='tweetComposeWrapper'>
-              <img src={getProfilePicUrl()} alt='profilePic' id='homeComposeProfilePicture'></img>
-              <form onSubmit={addComment} id='tweetForm'>
-                  <textarea 
-                    id="homeCompose" 
-                    name='text'
-                    placeholder="Tweet your reply!"
-                    value={comment.text}
-                    onChange={onTextChange}
-                  >
-                  </textarea>
-                  <img src={comment.image? URL.createObjectURL(comment.image) : null} id='homeFormImagePreview'></img>
-                  <div id="uploadAndTweet">
-                    <label>
-                      <input type="file" id='uploadInput' onChange={onImageChange}></input>
-                      <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
-                    </label>
-                    <button id='homeComposeButton' type='submit'>Reply</button>
-                  </div>
-              </form>
-            </div>
-            :
-            null
-          }
+          
+        </div>
+        :
+        null
+      }
+      {userState ? 
+        <div id='tweetComposeWrapper'>
+          <img src={getProfilePicUrl()} alt='profilePic' id='homeComposeProfilePicture'></img>
+          <form onSubmit={addComment} id='tweetForm'>
+              <textarea 
+                id="homeCompose" 
+                name='text'
+                placeholder="Tweet your reply!"
+                value={comment.text}
+                onChange={onTextChange}
+              >
+              </textarea>
+              <img src={comment.image? URL.createObjectURL(comment.image) : null} id='homeFormImagePreview'></img>
+              <div id="uploadAndTweet">
+                <label>
+                  <input type="file" id='uploadInput' onChange={onImageChange}></input>
+                  <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+                </label>
+                <button id='homeComposeButton' type='submit'>Reply</button>
+              </div>
+          </form>
         </div>
         :
         null
@@ -158,6 +159,7 @@ function Tweet({tweets, userState}){
         })
         : null
       }
+      <div className="emptySpaceBottom"></div>
       </>
     )
 }

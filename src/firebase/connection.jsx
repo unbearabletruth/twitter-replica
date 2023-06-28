@@ -18,7 +18,9 @@ import {
     query,
     serverTimestamp,
     orderBy,
-    onSnapshot
+    onSnapshot,
+    where,
+    getDoc
   } from 'firebase/firestore';
 import {
     getStorage,
@@ -26,6 +28,7 @@ import {
     uploadBytesResumable,
     getDownloadURL,
   } from 'firebase/storage';
+import uniqid from "uniqid";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvJ-2uriYsQG8Qd5p4AfEVTrHHzn_EYTc",
@@ -41,7 +44,18 @@ const db = getFirestore(app);
 
 async function signIn() {
   let provider = new GoogleAuthProvider();
-  await signInWithRedirect(getAuth(), provider);
+  const res = await signInWithRedirect(getAuth(), provider);
+  const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
+  const docs = await getDocs(q);
+  if (docs.docs.length === 0){
+    await setDoc(doc(db, "users", res.user.displayName), {
+      profilePic: getProfilePicUrl(),
+      realName: getUserName(),
+      profileName: `${getUserName()}_${uniqid()}`,
+      joined: serverTimestamp(),
+      uid: res.user.uid
+    });
+  }
 }
 
 function signOutUser() {
@@ -60,10 +74,27 @@ function isUserSignedIn() {
   return !!getAuth().currentUser;
 }
 
+async function getCurrentUser(db, id) {
+  const getUser = query(collection(db, "users"), where("uid", "==", id));
+  const userSnapshot = await getDocs(getUser);
+  const user = userSnapshot.docs.map(doc => doc.data())
+  return user
+}
+
+async function getUserInfo(db, profileName) {
+  const getUser = query(collection(db, "users"), where("profileName", "==", profileName));
+  const userSnapshot = await getDocs(getUser);
+  console.log(userSnapshot)
+  const user = userSnapshot.docs.map(doc => doc.data())
+  console.log(user)
+  return user
+}
+
 async function saveTweet(db, text, id){
     await setDoc(doc(db, "tweets", id), {
       profilePic: getProfilePicUrl(),
       author: getUserName(),
+      profileName: `${getUserName()}_${uniqid()}`,
       text: text,
       id: id,
       timestamp: serverTimestamp()
@@ -83,6 +114,7 @@ async function saveTweetWithImage(file, text, id) {
       const messageRef = await addDoc(collection(getFirestore(), 'tweets'), {
         profilePic: getProfilePicUrl(),
         author: getUserName(),
+        profileName: `${getUserName()}_${uniqid()}`,
         text: text,
         id: id,
         timestamp: serverTimestamp()
@@ -114,4 +146,4 @@ async function saveComment(db, text, id, tweetId){
 }
   
 export {db, saveTweet, saveTweetWithImage, saveComment,
-signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, }
+signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo}

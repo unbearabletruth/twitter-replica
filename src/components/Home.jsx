@@ -5,7 +5,6 @@ import uniqid from "uniqid";
 import { saveTweet, db, saveTweetWithImage } from '../firebase/connection';
 import { Link } from 'react-router-dom';
 import { getProfilePicUrl } from '../firebase/connection';
-import avatarPlaceholder from '../assets/images/man-line-icon.svg'
 
 
 function Home({tweets, userState}){
@@ -86,7 +85,9 @@ function Home({tweets, userState}){
           return(
             <Link to={`/tweet/${tweet.id}`} key={tweet.id}>
               <div className='tweet'>
-                <img src={tweet.profilePic} className='tweetProfilePicture'></img>
+                <Link to={`/profile/${tweet.profileName}`}>
+                  <img src={tweet.profilePic} className='tweetProfilePicture'></img>
+                </Link>
                 <div className='tweetWrapper'>
                   <div className='tweetAuthor'>
                     <p className='tweetRealName'>{tweet.author}</p>

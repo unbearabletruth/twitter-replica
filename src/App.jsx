@@ -4,6 +4,7 @@ import './App.css'
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import { BrowserRouter } from 'react-router-dom';
+import { getCurrentUser, db } from './firebase/connection';
 
 
 function App() {
@@ -11,9 +12,13 @@ function App() {
 
   useEffect(() => {
     const isUser = onAuthStateChanged(getAuth(), user => {
-      console.log("hey")
     if(user){
-        setUserState(true);
+        async function getUser(){
+          const userPromise = getCurrentUser(db, getAuth().currentUser.uid);
+          const user = await userPromise;
+          setUserState(user[0])
+        }
+        getUser()
     }else{
         setUserState(false);
       }

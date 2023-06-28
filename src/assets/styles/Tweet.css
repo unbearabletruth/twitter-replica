@@ -1,5 +1,5 @@
 .tweetBig{
-   padding: 15px;
+   padding: 15px 20px 0px 20px;
    display: flex;
    flex-direction: column;
 }
@@ -8,6 +8,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.tweetContentBig{
+    display: flex;
+    flex-direction: column;
 }
 
 .tweetProfileNoMenuBig{
@@ -35,6 +40,7 @@
 }
 
 .tweetTextBig{
+    padding: 15px 0px;
     font-size: 1.2rem;
 }
 
@@ -65,7 +71,10 @@
 
 .tweetLikesBarBig{
     display: flex;
-    border-bottom: 1px solid #e5e7eb;
     height: 50px;
     align-items: center;
+}
+
+.emptySpaceBottom{
+    height: 600px;
 }

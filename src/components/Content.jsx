@@ -13,6 +13,7 @@ import Tweet from './Tweet';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase/connection';
 import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
+import { getUserName } from '../firebase/connection';
 
 function Content({userState}){
   const [tweets, setTweets] = useState([])
@@ -56,7 +57,7 @@ console.log(tweets)
             <Route path="/lists" element={<Lists />} />
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/verified" element={<Verified />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<Profile userState={userState}/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/tweet/:id" element={<Tweet tweets={tweets} userState={userState}/>} />
           </Routes>

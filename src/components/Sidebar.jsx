@@ -76,7 +76,7 @@ function Sidebar({userState}) {
           </div>
           <div className='sidebarLinkWrapper'>
             <div className='sidebarLinkContent'>
-              <Link to="/profile" className="sidebarLink">Profile</Link>
+              <Link to={userState ? `/profile/${userState.profileName}` : "/profile"} className="sidebarLink">Profile</Link>
             </div>
           </div>
           <div className='sidebarLinkWrapper'>
