@@ -31,9 +31,9 @@ function Home({tweets, userState}){
   const addTweet = (e) => {
     e.preventDefault();
     if (tweet.image !== null){
-      saveTweetWithImage(tweet.image, tweet.text, tweet.id)
+      saveTweetWithImage(tweet.image, tweet.text, tweet.id, userState.profileName)
     } else{
-      saveTweet(db, tweet.text, tweet.id)
+      saveTweet(db, tweet.text, tweet.id, userState.profileName)
     }
     setTweet({
       ...tweet,
@@ -47,7 +47,7 @@ function Home({tweets, userState}){
     let stringDate = date.toLocaleString(undefined, {
       month: "short",
       day: "2-digit",
-      hour: "numeric", minute: "numeric", second: "numeric"
+      hour: "numeric", minute: "numeric"
     });
     return stringDate
   }

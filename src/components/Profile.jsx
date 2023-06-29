@@ -16,6 +16,15 @@ function Profile({userState}){
     }
     getUser()
   }, [id])
+
+  const convertJoined = (timestamp) => {
+    let date = new Date(timestamp * 1000);
+    let stringDate = date.toLocaleString(undefined, {
+      month: "short",
+      year: "numeric",
+    });
+    return stringDate
+  }
   
   return(
     userProfile ?
@@ -28,7 +37,7 @@ function Profile({userState}){
       <p>{userProfile.realName}</p>
       <p>{userProfile.profileName}</p>
       <p>bio</p>
-      <div>joined</div>
+      <div>Joined {convertJoined(userProfile.joined.seconds)}</div>
       <div>followers</div>
 
     </div>

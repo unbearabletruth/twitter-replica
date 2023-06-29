@@ -90,11 +90,11 @@ async function getUserInfo(db, profileName) {
   return user
 }
 
-async function saveTweet(db, text, id){
+async function saveTweet(db, text, id, profileName){
     await setDoc(doc(db, "tweets", id), {
       profilePic: getProfilePicUrl(),
       author: getUserName(),
-      profileName: `${getUserName()}_${uniqid()}`,
+      profileName: profileName,
       text: text,
       id: id,
       timestamp: serverTimestamp()
@@ -109,12 +109,12 @@ async function saveTweet(db, text, id){
     return tweets;
 }*/
 
-async function saveTweetWithImage(file, text, id) {
+async function saveTweetWithImage(file, text, id, profileName) {
     try {
       const messageRef = await addDoc(collection(getFirestore(), 'tweets'), {
         profilePic: getProfilePicUrl(),
         author: getUserName(),
-        profileName: `${getUserName()}_${uniqid()}`,
+        profileName: profileName,
         text: text,
         id: id,
         timestamp: serverTimestamp()
