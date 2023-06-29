@@ -17,17 +17,6 @@ import { getUserName } from '../firebase/connection';
 
 function Content({userState}){
   const [tweets, setTweets] = useState([])
-  
-
-  /*useEffect(() => {
-    async function readTweets(){
-      const tweetsPromise = getTweets(db);
-      const tweetsArray = await tweetsPromise;
-      console.log(tweetsArray)
-      setTweets(tweets.concat(tweetsArray))
-    }
-    readTweets()
-  }, [])*/
 
   useEffect(() => {
     async function getLastTweet(db) {

@@ -17,10 +17,9 @@ import {
     getDocs,
     query,
     serverTimestamp,
-    orderBy,
-    onSnapshot,
     where,
-    getDoc
+    increment,
+    arrayUnion
   } from 'firebase/firestore';
 import {
     getStorage,
@@ -101,6 +100,22 @@ async function saveTweet(db, text, id, profileName){
     });
 }
 
+async function updateTweet(db, id){
+  const tweetRef = doc(db, "tweets", id);
+  await updateDoc(tweetRef, {
+    likes: increment(1)
+  });
+}
+
+async function userRetweets(db, id, profileName){
+  const tweetRef = doc(db, "tweets", id);
+  //if in array dont increment
+  await updateDoc(tweetRef, {
+    retweets: increment(1),
+    retweetedBy: arrayUnion(profileName)
+  });
+}
+
 /*async function getTweets(db) {
     const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
     const tweetsSnapshot = await getDocs(getTweets);
@@ -146,4 +161,5 @@ async function saveComment(db, text, id, tweetId){
 }
   
 export {db, saveTweet, saveTweetWithImage, saveComment,
-signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo}
+signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
+updateTweet, userRetweets}

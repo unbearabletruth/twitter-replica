@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import uploadImage from '../assets/images/image-line-icon.svg'
 import '../assets/styles/Home.css'
 import uniqid from "uniqid";
-import { saveTweet, db, saveTweetWithImage } from '../firebase/connection';
+import { saveTweet, db, saveTweetWithImage, updateTweet, userRetweets } from '../firebase/connection';
 import { Link } from 'react-router-dom';
 import { getProfilePicUrl } from '../firebase/connection';
 import like from '../assets/images/like.png'
@@ -14,6 +14,7 @@ function Home({tweets, userState}){
   const [tweet, setTweet] = useState({
     text: "",
     image: null,
+    likes: 0,
     id: uniqid(),
   })
 
@@ -31,12 +32,22 @@ function Home({tweets, userState}){
   })  
   }
 
+  const addLike = (e, id) => {
+    e.preventDefault()
+    updateTweet(db, id)
+  }
+
+  const addRetweet = (e, id) => {
+    e.preventDefault()
+    userRetweets(db, id, userState.profileName)
+  }
+
   const addTweet = (e) => {
     e.preventDefault();
     if (tweet.image !== null){
       saveTweetWithImage(tweet.image, tweet.text, tweet.id, userState.profileName)
     } else{
-      saveTweet(db, tweet.text, tweet.id, userState.profileName)
+      saveTweet(db, tweet.text, tweet.id, tweet.likes, userState.profileName)
     }
     setTweet({
       ...tweet,
@@ -86,11 +97,11 @@ function Home({tweets, userState}){
       {tweets ? 
         tweets.map(tweet => {
           return(
-            <Link to={`/tweet/${tweet.id}`} key={tweet.id}>
-              <div className='tweet'>
-                <Link to={`/profile/${tweet.profileName}`}>
-                  <img src={tweet.profilePic} className='tweetProfilePicture'></img>
-                </Link>
+            <div className='tweet' key={tweet.id}>
+              <Link to={`/profile/${tweet.profileName}`} className='tweetProfilePictureLink'>
+                    <img src={tweet.profilePic} className='tweetProfilePicture'></img>
+              </Link>
+              <Link to={`/tweet/${tweet.id}`} className='tweetLink'>
                 <div className='tweetWrapper'>
                   <div className='tweetAuthor'>
                     <p className='tweetRealName'>{tweet.author}</p>
@@ -109,23 +120,23 @@ function Home({tweets, userState}){
                       </div>
                       <span className='replyNumber'>12</span>
                     </div>
-                    <div className='response retweet'>
+                    <div className='response retweet' onClick={(e) => addRetweet(e, tweet.id)}>
                       <div className='responseImgWrapper retweet'>
                         <img src={retweet} className='responseImg retweet'></img>
                       </div>
-                      <span className='retweetNumber'>5</span>
+                      <span className='retweetNumber'>{tweet.retweets}</span>
                     </div>
-                    <div className='response like'>
+                    <div className='response like' onClick={(e) => addLike(e, tweet.id)}>
                       <div className='responseImgWrapper like'>
                         <img src={like} className='responseImg like'></img>
                       </div>
-                      <span className='likeNumber'>12</span>
+                      <span className='likeNumber'>{tweet.likes}</span>
                     </div>
                     
                   </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           )
         })
         : null

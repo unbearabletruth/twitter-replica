@@ -24,7 +24,6 @@ function Tweet({tweets, userState}){
     useEffect(() => {
       async function getComments(db) {
         const getComments = query(collection(db, id), orderBy("timestamp", "desc"));
-        
         onSnapshot(getComments, (snapshot) => {
           let newComments = [];
             snapshot.forEach(doc => {
