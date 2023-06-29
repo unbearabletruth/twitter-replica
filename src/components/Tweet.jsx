@@ -5,6 +5,7 @@ import { saveComment, db, getProfilePicUrl } from "../firebase/connection";
 import uniqid from "uniqid";
 import uploadImage from '../assets/images/image-line-icon.svg'
 import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
+import TweetCard from "./TweetCard";
 
 function Tweet({tweets, userState}){
     const {id} = useParams();
@@ -134,28 +135,7 @@ function Tweet({tweets, userState}){
         null
       }
       {comments ? 
-        comments.map(comment => {
-          return(
-            <div className='tweet' key={comment.id}>
-              <img src={comment.profilePic} className='tweetProfilePicture'></img>
-              <div className='tweetWrapper'>
-                <div className='tweetAuthor'>
-                  <p className='tweetRealName'>{comment.author}</p>
-                  <p className='tweetProfileName'>@{comment.author}_profile</p>
-                  <span>·</span>
-                  <p>{comment.timestamp ? convertDate(comment.timestamp.seconds) : ""}</p>
-                </div>
-                <div className='tweetContent'>
-                  <p className='tweetText'>{comment.text}</p>
-                  <img src={comment.imageUrl} className='tweetImage'></img>
-                </div>
-                <div className='tweetLikesBar'>
-
-                </div>
-              </div>
-            </div>
-          )
-        })
+        <TweetCard tweets={comments} />
         : null
       }
       <div className="emptySpaceBottom"></div>

@@ -109,7 +109,6 @@ async function updateTweet(db, id){
 
 async function userRetweets(db, id, profileName){
   const tweetRef = doc(db, "tweets", id);
-  //if in array dont increment
   await updateDoc(tweetRef, {
     retweets: increment(1),
     retweetedBy: arrayUnion(profileName)
