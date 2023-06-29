@@ -5,6 +5,9 @@ import uniqid from "uniqid";
 import { saveTweet, db, saveTweetWithImage } from '../firebase/connection';
 import { Link } from 'react-router-dom';
 import { getProfilePicUrl } from '../firebase/connection';
+import like from '../assets/images/like.png'
+import retweet from '../assets/images/retweet.png'
+import reply from '../assets/images/reply.png'
 
 
 function Home({tweets, userState}){
@@ -99,8 +102,26 @@ function Home({tweets, userState}){
                     <p className='tweetText'>{tweet.text}</p>
                     <img src={tweet.imageUrl} className='tweetImage'></img>
                   </div>
-                  <div className='tweetLikesBar'>
-
+                  <div className='tweetResponseBar'>
+                    <div className='response reply'>
+                      <div className='responseImgWrapper reply'>
+                        <img src={reply} className='responseImg reply'></img>
+                      </div>
+                      <span className='replyNumber'>12</span>
+                    </div>
+                    <div className='response retweet'>
+                      <div className='responseImgWrapper retweet'>
+                        <img src={retweet} className='responseImg retweet'></img>
+                      </div>
+                      <span className='retweetNumber'>5</span>
+                    </div>
+                    <div className='response like'>
+                      <div className='responseImgWrapper like'>
+                        <img src={like} className='responseImg like'></img>
+                      </div>
+                      <span className='likeNumber'>12</span>
+                    </div>
+                    
                   </div>
                 </div>
               </div>

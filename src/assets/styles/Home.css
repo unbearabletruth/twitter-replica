@@ -134,4 +134,80 @@
     color: black;
 }
 
+.tweetResponseBar{
+    display: flex;
+    justify-content: space-between;
+    color: #52525b;
+    font-size: 0.9rem;
+    width: 80%;
+}
+
+.response{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.responseImgWrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease-out;
+}
+
+.replyNumber,
+.retweetNumber,
+.likeNumber{
+    transition: color 0.2s ease-out;
+}
+
+.responseImg{
+    width: 18px;
+    height: auto;
+    filter: invert(33%) sepia(6%) saturate(649%) hue-rotate(201deg) brightness(92%) contrast(92%);
+    transition: filter 0.2s ease-out;
+}
+
+
+.response.reply:hover .responseImg.reply{
+    filter: invert(48%) sepia(87%) saturate(563%) hue-rotate(164deg) brightness(95%) contrast(99%);  
+}
+
+.response.retweet:hover .responseImg.retweet{
+    filter: invert(56%) sepia(54%) saturate(5339%) hue-rotate(131deg) brightness(104%) contrast(87%);
+}
+
+.response.like:hover .responseImg.like{
+    filter: invert(24%) sepia(97%) saturate(3112%) hue-rotate(319deg) brightness(90%) contrast(90%);
+}
+
+
+.response.reply:hover > .replyNumber{
+    color: #1DA1F2;
+}
+
+.response.retweet:hover > .retweetNumber{
+    color: #10b981;
+}
+
+.response.like:hover > .likeNumber{
+    color: #db2777;
+}
+
+.response:hover > .responseImgWrapper.reply{
+    background-color: #e0f2fe;
+}
+
+.response:hover > .responseImgWrapper.retweet{
+    background-color: #d1fae5;
+}
+
+.response:hover > .responseImgWrapper.like{
+    background-color: #fce7f3;
+}
+
+
 
