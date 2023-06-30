@@ -51,7 +51,7 @@ function TweetCard({tweets, userState}){
                   <div className='responseImgWrapper reply'>
                     <img src={reply} className='responseImg reply'></img>
                   </div>
-                  <span className='replyNumber'>12</span>
+                  <span className='replyNumber'>{tweet.comments === 0 ? null : tweet.comments}</span>
                 </div>
                 <div className='response retweet' onClick={(e) => addRetweet(e, tweet.id)}>
                   <div className='responseImgWrapper retweet'>

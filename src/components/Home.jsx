@@ -32,7 +32,7 @@ function Home({tweets, userState}){
   const addTweet = (e) => {
     e.preventDefault();
     if (tweet.image !== null){
-      saveTweetWithImage(tweet.image, tweet.text, tweet.id, userState.profileName)
+      saveTweetWithImage(db, tweet.image, tweet.text, tweet.id, userState.profileName)
     } else{
       saveTweet(db, tweet.text, tweet.id, userState.profileName)
     }

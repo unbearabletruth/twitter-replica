@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import '../assets/styles/Tweet.css'
-import { saveComment, db, getProfilePicUrl } from "../firebase/connection";
+import { saveComment, db, getProfilePicUrl, updateComments } from "../firebase/connection";
 import uniqid from "uniqid";
 import uploadImage from '../assets/images/image-line-icon.svg'
 import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
@@ -57,6 +57,7 @@ function Tweet({tweets, userState}){
         //saveCommentWithImage(comment.image, comment.text, comment.id)
       } else{
         saveComment(db, comment.text, comment.id, tweet.id)
+        updateComments(db, comment.id, tweet.id)
       }
       setComment({
         ...comment,

@@ -102,6 +102,32 @@ async function saveTweet(db, text, id, profileName){
     });
 }
 
+async function saveTweetWithImage(db, file, text, id, profileName) {
+  try {
+    const messageRef = await setDoc(doc(db, 'tweets', id), {
+      profilePic: getProfilePicUrl(),
+      author: getUserName(),
+      profileName: profileName,
+      text: text,
+      id: id,
+      timestamp: serverTimestamp()
+    });
+
+    const filePath = `${file.name}`;
+    const newImageRef = ref(getStorage(), filePath);
+    const fileSnapshot = await uploadBytesResumable(newImageRef, file);
+    
+    const publicImageUrl = await getDownloadURL(newImageRef);
+    const mesRef = doc(db, "tweets", id)
+    await updateDoc(mesRef,{
+      imageUrl: publicImageUrl,
+      storageUri: fileSnapshot.metadata.fullPath
+    });
+  } catch (error) {
+    console.error('There was an error uploading a file to Cloud Storage:', error);
+  }
+}
+
 async function updateLikes(db, id, profileName){
   const tweetRef = doc(db, "tweets", id);
   const tweetSnap = await getDoc(tweetRef);
@@ -136,6 +162,14 @@ async function updateRetweets(db, id, profileName){
   }
 }
 
+async function updateComments(db, commentId, id){
+  const tweetRef = doc(db, "tweets", id);
+  await updateDoc(tweetRef, {
+    comments: increment(1),
+    commentsIds: arrayUnion(commentId)
+  });
+}
+
 /*async function getTweets(db) {
     const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
     const tweetsSnapshot = await getDocs(getTweets);
@@ -144,31 +178,7 @@ async function updateRetweets(db, id, profileName){
     return tweets;
 }*/
 
-async function saveTweetWithImage(file, text, id, profileName) {
-    try {
-      const messageRef = await addDoc(collection(getFirestore(), 'tweets'), {
-        profilePic: getProfilePicUrl(),
-        author: getUserName(),
-        profileName: profileName,
-        text: text,
-        id: id,
-        timestamp: serverTimestamp()
-      });
 
-      const filePath = `${file.name}`;
-      const newImageRef = ref(getStorage(), filePath);
-      const fileSnapshot = await uploadBytesResumable(newImageRef, file);
-      
-      const publicImageUrl = await getDownloadURL(newImageRef);
-  
-      await updateDoc(messageRef,{
-        imageUrl: publicImageUrl,
-        storageUri: fileSnapshot.metadata.fullPath
-      });
-    } catch (error) {
-      console.error('There was an error uploading a file to Cloud Storage:', error);
-    }
-}
 
 async function saveComment(db, text, id, tweetId){
   await setDoc(doc(db, tweetId, id), {
@@ -182,4 +192,4 @@ async function saveComment(db, text, id, tweetId){
   
 export {db, saveTweet, saveTweetWithImage, saveComment,
 signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
-updateLikes, updateRetweets}
+updateLikes, updateRetweets, updateComments}
