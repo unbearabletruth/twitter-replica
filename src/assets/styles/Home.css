@@ -185,11 +185,13 @@
     filter: invert(48%) sepia(87%) saturate(563%) hue-rotate(164deg) brightness(95%) contrast(99%);  
 }
 
-.response.retweet:hover .responseImg.retweet{
+.response.retweet:hover .responseImg.retweet,
+.responseImg.retweet.active{
     filter: invert(56%) sepia(54%) saturate(5339%) hue-rotate(131deg) brightness(104%) contrast(87%);
 }
 
-.response.like:hover .responseImg.like{
+.response.like:hover .responseImg.like,
+.responseImg.like.active{
     filter: invert(24%) sepia(97%) saturate(3112%) hue-rotate(319deg) brightness(90%) contrast(90%);
 }
 
@@ -198,11 +200,13 @@
     color: #1DA1F2;
 }
 
-.response.retweet:hover > .retweetNumber{
+.response.retweet:hover > .retweetNumber,
+.retweetNumber.active{
     color: #10b981;
 }
 
-.response.like:hover > .likeNumber{
+.response.like:hover > .likeNumber,
+.likeNumber.active{
     color: #db2777;
 }
 

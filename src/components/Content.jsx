@@ -13,7 +13,6 @@ import Tweet from './Tweet';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase/connection';
 import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
-import { getUserName } from '../firebase/connection';
 
 function Content({userState}){
   const [tweets, setTweets] = useState([])

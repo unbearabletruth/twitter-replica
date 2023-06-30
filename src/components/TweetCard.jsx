@@ -1,20 +1,20 @@
 
-import { db, updateTweet, userRetweets } from '../firebase/connection';
+import { db, updateLikes, updateRetweets } from '../firebase/connection';
 import { Link } from 'react-router-dom';
 import like from '../assets/images/like.png'
 import retweet from '../assets/images/retweet.png'
 import reply from '../assets/images/reply.png'
 
-function TweetCard({tweets}){
+function TweetCard({tweets, userState}){
 
   const addLike = (e, id) => {
     e.preventDefault()
-    updateTweet(db, id)
+    updateLikes(db, id, userState.profileName)
   }
 
   const addRetweet = (e, id) => {
     e.preventDefault()
-    userRetweets(db, id, userState.profileName)
+    updateRetweets(db, id, userState.profileName)
   }
 
   const convertDate = (timestamp) => {
@@ -55,15 +55,43 @@ function TweetCard({tweets}){
                 </div>
                 <div className='response retweet' onClick={(e) => addRetweet(e, tweet.id)}>
                   <div className='responseImgWrapper retweet'>
-                    <img src={retweet} className='responseImg retweet'></img>
+                    <img 
+                      src={retweet} 
+                      className={tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
+                          'responseImg retweet active'
+                        : 
+                          'responseImg retweet'}
+                      >
+                     </img>
                   </div>
-                  <span className='retweetNumber'>{tweet.retweets}</span>
+                  <span 
+                    className={tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
+                        'retweetNumber active'
+                      :
+                        'retweetNumber'}
+                  >
+                    {tweet.retweets === 0 ? null : tweet.retweets}
+                  </span>
                 </div>
                 <div className='response like' onClick={(e) => addLike(e, tweet.id)}>
                   <div className='responseImgWrapper like'>
-                    <img src={like} className='responseImg like'></img>
+                    <img 
+                    src={like} 
+                    className={tweet.likedBy && tweet.likedBy.includes(userState.profileName) ?
+                        'responseImg like active'
+                      :
+                        'responseImg like'}
+                    >
+                    </img>
                   </div>
-                  <span className='likeNumber'>{tweet.likes}</span>
+                  <span 
+                    className={tweet.likedBy && tweet.likedBy.includes(userState.profileName) ? 
+                        'likeNumber active'
+                      :
+                        'likeNumber'}
+                  >
+                    {tweet.likes === 0 ? null : tweet.likes}
+                  </span>
                 </div>
                 
               </div>

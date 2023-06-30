@@ -19,7 +19,9 @@ import {
     serverTimestamp,
     where,
     increment,
-    arrayUnion
+    arrayUnion,
+    arrayRemove,
+    getDoc
   } from 'firebase/firestore';
 import {
     getStorage,
@@ -100,19 +102,38 @@ async function saveTweet(db, text, id, profileName){
     });
 }
 
-async function updateTweet(db, id){
+async function updateLikes(db, id, profileName){
   const tweetRef = doc(db, "tweets", id);
-  await updateDoc(tweetRef, {
-    likes: increment(1)
-  });
+  const tweetSnap = await getDoc(tweetRef);
+  const tweetData = tweetSnap.data();
+  if (tweetData.likedBy && tweetData.likedBy.includes(profileName)){
+    await updateDoc(tweetRef, {
+      likes: increment(-1),
+      likedBy: arrayRemove(profileName)
+    });
+  } else{
+    await updateDoc(tweetRef, {
+      likes: increment(1),
+      likedBy: arrayUnion(profileName)
+    });
+  }
 }
 
-async function userRetweets(db, id, profileName){
+async function updateRetweets(db, id, profileName){
   const tweetRef = doc(db, "tweets", id);
-  await updateDoc(tweetRef, {
-    retweets: increment(1),
-    retweetedBy: arrayUnion(profileName)
-  });
+  const tweetSnap = await getDoc(tweetRef);
+  const tweetData = tweetSnap.data();
+  if (tweetData.retweetedBy && tweetData.retweetedBy.includes(profileName)){
+    await updateDoc(tweetRef, {
+      retweets: increment(-1),
+      retweetedBy: arrayRemove(profileName)
+    });
+  } else{
+    await updateDoc(tweetRef, {
+      retweets: increment(1),
+      retweetedBy: arrayUnion(profileName)
+    });
+  }
 }
 
 /*async function getTweets(db) {
@@ -161,4 +182,4 @@ async function saveComment(db, text, id, tweetId){
   
 export {db, saveTweet, saveTweetWithImage, saveComment,
 signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
-updateTweet, userRetweets}
+updateLikes, updateRetweets}

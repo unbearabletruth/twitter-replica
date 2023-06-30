@@ -3,7 +3,7 @@ import uploadImage from '../assets/images/image-line-icon.svg'
 import '../assets/styles/Home.css'
 import { useState } from 'react';
 import uniqid from "uniqid";
-import { getProfilePicUrl } from '../firebase/connection';
+import { getProfilePicUrl, db } from '../firebase/connection';
 import { saveTweet, saveTweetWithImage } from '../firebase/connection';
 import TweetCard from './TweetCard';
 
@@ -12,7 +12,6 @@ function Home({tweets, userState}){
   const [tweet, setTweet] = useState({
     text: "",
     image: null,
-    likes: 0,
     id: uniqid(),
   })
 
@@ -35,7 +34,7 @@ function Home({tweets, userState}){
     if (tweet.image !== null){
       saveTweetWithImage(tweet.image, tweet.text, tweet.id, userState.profileName)
     } else{
-      saveTweet(db, tweet.text, tweet.id, tweet.likes, userState.profileName)
+      saveTweet(db, tweet.text, tweet.id, userState.profileName)
     }
     setTweet({
       ...tweet,
@@ -74,7 +73,7 @@ function Home({tweets, userState}){
         null
       }
       {tweets ? 
-        <TweetCard tweets={tweets} />
+        <TweetCard tweets={tweets} userState={userState}/>
         : null
       }
     </>
