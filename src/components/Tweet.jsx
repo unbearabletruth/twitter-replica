@@ -96,12 +96,30 @@ function Tweet({tweets, userState}){
           </div>
           <div className="tweetTimeAndViewsBig">
             <p className='tweetTimeBig'>{tweet.timestamp ? convertDate(tweet.timestamp.seconds) : ""}</p>
-            <p>views</p>
           </div>
-          <div className="tweetRetweetsAndLikesBig">
-            <span>Retweets</span>
-            <span>Likes</span>
-          </div>
+          {tweet.retweets > 0 || tweet.likes > 0 ?
+            <div className="tweetRetweetsAndLikesBig">
+              {tweet.retweets > 0 ?
+                <p className="tweetResponseBig">
+                  <span className="tweetResponseNumberBig">{tweet.retweets}</span>
+                  <span className="tweetResponseTextBig">{tweet.retweets === 1 ? "Retweet" : "Retweets"}</span> 
+                </p>
+                :
+                null
+              }
+              {tweet.likes > 0 ?
+                <p className="tweetResponseBig">
+                  <span className="tweetResponseNumberBig">{tweet.likes}</span>
+                  <span className="tweetResponseTextBig">{tweet.likes === 1 ? "Like" : "Likes"}</span> 
+                </p>
+                :
+                null
+              }
+            </div>
+            :
+            null
+          }
+          
           <div className='tweetLikesBarBig'>
             <span>svg will be here</span>
           </div>

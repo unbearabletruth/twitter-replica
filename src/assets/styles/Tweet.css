@@ -48,6 +48,7 @@
     width: 100%;
     height: auto;
     border-radius: 20px;
+    border: 1px solid #e5e7eb;
 }
 
 .tweetTimeAndViewsBig{
@@ -67,6 +68,7 @@
     border-bottom: 1px solid #e5e7eb;
     height: 50px;
     align-items: center;
+    gap: 20px;
 }
 
 .tweetLikesBarBig{
@@ -77,4 +79,17 @@
 
 .emptySpaceBottom{
     height: 600px;
+}
+
+.tweetResponseBig{
+    display: flex;
+    gap: 3px;
+}
+
+.tweetResponseNumberBig{
+    color: black;
+}
+
+.tweetResponseTextBig{
+    color: #6b7280;
 }

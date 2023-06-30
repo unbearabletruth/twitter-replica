@@ -34,7 +34,7 @@ function TweetCard({tweets, userState}){
           <Link to={`/profile/${tweet.profileName}`} className='tweetProfilePictureLink'>
                 <img src={tweet.profilePic} className='tweetProfilePicture'></img>
           </Link>
-          <Link to={`/tweet/${tweet.id}`} className='tweetLink'>
+          <Link to={{pathname: `/tweet/${tweet.id}`, data: {addLike: addLike}}} className='tweetLink'>
             <div className='tweetWrapper'>
               <div className='tweetAuthor'>
                 <p className='tweetRealName'>{tweet.author}</p>
@@ -57,7 +57,8 @@ function TweetCard({tweets, userState}){
                   <div className='responseImgWrapper retweet'>
                     <img 
                       src={retweet} 
-                      className={userState && tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
+                      className={userState && tweet.retweetedBy && 
+                                tweet.retweetedBy.includes(userState.profileName) ? 
                           'responseImg retweet active'
                         : 
                           'responseImg retweet'}
@@ -65,7 +66,8 @@ function TweetCard({tweets, userState}){
                      </img>
                   </div>
                   <span 
-                    className={userState && tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
+                    className={userState && tweet.retweetedBy && 
+                              tweet.retweetedBy.includes(userState.profileName) ? 
                         'retweetNumber active'
                       :
                         'retweetNumber'}
@@ -77,7 +79,8 @@ function TweetCard({tweets, userState}){
                   <div className='responseImgWrapper like'>
                     <img 
                     src={like} 
-                    className={userState && tweet.likedBy && tweet.likedBy.includes(userState.profileName) ?
+                    className={userState && tweet.likedBy && 
+                              tweet.likedBy.includes(userState.profileName) ?
                         'responseImg like active'
                       :
                         'responseImg like'}
@@ -85,7 +88,8 @@ function TweetCard({tweets, userState}){
                     </img>
                   </div>
                   <span 
-                    className={userState && tweet.likedBy && tweet.likedBy.includes(userState.profileName) ? 
+                    className={userState && tweet.likedBy && 
+                              tweet.likedBy.includes(userState.profileName) ? 
                         'likeNumber active'
                       :
                         'likeNumber'}

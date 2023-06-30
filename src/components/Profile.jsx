@@ -86,7 +86,7 @@ function Profile({userState}){
   const convertJoined = (timestamp) => {
     let date = new Date(timestamp * 1000);
     let stringDate = date.toLocaleString(undefined, {
-      month: "short",
+      month: "long",
       year: "numeric",
     });
     return stringDate
@@ -104,19 +104,20 @@ function Profile({userState}){
             <img src={userProfile.profilePic} className='profilePictureBig'></img>
             <button>Edit profile</button>
           </div>
-          <p>{userProfile.realName}</p>
-          <p>{userProfile.profileName}</p>
-          <p>bio</p>
-          <div>Joined {convertJoined(userProfile.joined.seconds)}</div>
+          <div className='profileNameBlock'>
+            <p className='profileRealName'>{userProfile.realName}</p>
+            <p className='profileName'>@{userProfile.profileName}</p>
+          </div>
+          <div className='profileJoined'>Joined {convertJoined(userProfile.joined.seconds)}</div>
           <div>followers</div>
         </div>
         :
         null
       }
       <div className='profileTabs'>
-        <button onClick={tweetsTab}>tweets</button>
-        <button onClick={retweetsTab}>retweets</button>
-        <button onClick={likesTab}>likes</button>
+        <button className='tabButton' onClick={tweetsTab}>Tweets</button>
+        <button className='tabButton' onClick={retweetsTab}>Retweets</button>
+        <button className='tabButton' onClick={likesTab}>Likes</button>
       </div>
       {tab ? 
         <TweetCard tweets={tab} userState={userState}/>
@@ -127,5 +128,3 @@ function Profile({userState}){
 }
 
 export default Profile;
-
-//tab selection shows proper tweets array

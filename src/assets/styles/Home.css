@@ -108,13 +108,16 @@
 .tweetWrapper{
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 12px;
     margin-left: 50px;
 }
 
 .tweetImage{
-    width: 80%;
+    max-width: 80%;
     height: auto;
+    max-height: 500px;
+    border-radius: 15px;
+    border: 1px solid #e5e7eb;
 }
 
 .tweetProfilePicture{
@@ -141,6 +144,7 @@
 
 .tweetText{
     color: black;
+    margin-bottom: 10px;
 }
 
 .tweetResponseBar{

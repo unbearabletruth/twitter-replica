@@ -1,10 +1,74 @@
+.profileHeader{
+    padding: 0px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
 .profileBackground{
     background-color: #cbd5e1;
     width: 100%;
     height: 200px;
 }
 
+.profilePictureAndFollow{
+    display: flex;
+    height: 100px;
+    justify-content: space-between;
+}
+
+.profilePictureBig{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    border: 3px solid white;
+    position: relative;
+    top: -65px;
+}
+
+.profileNameBlock{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.profileRealName{
+    font-weight: bold;
+    color: black;
+    font-size: 1.3rem;
+}
+
+.profileName{
+    font-size: 1.1rem;
+    color:#6b7280;
+}
+
+.profileJoined{
+    font-size: 1.1rem;
+    color:#6b7280;
+}
+
 .profileTabs{
     display: flex;
-    justify-content: space-between;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tabButton{
+    flex: 1;
+    border: 0px;
+    background-color: white;
+    color: #6b7280;
+    font-size: 1.1rem;
+    height: 55px;
+}
+
+.tabButton:hover{
+    background-color: #e4e4e7;
+    cursor: pointer;
+}
+
+.tabButton:focus{
+    color: black;
+    border-bottom: 4px solid #1DA1F2;
 }
