@@ -10,6 +10,7 @@ function Profile({userState}){
   const [userProfile, setUserProfile] = useState()
   const [tweets, setTweets] = useState([])
   const [retweets, setRetweets] = useState([])
+  const [likes, setLikes] = useState([])
   const [tab, setTab] = useState()
 
   useEffect(() => {
@@ -55,12 +56,31 @@ function Profile({userState}){
     getTweets(db);
   }, [userProfile])
 
+  useEffect(() => {
+    async function getLikes(db) {
+      const getTweets = query(collection(db, 'tweets'), where("likedBy", "array-contains", userProfile.profileName ));
+      onSnapshot(getTweets, (snapshot) => {
+        let newTweets = [];
+          snapshot.forEach(doc => {
+              let newPost = doc.data()
+              newTweets.push(newPost)
+          })
+        setLikes(likes.concat(newTweets))
+      });
+    }
+    getLikes(db);
+  }, [userProfile])
+
   const retweetsTab = () => {
     setTab(retweets)
   }
 
   const tweetsTab = () => {
     setTab(tweets)
+  }
+
+  const likesTab = () => {
+    setTab(likes)
   }
 
   const convertJoined = (timestamp) => {
@@ -74,6 +94,7 @@ function Profile({userState}){
 
   console.log(retweets)
   console.log(tweets)
+  console.log(likes)
   return(
     <>
       {userProfile ?
@@ -95,10 +116,10 @@ function Profile({userState}){
       <div className='profileTabs'>
         <button onClick={tweetsTab}>tweets</button>
         <button onClick={retweetsTab}>retweets</button>
-        <button >likes</button>
+        <button onClick={likesTab}>likes</button>
       </div>
       {tab ? 
-        <TweetCard tweets={tab} />
+        <TweetCard tweets={tab} userState={userState}/>
         : null
       }
     </>

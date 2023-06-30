@@ -57,7 +57,7 @@ function TweetCard({tweets, userState}){
                   <div className='responseImgWrapper retweet'>
                     <img 
                       src={retweet} 
-                      className={tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
+                      className={userState && tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
                           'responseImg retweet active'
                         : 
                           'responseImg retweet'}
@@ -65,7 +65,7 @@ function TweetCard({tweets, userState}){
                      </img>
                   </div>
                   <span 
-                    className={tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
+                    className={userState && tweet.retweetedBy && tweet.retweetedBy.includes(userState.profileName) ? 
                         'retweetNumber active'
                       :
                         'retweetNumber'}
@@ -77,7 +77,7 @@ function TweetCard({tweets, userState}){
                   <div className='responseImgWrapper like'>
                     <img 
                     src={like} 
-                    className={tweet.likedBy && tweet.likedBy.includes(userState.profileName) ?
+                    className={userState && tweet.likedBy && tweet.likedBy.includes(userState.profileName) ?
                         'responseImg like active'
                       :
                         'responseImg like'}
@@ -85,7 +85,7 @@ function TweetCard({tweets, userState}){
                     </img>
                   </div>
                   <span 
-                    className={tweet.likedBy && tweet.likedBy.includes(userState.profileName) ? 
+                    className={userState && tweet.likedBy && tweet.likedBy.includes(userState.profileName) ? 
                         'likeNumber active'
                       :
                         'likeNumber'}
