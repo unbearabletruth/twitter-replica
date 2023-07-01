@@ -4,10 +4,10 @@ import '../assets/styles/Tweet.css'
 import { saveComment, db, getProfilePicUrl, updateComments } from "../firebase/connection";
 import uniqid from "uniqid";
 import uploadImage from '../assets/images/image-line-icon.svg'
-import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
+import { query, collection, onSnapshot, orderBy, where, doc, getDoc } from 'firebase/firestore';
 import TweetCard from "./TweetCard";
 
-function Tweet({tweets, userState}){
+function Tweet({userState}){
     const {id} = useParams();
     const [tweet, setTweet] = useState()
     const [comments, setComments] = useState([])
@@ -18,24 +18,30 @@ function Tweet({tweets, userState}){
     })
 
     useEffect(() => {
-        const currentTweet = tweets.find((item) => item.id === id);
-        setTweet(currentTweet);
-    }, [id, tweets]);
+      async function getTweet(db){
+        const tweetRef = doc(db, "tweets", id);
+        const tweetSnap = await getDoc(tweetRef);
+        const tweetData = tweetSnap.data();
+        setTweet(tweetData);
+      }
+      getTweet(db)
+    }, [id]);
 
     useEffect(() => {
       async function getComments(db) {
-        const getComments = query(collection(db, id), orderBy("timestamp", "desc"));
+        const getComments = query(collection(db, 'tweets'), where('parent', '==', id));
         onSnapshot(getComments, (snapshot) => {
           let newComments = [];
             snapshot.forEach(doc => {
                 let newPost = doc.data()
                 newComments.push(newPost)
+                console.log(newComments)
             })
-          setComments(comments.concat(newComments))
+          setComments(newComments)
         });
       }
       getComments(db);
-    }, [])
+    }, [id])
     
     const onTextChange = (e) => {
       setComment({
@@ -56,7 +62,7 @@ function Tweet({tweets, userState}){
       if (comment.image !== null){
         //saveCommentWithImage(comment.image, comment.text, comment.id)
       } else{
-        saveComment(db, comment.text, comment.id, tweet.id)
+        saveComment(db, comment.text, userState.profileName, comment.id, tweet.id)
         updateComments(db, comment.id, tweet.id)
       }
       setComment({
@@ -75,7 +81,7 @@ function Tweet({tweets, userState}){
       });
       return stringDate
     }
-    console.log(tweet)
+    console.log( id)
     return(
       <>
       {tweet ?
@@ -154,7 +160,7 @@ function Tweet({tweets, userState}){
         null
       }
       {comments ? 
-        <TweetCard tweets={comments} />
+        <TweetCard tweets={comments} userState={userState}/>
         : null
       }
       <div className="emptySpaceBottom"></div>

@@ -26,7 +26,7 @@ function TweetCard({tweets, userState}){
     });
     return stringDate
   }
-
+  console.log(userState)
   return (
     tweets.map(tweet => {
       return(
@@ -34,7 +34,7 @@ function TweetCard({tweets, userState}){
           <Link to={`/profile/${tweet.profileName}`} className='tweetProfilePictureLink'>
                 <img src={tweet.profilePic} className='tweetProfilePicture'></img>
           </Link>
-          <Link to={{pathname: `/tweet/${tweet.id}`, data: {addLike: addLike}}} className='tweetLink'>
+          <Link to={`/tweet/${tweet.id}`} className='tweetLink'>
             <div className='tweetWrapper'>
               <div className='tweetAuthor'>
                 <p className='tweetRealName'>{tweet.author}</p>

@@ -28,7 +28,9 @@ function Profile({userState}){
 
   useEffect(() => {
     async function getRetweets(db) {
-      const getTweets = query(collection(db, 'tweets'), where("retweetedBy", "array-contains", userProfile.profileName ));
+      const getTweets = query(collection(db, 'tweets'), 
+        where("retweetedBy", "array-contains", userProfile.profileName ), 
+        orderBy("timestamp", "desc"));
       onSnapshot(getTweets, (snapshot) => {
         let newTweets = [];
           snapshot.forEach(doc => {
@@ -43,7 +45,9 @@ function Profile({userState}){
 
   useEffect(() => {
     async function getTweets(db) {
-      const getTweets = query(collection(db, 'tweets'), where("profileName", "==", userProfile.profileName ), orderBy("timestamp", "desc"));
+      const getTweets = query(collection(db, 'tweets'), 
+        and(where("profileName", "==", userProfile.profileName ),
+          where("parent", "==", null)), orderBy("timestamp", "desc"));
       onSnapshot(getTweets, (snapshot) => {
         let newTweets = [];
           snapshot.forEach(doc => {
@@ -58,7 +62,9 @@ function Profile({userState}){
 
   useEffect(() => {
     async function getLikes(db) {
-      const getTweets = query(collection(db, 'tweets'), where("likedBy", "array-contains", userProfile.profileName ));
+      const getTweets = query(collection(db, 'tweets'), 
+        where("likedBy", "array-contains", userProfile.profileName ), 
+        orderBy("timestamp", "desc"));
       onSnapshot(getTweets, (snapshot) => {
         let newTweets = [];
           snapshot.forEach(doc => {

@@ -12,14 +12,15 @@ import Login from './Login';
 import Tweet from './Tweet';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase/connection';
-import { query, collection, onSnapshot, orderBy } from 'firebase/firestore';
+import { query, collection, onSnapshot, orderBy, where } from 'firebase/firestore';
 
 function Content({userState}){
   const [tweets, setTweets] = useState([])
 
   useEffect(() => {
     async function getLastTweet(db) {
-      const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
+      const getTweets = query(collection(db, 'tweets'), 
+        where("parent", "==", null), orderBy("timestamp", "desc"));
       
       onSnapshot(getTweets, (snapshot) => {
         let newTweets = [];

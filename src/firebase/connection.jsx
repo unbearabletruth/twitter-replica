@@ -98,26 +98,28 @@ async function saveTweet(db, text, id, profileName){
       profileName: profileName,
       text: text,
       id: id,
-      timestamp: serverTimestamp()
+      timestamp: serverTimestamp(),
+      parent: null
     });
 }
 
 async function saveTweetWithImage(db, file, text, id, profileName) {
   try {
-    const messageRef = await setDoc(doc(db, 'tweets', id), {
+    await setDoc(doc(db, 'tweets', id), {
       profilePic: getProfilePicUrl(),
       author: getUserName(),
       profileName: profileName,
       text: text,
       id: id,
-      timestamp: serverTimestamp()
+      timestamp: serverTimestamp(),
+      parent: null
     });
 
     const filePath = `${file.name}`;
     const newImageRef = ref(getStorage(), filePath);
     const fileSnapshot = await uploadBytesResumable(newImageRef, file);
-    
     const publicImageUrl = await getDownloadURL(newImageRef);
+    
     const mesRef = doc(db, "tweets", id)
     await updateDoc(mesRef,{
       imageUrl: publicImageUrl,
@@ -126,6 +128,19 @@ async function saveTweetWithImage(db, file, text, id, profileName) {
   } catch (error) {
     console.error('There was an error uploading a file to Cloud Storage:', error);
   }
+}
+
+async function saveComment(db, text, profileName, id, parentId){
+  await setDoc(doc(db, 'tweets', id), {
+    profilePic: getProfilePicUrl(),
+    author: getUserName(),
+    profileName: profileName,
+    text: text,
+    id: id,
+    timestamp: serverTimestamp(),
+    parent: parentId
+    
+  });
 }
 
 async function updateLikes(db, id, profileName){
@@ -180,15 +195,7 @@ async function updateComments(db, commentId, id){
 
 
 
-async function saveComment(db, text, id, tweetId){
-  await setDoc(doc(db, tweetId, id), {
-    profilePic: getProfilePicUrl(),
-    author: getUserName(),
-    text: text,
-    id: id,
-    timestamp: serverTimestamp()
-  });
-}
+
   
 export {db, saveTweet, saveTweetWithImage, saveComment,
 signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
