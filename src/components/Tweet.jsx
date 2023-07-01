@@ -10,6 +10,7 @@ import TweetCard from "./TweetCard";
 function Tweet({userState}){
     const {id} = useParams();
     const [tweet, setTweet] = useState()
+    const [parent, setParent] = useState()
     const [comments, setComments] = useState([])
     const [comment, setComment] = useState({
       text: "",
@@ -35,13 +36,25 @@ function Tweet({userState}){
             snapshot.forEach(doc => {
                 let newPost = doc.data()
                 newComments.push(newPost)
-                console.log(newComments)
+                console.log(newComments)// when adding a new one need to concat
             })
           setComments(newComments)
         });
       }
       getComments(db);
     }, [id])
+
+    useEffect(() => {
+      if(tweet && tweet.parent){
+        async function getParentTweet(db){
+          const tweetRef = doc(db, "tweets", tweet.parent);
+          const tweetSnap = await getDoc(tweetRef);
+          const tweetData = tweetSnap.data();
+          setParent(tweetData);
+        }
+        getParentTweet(db)
+      }
+    }, [tweet]);
     
     const onTextChange = (e) => {
       setComment({
@@ -81,10 +94,15 @@ function Tweet({userState}){
       });
       return stringDate
     }
-    console.log( id)
+
     return(
       <>
       {tweet ?
+        <>
+        {parent ?
+          <TweetCard tweets={[parent]} userState={userState}/>
+          : null
+        }
         <div className='tweetBig'>
           <div className="tweetProfileBig">
             <div className="tweetProfileNoMenuBig">
@@ -131,6 +149,7 @@ function Tweet({userState}){
           </div>
           
         </div>
+        </>
         :
         null
       }
