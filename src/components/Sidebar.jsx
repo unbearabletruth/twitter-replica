@@ -5,13 +5,15 @@ import { getUserName, getProfilePicUrl } from '../firebase/connection';
 import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { signIn, signOutUser } from "../firebase/connection";
+import uniqid from "uniqid";
 
 
 function Sidebar({userState}) {
-  
+  const tabs = ['home', 'explore', 'notifications',
+                'messages', 'lists', 'bookmarks', 'verified']
   const [loginWindow, setLoginWindow] = useState(false)
   const loginPopupWindow = useRef(null);
-
+  const [selected, setSelected] = useState(null)
   
 
   /*useEffect(() => {
@@ -26,62 +28,63 @@ function Sidebar({userState}) {
     };
   }, [loginPopupWindow]);*/
 
+  const handleSelected = (e) => {
+    setSelected(e.currentTarget.id)
+  }
+
   const loginPopup = () => {
     setLoginWindow(true)
   }
-
+  console.log(selected)
   return(
     <div id="sidebar">
       <div id='sidebarContent'>
         <div className="sidebarLinks">
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <img src={logo} alt='logo' id='sidebarLogo'></img>
+          <Link to="/home" className="sidebarLink">
+            <div className='sidebarLinkWrapper'>
+              <div className='sidebarLinkContent'>
+                <img src={logo} alt='logo' id='sidebarLogo'></img>
+              </div>
             </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/" className="sidebarLink">Home</Link>
+          </Link>
+          {tabs.map(tab => {
+            return(
+              <Link 
+                key={uniqid()}
+                to={`/${tab}`} 
+                className={`sidebarLink ${selected === `${tab}Link` ? 'active' : ''}`}  
+                id={`${tab}Link`}
+                onClick={handleSelected}
+                >
+                <div className='sidebarLinkWrapper'>
+                  <div className='sidebarLinkContent'>
+                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  </div>
+                </div>
+              </Link>
+            )
+          })}
+          <Link 
+            to={userState ? `/profile/${userState.profileName}` : "/profile"} 
+            className={`sidebarLink ${selected === `profileLink` ? 'active' : ''}`}  
+            id='profileLink'
+            onClick={handleSelected}
+            >
+            <div className='sidebarLinkWrapper'>
+              <div className='sidebarLinkContent'>
+                Profile
+              </div>
             </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/explore" className="sidebarLink">Explore</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/notifications" className="sidebarLink">Notifications</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/messages" className="sidebarLink">Messages</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/lists" className="sidebarLink">Lists</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/bookmarks" className="sidebarLink">Bookmarks</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to="/verified" className="sidebarLink">Verified</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <Link to={userState ? `/profile/${userState.profileName}` : "/profile"} className="sidebarLink">Profile</Link>
-            </div>
-          </div>
-          <div className='sidebarLinkWrapper'>
-            <div className='sidebarLinkContent'>
-              <div className="sidebarLink">More</div>
+          </Link>
+          <div 
+            className={`sidebarLink ${selected === `moreLink` ? 'active' : ''}`}  
+            id='moreLink'
+            onClick={handleSelected}
+            >
+            <div className='sidebarLinkWrapper'>
+              <div className='sidebarLinkContent'>
+                More
+              </div>
             </div>
           </div>
           <Link to="/compose" id='composeTweet'>Tweet</Link>

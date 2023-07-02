@@ -39,7 +39,7 @@ console.log(tweets)
       <div id='content'>
         <div id="mainContent">
           <Routes>
-            <Route path="/" element={<Home tweets={tweets} userState={userState}/>} />
+            <Route path="/home" element={<Home tweets={tweets} userState={userState}/>} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/messages" element={<Messages />} />

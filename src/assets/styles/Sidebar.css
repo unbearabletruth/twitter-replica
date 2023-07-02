@@ -43,13 +43,21 @@
     border-radius: 30px;
 }
 
-.sidebarLinkContent:hover{
+.sidebarLinkWrapper:hover{
+    cursor: pointer;
+}
+
+.sidebarLinkWrapper:hover .sidebarLinkContent{
     background-color: #e4e4e7;
 }
 
 .sidebarLink{
     color: #111827;
     font-size: 1.5rem;
+}
+
+.sidebarLink.active{
+    font-weight: bold;
 }
 
 #composeTweet{
