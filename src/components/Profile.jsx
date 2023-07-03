@@ -39,7 +39,7 @@ function Profile({userState}){
               let newPost = doc.data()
               newTweets.push(newPost)
           })
-        setRetweets(retweets.concat(newTweets))
+        setRetweets(newTweets)
       });
     }
     getRetweets(db);
@@ -56,7 +56,7 @@ function Profile({userState}){
               let newPost = doc.data()
               newTweets.push(newPost)
           })
-        setTweets(tweets.concat(newTweets))
+        setTweets(newTweets)
       });
     }
     getTweets(db);
@@ -73,7 +73,7 @@ function Profile({userState}){
               let newPost = doc.data()
               newTweets.push(newPost)
           })
-        setLikes(likes.concat(newTweets))
+        setLikes(newTweets)
       });
     }
     getLikes(db);
@@ -99,7 +99,7 @@ function Profile({userState}){
     return stringDate
   }
 
-  console.log(tab, selected)
+  console.log(userProfile)
   return(
     <>
       {userProfile ?

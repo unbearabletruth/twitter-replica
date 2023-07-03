@@ -32,9 +32,9 @@ function Home({tweets, userState}){
   const addTweet = (e) => {
     e.preventDefault();
     if (tweet.image !== null){
-      saveTweetWithImage(db, tweet.image, tweet.text, tweet.id, userState.profileName)
+      saveTweetWithImage(db, tweet.image, tweet.text, tweet.id, userState)
     } else{
-      saveTweet(db, tweet.text, tweet.id, userState.profileName)
+      saveTweet(db, tweet.text, tweet.id, userState)
     }
     setTweet({
       ...tweet,
@@ -49,7 +49,7 @@ function Home({tweets, userState}){
       <p id='homeTitle'>Home</p>
       {userState ?
         <div id='tweetComposeWrapper'>
-          <img src={getProfilePicUrl()} alt='profilePic' id='homeComposeProfilePicture'></img>
+          <img src={userState.profilePic} alt='profilePic' id='homeComposeProfilePicture'></img>
           <form onSubmit={addTweet} id='tweetForm'>
               <textarea 
                 id="homeCompose" 

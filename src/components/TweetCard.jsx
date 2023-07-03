@@ -38,7 +38,7 @@ function TweetCard({tweets, userState}){
             <div className='tweetWrapper'>
               <div className='tweetAuthor'>
                 <p className='tweetRealName'>{tweet.author}</p>
-                <p className='tweetProfileName'>@{tweet.author}_profile</p>
+                <p className='tweetProfileName'>@{tweet.profileName}</p>
                 <span>·</span>
                 <p>{tweet.timestamp ? convertDate(tweet.timestamp.seconds) : ""}</p>
               </div>

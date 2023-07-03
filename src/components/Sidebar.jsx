@@ -4,7 +4,7 @@ import logo from '../assets/images/twitter-icon.svg'
 import { getUserName, getProfilePicUrl } from '../firebase/connection';
 import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { signIn, signOutUser } from "../firebase/connection";
+import { signInWithGoogle, signOutUser } from "../firebase/connection";
 import uniqid from "uniqid";
 import { useLocation } from 'react-router-dom';
 
@@ -89,10 +89,10 @@ function Sidebar({userState}) {
               <>
                 <div className="sidebarUserInfo" onClick={loginPopup} ref={loginPopupWindow}>
                   <div id='sidebarProfileBlock'>
-                    <img src={getProfilePicUrl()} alt='profilePic' id='profilePic'></img>
+                    <img src={userState.profilePic} alt='profilePic' id='profilePic'></img>
                     <div className='profileNames'>
-                      <p id='realName'>{getUserName()}</p>
-                      <p id='profileName'>@{getUserName()}_profile</p>
+                      <p id='realName'>{userState.realName}</p>
+                      <p id='profileName'>@{userState.profileName}</p>
                     </div>
                   </div>
                   <p id='profileMenu'>&#8230;</p>
@@ -100,7 +100,7 @@ function Sidebar({userState}) {
                 </div>
                 {loginWindow ? 
                   <div className='loginPopup' >
-                    <a id='logoutLink' onClick={signOutUser}>Log out @{getUserName()}_profile</a>
+                    <a id='logoutLink' onClick={signOutUser}>Log out @{userState.profileName}</a>
                   </div>
                   :
                   null

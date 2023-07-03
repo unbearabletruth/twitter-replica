@@ -36,7 +36,6 @@ function Tweet({userState}){
             snapshot.forEach(doc => {
                 let newPost = doc.data()
                 newComments.push(newPost)
-                console.log(newComments)// when adding a new one need to concat
             })
           setComments(newComments)
         });
@@ -75,7 +74,7 @@ function Tweet({userState}){
       if (comment.image !== null){
         //saveCommentWithImage(comment.image, comment.text, comment.id)
       } else{
-        saveComment(db, comment.text, userState.profileName, comment.id, tweet.id)
+        saveComment(db, comment.text, userState, comment.id, tweet.id)
         updateComments(db, comment.id, tweet.id)
       }
       setComment({
@@ -109,7 +108,7 @@ function Tweet({userState}){
               <img src={tweet.profilePic} className='tweetProfilePictureBig'></img>
               <div className='tweetAuthorBig'>
                 <p className='tweetRealNameBig'>{tweet.author}</p>
-                <p className='tweetProfileNameBig'>@{tweet.author}_profile</p>
+                <p className='tweetProfileNameBig'>@{tweet.profileName}</p>
               </div>
             </div>
             <span>&#8230;</span>
@@ -155,7 +154,7 @@ function Tweet({userState}){
       }
       {userState ? 
         <div id='tweetComposeWrapper'>
-          <img src={getProfilePicUrl()} alt='profilePic' id='homeComposeProfilePicture'></img>
+          <img src={userState.profilePic} alt='profilePic' id='homeComposeProfilePicture'></img>
           <form onSubmit={addComment} id='tweetForm'>
               <textarea 
                 id="homeCompose" 

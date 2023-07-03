@@ -1,6 +1,8 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
@@ -30,6 +32,7 @@ import {
     getDownloadURL,
   } from 'firebase/storage';
 import uniqid from "uniqid";
+import avatarPlaceholder from '../assets/images/man-line-icon.svg'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvJ-2uriYsQG8Qd5p4AfEVTrHHzn_EYTc",
@@ -43,7 +46,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function signIn() {
+async function createUser(email, password){
+  console.log(email)
+  createUserWithEmailAndPassword(getAuth(app), email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // ..
+  });
+}
+
+async function signIn(email, password){
+  const res = await signInWithEmailAndPassword(getAuth(), email, password)
+  const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
+  const docs = await getDocs(q);
+  if (docs.docs.length === 0){
+    await setDoc(doc(db, "users", res.user.uid), {
+      profilePic: avatarPlaceholder,
+      realName: 'Greg',
+      profileName: `Greg_${uniqid()}`,
+      joined: serverTimestamp(),
+      uid: res.user.uid
+    });
+  }
+}
+
+
+async function signInWithGoogle() {
   let provider = new GoogleAuthProvider();
   const res = await signInWithRedirect(getAuth(), provider);
   const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
@@ -85,17 +119,15 @@ async function getCurrentUser(db, id) {
 async function getUserInfo(db, profileName) {
   const getUser = query(collection(db, "users"), where("profileName", "==", profileName));
   const userSnapshot = await getDocs(getUser);
-  console.log(userSnapshot)
   const user = userSnapshot.docs.map(doc => doc.data())
-  console.log(user)
   return user
 }
 
-async function saveTweet(db, text, id, profileName){
+async function saveTweet(db, text, id, userState){
     await setDoc(doc(db, "tweets", id), {
-      profilePic: getProfilePicUrl(),
-      author: getUserName(),
-      profileName: profileName,
+      profilePic: userState.profilePic,
+      author: userState.realName,
+      profileName: userState.profileName,
       text: text,
       id: id,
       timestamp: serverTimestamp(),
@@ -103,12 +135,12 @@ async function saveTweet(db, text, id, profileName){
     });
 }
 
-async function saveTweetWithImage(db, file, text, id, profileName) {
+async function saveTweetWithImage(db, file, text, id, userState) {
   try {
     await setDoc(doc(db, 'tweets', id), {
-      profilePic: getProfilePicUrl(),
-      author: getUserName(),
-      profileName: profileName,
+      profilePic: userState.profilePic,
+      author: userState.realName,
+      profileName: userState.profileName,
       text: text,
       id: id,
       timestamp: serverTimestamp(),
@@ -130,11 +162,11 @@ async function saveTweetWithImage(db, file, text, id, profileName) {
   }
 }
 
-async function saveComment(db, text, profileName, id, parentId){
+async function saveComment(db, text, userState, id, parentId){
   await setDoc(doc(db, 'tweets', id), {
-    profilePic: getProfilePicUrl(),
-    author: getUserName(),
-    profileName: profileName,
+    profilePic: userState.profilePic,
+    author: userState.realName,
+    profileName: userState.profileName,
     text: text,
     id: id,
     timestamp: serverTimestamp(),
@@ -198,5 +230,5 @@ async function updateComments(db, commentId, id){
 
   
 export {db, saveTweet, saveTweetWithImage, saveComment,
-signIn, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
-updateLikes, updateRetweets, updateComments}
+signInWithGoogle, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
+updateLikes, updateRetweets, updateComments, createUser, signIn}
