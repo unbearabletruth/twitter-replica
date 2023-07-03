@@ -12,9 +12,11 @@ function Profile({userState}){
   const [retweets, setRetweets] = useState([])
   const [likes, setLikes] = useState([])
   const [tab, setTab] = useState()
+  const [selected, setSelected] = useState()
 
   useEffect(() => {
     setTab(tweets)
+    setSelected('tweetsTab')
   }, [tweets])
 
   useEffect(() => {
@@ -77,16 +79,15 @@ function Profile({userState}){
     getLikes(db);
   }, [userProfile])
 
-  const retweetsTab = () => {
-    setTab(retweets)
-  }
-
-  const tweetsTab = () => {
-    setTab(tweets)
-  }
-
-  const likesTab = () => {
-    setTab(likes)
+  const handleSelected = (e) => {
+    if (e.target.textContent === "Tweets"){
+      setTab(tweets)
+    } else if (e.target.textContent === "Retweets"){
+      setTab(retweets)
+    } else if (e.target.textContent === "Likes"){
+      setTab(likes)
+    }
+    setSelected(e.currentTarget.id)
   }
 
   const convertJoined = (timestamp) => {
@@ -98,9 +99,7 @@ function Profile({userState}){
     return stringDate
   }
 
-  console.log(retweets)
-  console.log(tweets)
-  console.log(likes)
+  console.log(tab, selected)
   return(
     <>
       {userProfile ?
@@ -121,9 +120,27 @@ function Profile({userState}){
         null
       }
       <div className='profileTabs'>
-        <button className='tabButton' onClick={tweetsTab}>Tweets</button>
-        <button className='tabButton' onClick={retweetsTab}>Retweets</button>
-        <button className='tabButton' onClick={likesTab}>Likes</button>
+        <button 
+          className={`tabButton ${selected === 'tweetsTab' ? 'active' : ''}`}
+          id='tweetsTab' 
+          onClick={handleSelected}
+        >
+          Tweets
+        </button>
+        <button 
+          className={`tabButton ${selected === 'retweetsTab' ? 'active' : ''}`}
+          id='retweetsTab' 
+          onClick={handleSelected}
+        >
+          Retweets
+        </button>
+        <button 
+          className={`tabButton ${selected === 'likesTab' ? 'active' : ''}`}
+          id='likesTab' 
+          onClick={handleSelected}
+        >
+          Likes
+        </button>
       </div>
       {tab ? 
         <TweetCard tweets={tab} userState={userState}/>

@@ -6,6 +6,8 @@ import { useEffect, useState, useRef } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { signIn, signOutUser } from "../firebase/connection";
 import uniqid from "uniqid";
+import { useLocation } from 'react-router-dom';
+
 
 
 function Sidebar({userState}) {
@@ -14,7 +16,11 @@ function Sidebar({userState}) {
   const [loginWindow, setLoginWindow] = useState(false)
   const loginPopupWindow = useRef(null);
   const [selected, setSelected] = useState(null)
-  
+  const location = useLocation();
+
+  useEffect(() => {
+    setSelected(location.pathname.slice(1))
+  }, [location])
 
   /*useEffect(() => {
     function handleClickOutside(e) {
@@ -28,14 +34,10 @@ function Sidebar({userState}) {
     };
   }, [loginPopupWindow]);*/
 
-  const handleSelected = (e) => {
-    setSelected(e.currentTarget.id)
-  }
-
   const loginPopup = () => {
     setLoginWindow(true)
   }
-  console.log(selected)
+  console.log(selected, location)
   return(
     <div id="sidebar">
       <div id='sidebarContent'>
@@ -52,9 +54,7 @@ function Sidebar({userState}) {
               <Link 
                 key={uniqid()}
                 to={`/${tab}`} 
-                className={`sidebarLink ${selected === `${tab}Link` ? 'active' : ''}`}  
-                id={`${tab}Link`}
-                onClick={handleSelected}
+                className={`sidebarLink ${selected === tab ? 'active' : ''}`}  
                 >
                 <div className='sidebarLinkWrapper'>
                   <div className='sidebarLinkContent'>
@@ -66,9 +66,7 @@ function Sidebar({userState}) {
           })}
           <Link 
             to={userState ? `/profile/${userState.profileName}` : "/profile"} 
-            className={`sidebarLink ${selected === `profileLink` ? 'active' : ''}`}  
-            id='profileLink'
-            onClick={handleSelected}
+            className={`sidebarLink ${selected && selected.includes(`profile`)  ? 'active' : ''}`}  
             >
             <div className='sidebarLinkWrapper'>
               <div className='sidebarLinkContent'>
@@ -77,9 +75,7 @@ function Sidebar({userState}) {
             </div>
           </Link>
           <div 
-            className={`sidebarLink ${selected === `moreLink` ? 'active' : ''}`}  
-            id='moreLink'
-            onClick={handleSelected}
+            className={`sidebarLink ${selected === `more` ? 'active' : ''}`}  
             >
             <div className='sidebarLinkWrapper'>
               <div className='sidebarLinkContent'>

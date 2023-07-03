@@ -68,7 +68,7 @@
     cursor: pointer;
 }
 
-.tabButton:focus{
+.tabButton.active{
     color: black;
     border-bottom: 4px solid #1DA1F2;
 }
