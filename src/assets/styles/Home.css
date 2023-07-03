@@ -24,6 +24,7 @@
     top: 0px;
     background-color: white;
     opacity: 0.9;
+    z-index: 1;
 }
 
 #uploadAndTweet{

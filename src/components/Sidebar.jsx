@@ -1,13 +1,10 @@
 import '../assets/styles/Sidebar.css'
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/twitter-icon.svg'
-import { getUserName, getProfilePicUrl } from '../firebase/connection';
 import { useEffect, useState, useRef } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { signInWithGoogle, signOutUser } from "../firebase/connection";
+import { signOutUser } from "../firebase/connection";
 import uniqid from "uniqid";
 import { useLocation } from 'react-router-dom';
-
 
 
 function Sidebar({userState}) {
@@ -22,7 +19,7 @@ function Sidebar({userState}) {
     setSelected(location.pathname.slice(1))
   }, [location])
 
-  /*useEffect(() => {
+  useEffect(() => {
     function handleClickOutside(e) {
       if (loginPopupWindow.current && loginPopupWindow.current !== e.target) {
         setLoginWindow(false)
@@ -32,12 +29,12 @@ function Sidebar({userState}) {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [loginPopupWindow]);*/
+  }, [loginPopupWindow]);
 
   const loginPopup = () => {
     setLoginWindow(true)
   }
-  console.log(selected, location)
+  console.log(loginPopupWindow, loginWindow)
   return(
     <div id="sidebar">
       <div id='sidebarContent'>
@@ -87,7 +84,7 @@ function Sidebar({userState}) {
         </div>
           {userState ?
               <>
-                <div className="sidebarUserInfo" onClick={loginPopup} ref={loginPopupWindow}>
+                <div id="sidebarUserInfo" onClick={loginPopup} ref={loginPopupWindow}>
                   <div id='sidebarProfileBlock'>
                     <img src={userState.profilePic} alt='profilePic' id='profilePic'></img>
                     <div className='profileNames'>

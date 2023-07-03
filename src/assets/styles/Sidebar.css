@@ -76,7 +76,7 @@
     background-color: #198fd8;
 }
 
-.sidebarUserInfo{
+#sidebarUserInfo{
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -112,7 +112,7 @@
     cursor: pointer;
 }
 
-.sidebarUserInfo:hover{
+#sidebarUserInfo:hover{
     background-color: #e4e4e7;
     cursor: pointer;
 }

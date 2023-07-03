@@ -2,10 +2,15 @@ import { signInWithGoogle, signOutUser, createUser, signIn } from "../firebase/c
 import { useState } from "react";
 
 function Login(){
+    const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [emailSignIn, setEmailSingIn] = useState()
     const [passwordSignIn, setPasswordSignIn] = useState()
+
+    const handleName = (e) => {
+        setName(e.target.value)
+    }
 
     const handleEmail = (e) => {
         setEmail(e.target.value)
@@ -17,7 +22,7 @@ function Login(){
 
     const createNewUser = (e) => {
         e.preventDefault();
-        createUser(email, password)
+        createUser(email, password, name)
     }
 
     
@@ -40,6 +45,8 @@ function Login(){
             <button onClick={() => signInWithGoogle()}>log in with google</button>
             <h1>createUser</h1>
             <form onSubmit={createNewUser}>
+                <label>name</label>
+                <input onChange={handleName}></input>
                 <label>email</label>
                 <input onChange={handleEmail}></input>
                 <label>password</label>

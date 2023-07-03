@@ -46,34 +46,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function createUser(email, password){
-  console.log(email)
-  createUserWithEmailAndPassword(getAuth(app), email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
+async function createUser(email, password, name){
+  const res = await createUserWithEmailAndPassword(getAuth(app), email, password)
+  await setDoc(doc(db, "users", res.user.uid), {
+    profilePic: avatarPlaceholder,
+    realName: name,
+    profileName: `${name}_${uniqid()}`,
+    joined: serverTimestamp(),
+    uid: res.user.uid
   });
 }
 
 async function signIn(email, password){
-  const res = await signInWithEmailAndPassword(getAuth(), email, password)
-  const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
-  const docs = await getDocs(q);
-  if (docs.docs.length === 0){
-    await setDoc(doc(db, "users", res.user.uid), {
-      profilePic: avatarPlaceholder,
-      realName: 'Greg',
-      profileName: `Greg_${uniqid()}`,
-      joined: serverTimestamp(),
-      uid: res.user.uid
-    });
-  }
+  signInWithEmailAndPassword(getAuth(), email, password)
 }
 
 
