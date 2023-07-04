@@ -46,19 +46,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function createUser(email, password, name){
-  const res = await createUserWithEmailAndPassword(getAuth(app), email, password)
+async function createUser(data){
+  const res = await createUserWithEmailAndPassword(getAuth(app), data.email, data.password)
   await setDoc(doc(db, "users", res.user.uid), {
     profilePic: avatarPlaceholder,
-    realName: name,
-    profileName: `${name}_${uniqid()}`,
+    realName: data.name,
+    profileName: `${data.name}_${uniqid()}`,
     joined: serverTimestamp(),
     uid: res.user.uid
   });
 }
 
-async function signIn(email, password){
-  signInWithEmailAndPassword(getAuth(), email, password)
+async function signIn(data){
+  signInWithEmailAndPassword(getAuth(), data.email, data.password)
 }
 
 

@@ -81,3 +81,86 @@
     font-weight: bold;
     margin: 100px 0px 25px 0px;
 }
+
+
+#createPopupWrapper{
+    display: flex;
+    flex-direction: column;
+    height: 650px;
+    width: 600px;
+    padding: 80px;
+    background-color: white;
+    border-radius: 15px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.closePopup{
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    background-color: white;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    border: 0px;
+    transition: background-color 0.2s ease-out;
+}
+
+.closePopup:hover{
+    background-color: #e4e4e7;
+    cursor: pointer;
+}
+
+.closeIcon{
+    width: 12px;
+    height: auto;
+}
+
+#createTitle{
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+#createForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+#createInputs{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.createInput{
+    height: 55px;
+    border: 1px solid #d4d4d8;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1.1rem;
+}
+
+.createInput:focus{
+    outline: none;
+    border: 2px solid #1DA1F2;
+}
+
+#submitCreate{
+    height: 55px;
+    border-radius: 30px;
+    border: 0px;
+    background-color: #1DA1F2;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#submitCreate:hover{
+    background-color: #198fd8;
+    cursor: pointer;
+}

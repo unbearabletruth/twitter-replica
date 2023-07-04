@@ -2,66 +2,48 @@ import { signInWithGoogle, signOutUser, createUser, signIn } from "../firebase/c
 import { useState } from "react";
 import background from '../assets/images/sign-up-image.jpg'
 import twitterIcon from '../assets/images/twitter-icon.svg'
+import closeIcon from '../assets/images/close-icon.svg'
 import '../assets/styles/Login.css'
 import { useNavigate } from "react-router-dom";
 
 function Login(){
-    const [name, setName] = useState()
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const [emailSignIn, setEmailSingIn] = useState()
-    const [passwordSignIn, setPasswordSignIn] = useState()
-    const [create, setCreate] = useState(false)
-    const [signIn, setSignIn] = useState(false)
+    const [signInData, setSignInData] = useState({
+        email: "",
+        password: ""
+    })
+    const [createPopup, setCreate] = useState(false)
+    const [signInPopup, setSignIn] = useState(false)
     let navigate = useNavigate(); 
 
-    const routeChange = () =>{ 
+    const goHome = () =>{ 
         let path = '/home'; 
         navigate(path);
       }
 
     const googleSignIn = () => {
         signInWithGoogle();
-        routeChange();
+        goHome();
     }
 
-    const handleName = (e) => {
-        setName(e.target.value)
-    }
-
-    const handleEmail = (e) => {
-        setEmail(e.target.value)
-    }
-
-    const handlePassword = (e) => {
-        setPassword(e.target.value)
-    }
-
-    const createNewUser = (e) => {
-        e.preventDefault();
-        createUser(email, password, name)
-    }
-
-    
-    const handleEmailSignIn = (e) => {
-        setEmailSingIn(e.target.value)
-    }
-
-    const handlePasswordSignIn = (e) => {
-        setPasswordSignIn(e.target.value)
+    const handleChange = (e) => {
+        setSignInData({
+            ...signInData,
+            [e.target.name] : e.target.value
+        }) 
     }
 
     const signInUser = (e) => {
         e.preventDefault();
-        signIn(emailSignIn, passwordSignIn)
+        signIn(signInData);
+        goHome();
     }
     
-    const createPopup = () => {
-        setCreate(true)
+    const createPopupState = () => {
+        setCreate(!createPopup)
     }
 
-    const signInPopup = () => {
-        setSignIn(true)
+    const signInPopupState = () => {
+        setSignIn(!signInPopup)
     }
 
     return(
@@ -74,33 +56,83 @@ function Login(){
                 <div id="loginMainBlock">
                     <button onClick={googleSignIn} id="googleSignIn">Sign in with Google</button>
                     <p id="loginOr">or</p>
-                    {create ?
-                        <form onSubmit={createNewUser}>
-                            <label>name</label>
-                            <input onChange={handleName}></input>
-                            <label>email</label>
-                            <input onChange={handleEmail}></input>
-                            <label>password</label>
-                            <input onChange={handlePassword}></input>
-                            <button type="submit">Submit</button>
-                        </form>
-                        :
-                        <button onClick={createPopup} id="createAccount">Create account</button>
-                    }
+                    <button onClick={createPopupState} id="createAccount">Create account</button>
+                    
                 </div>
                 <p id="haveAccountText">Already have an account?</p>
-                {signIn ?
+                {signInPopup ?
                     <form onSubmit={signInUser}>
                         <label>email</label>
-                        <input onChange={handleEmailSignIn}></input>
+                        <input onChange={handleChange} name="email"></input>
                         <label>password</label>
-                        <input onChange={handlePasswordSignIn}></input>
+                        <input onChange={handleChange} name="password"></input>
                         <button type="submit">Submit</button>
                     </form>
                     :
-                    <button onClick={signInPopup} id="signInToAccount">Sign in</button>
+                    <button onClick={signInPopupState} id="signInToAccount">Sign in</button>
                 }
             </div>
+            {createPopup ?
+                <CreateAccount goHome={goHome} popup={createPopupState} />
+                :
+                null
+            }
+        </div>
+    )
+}
+
+function CreateAccount({goHome, popup}){
+    const [createData, setCreateData] = useState({
+        name: "",
+        email: "",
+        password: ""
+    })
+
+    const handleChange = (e) => {
+        setCreateData({
+            ...createData,
+            [e.target.name] : e.target.value
+        }) 
+    }
+
+    const createNewUser = (e) => {
+        e.preventDefault();
+        createUser(createData);
+        goHome();
+    }
+
+    return(
+        <div id="createPopupWrapper">
+            <button onClick={popup} className="closePopup">
+                <img src={closeIcon} alt="x" className="closeIcon"></img>
+            </button>
+            <p id="createTitle">Create your account</p>
+            <form onSubmit={createNewUser} id="createForm">
+                <div id="createInputs">
+                    <input 
+                        onChange={handleChange} 
+                        name="name" 
+                        placeholder="Name" 
+                        className="createInput"
+                    >
+                    </input>
+                    <input 
+                        onChange={handleChange} 
+                        name="email" 
+                        placeholder="Email" 
+                        className="createInput"
+                    >
+                    </input>
+                    <input 
+                        onChange={handleChange} 
+                        name="password" 
+                        placeholder="Password" 
+                        className="createInput"
+                    >
+                    </input>
+                </div>
+                <button type="submit" id="submitCreate">Create</button>
+            </form>
         </div>
     )
 }
