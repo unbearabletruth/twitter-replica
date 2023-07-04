@@ -1,5 +1,9 @@
 import { signInWithGoogle, signOutUser, createUser, signIn } from "../firebase/connection";
 import { useState } from "react";
+import background from '../assets/images/sign-up-image.jpg'
+import twitterIcon from '../assets/images/twitter-icon.svg'
+import '../assets/styles/Login.css'
+import { useNavigate } from "react-router-dom";
 
 function Login(){
     const [name, setName] = useState()
@@ -7,6 +11,19 @@ function Login(){
     const [password, setPassword] = useState()
     const [emailSignIn, setEmailSingIn] = useState()
     const [passwordSignIn, setPasswordSignIn] = useState()
+    const [create, setCreate] = useState(false)
+    const [signIn, setSignIn] = useState(false)
+    let navigate = useNavigate(); 
+
+    const routeChange = () =>{ 
+        let path = '/home'; 
+        navigate(path);
+      }
+
+    const googleSignIn = () => {
+        signInWithGoogle();
+        routeChange();
+    }
 
     const handleName = (e) => {
         setName(e.target.value)
@@ -38,32 +55,53 @@ function Login(){
         e.preventDefault();
         signIn(emailSignIn, passwordSignIn)
     }
-    console.log(email)
+    
+    const createPopup = () => {
+        setCreate(true)
+    }
+
+    const signInPopup = () => {
+        setSignIn(true)
+    }
+
     return(
-        <>
-            <button onClick={() => signIn()}>log in</button>
-            <button onClick={() => signInWithGoogle()}>log in with google</button>
-            <h1>createUser</h1>
-            <form onSubmit={createNewUser}>
-                <label>name</label>
-                <input onChange={handleName}></input>
-                <label>email</label>
-                <input onChange={handleEmail}></input>
-                <label>password</label>
-                <input onChange={handlePassword}></input>
-                <button type="submit">Submit</button>
-            </form>
-            
-            <button onClick={() => signOutUser()}>log out</button>
-            <h1>singinUser</h1>
-            <form onSubmit={signInUser}>
-                <label>email</label>
-                <input onChange={handleEmailSignIn}></input>
-                <label>password</label>
-                <input onChange={handlePasswordSignIn}></input>
-                <button type="submit">Submit</button>
-            </form>
-        </>
+        <div id="loginWrapper">
+            <img src={background} alt="background"></img>
+            <div id="loginContent">
+                <img src={twitterIcon} alt="icon" id="loginTwitterIcon"></img>
+                <p id="loginTitle">Happening now</p>
+                <p id="loginJoinText">Join Twitter replica today.</p>
+                <div id="loginMainBlock">
+                    <button onClick={googleSignIn} id="googleSignIn">Sign in with Google</button>
+                    <p id="loginOr">or</p>
+                    {create ?
+                        <form onSubmit={createNewUser}>
+                            <label>name</label>
+                            <input onChange={handleName}></input>
+                            <label>email</label>
+                            <input onChange={handleEmail}></input>
+                            <label>password</label>
+                            <input onChange={handlePassword}></input>
+                            <button type="submit">Submit</button>
+                        </form>
+                        :
+                        <button onClick={createPopup} id="createAccount">Create account</button>
+                    }
+                </div>
+                <p id="haveAccountText">Already have an account?</p>
+                {signIn ?
+                    <form onSubmit={signInUser}>
+                        <label>email</label>
+                        <input onChange={handleEmailSignIn}></input>
+                        <label>password</label>
+                        <input onChange={handlePasswordSignIn}></input>
+                        <button type="submit">Submit</button>
+                    </form>
+                    :
+                    <button onClick={signInPopup} id="signInToAccount">Sign in</button>
+                }
+            </div>
+        </div>
     )
 }
 

@@ -3,9 +3,9 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 import './App.css'
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { getCurrentUser, db } from './firebase/connection';
-
+import Login from './components/Login';
 
 function App() {
   const [userState, setUserState] = useState()
@@ -29,8 +29,11 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Sidebar userState={userState}/>
-      <Content userState={userState}/>
+      <Routes>
+        <Route path='/*' element={<><Sidebar userState={userState}/>
+                                    <Content userState={userState}/></>} />
+        <Route path="/login" element={<Login />} />                            
+      </Routes>
     </BrowserRouter>
   )
 }
