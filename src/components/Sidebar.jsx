@@ -104,11 +104,10 @@ function Sidebar({userState}) {
                 }
               </>
             :
-              <Link to="/login">Log in</Link>
+              <Link to="/login" id='toLoginPage'>Sign up or Log in</Link>
           }
         </div>
       </div>
-    
   )
 }
 

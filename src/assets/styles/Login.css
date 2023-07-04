@@ -1,9 +1,9 @@
 #loginWrapper{
     display: flex;
+    flex: 1;
 }
 
 #loginContent{
-    height: 90%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -65,7 +65,8 @@
     color:#1DA1F2;
 }
 
-#createAccount{
+#createAccount,
+#signUpLater{
     width: 300px;
     height: 40px;
     border-radius: 30px;
@@ -74,6 +75,16 @@
     font-weight: bold;
     border: 0px;
     font-size: 0.9rem;
+}
+
+#signUpLater{
+    margin-top: 50px;
+    background-color: #18181b;
+}
+
+#signUpLater:hover{
+    background-color: #27272a;
+    cursor: pointer;
 }
 
 #createAccount:hover{

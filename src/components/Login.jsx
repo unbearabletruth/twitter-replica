@@ -64,6 +64,7 @@ function Login(){
                 </div>
                 <p id="haveAccountText">Already have an account?</p>
                 <button onClick={signInPopupState} id="signInToAccount">Sign in</button>
+                <button onClick={goHome} id="signUpLater">Sign up later</button>
             </div>
             {createPopup ?
                 <CreateAccount goHome={goHome} popup={createPopupState} />
