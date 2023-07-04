@@ -36,6 +36,10 @@
 
 #googleSignIn,
 #signInToAccount{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
     width: 300px;
     height: 40px;
     border-radius: 30px;
@@ -50,6 +54,11 @@
 #signInToAccount:hover{
     background-color: #f1f5f9;
     cursor: pointer;
+}
+
+.googleSignInIcon{
+    width: 18px;
+    height: auto;
 }
 
 #signInToAccount{
@@ -74,6 +83,7 @@
 
 #loginOr{
     text-align: center;
+    font-size: 1.1rem;
 }
 
 #haveAccountText{
@@ -83,7 +93,7 @@
 }
 
 
-#createPopupWrapper{
+.popupLoginPage{
     display: flex;
     flex-direction: column;
     height: 650px;
@@ -98,10 +108,17 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
+.popupLoginPage.signIn{
+    align-items: center;
+}
+
 .closePopup{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    left: 15px;
-    top: 15px;
+    left: 10px;
+    top: 10px;
     background-color: white;
     border-radius: 50%;
     width: 34px;
@@ -138,7 +155,8 @@
     gap: 20px;
 }
 
-.createInput{
+.createInput,
+.signInInput{
     height: 55px;
     border: 1px solid #d4d4d8;
     border-radius: 5px;
@@ -146,12 +164,18 @@
     font-size: 1.1rem;
 }
 
-.createInput:focus{
+.signInInput{
+    width: 300px;
+}
+
+.createInput:focus,
+.signInInput:focus{
     outline: none;
     border: 2px solid #1DA1F2;
 }
 
-#submitCreate{
+#submitCreate,
+#submitSignIn{
     height: 55px;
     border-radius: 30px;
     border: 0px;
@@ -160,7 +184,41 @@
     font-size: 1.2rem;
 }
 
-#submitCreate:hover{
+#submitSignIn{
+    width: 300px;
+    height: 45px;
+}
+
+#submitCreate:hover,
+#submitSignIn:hover{
     background-color: #198fd8;
     cursor: pointer;
+}
+
+#signInTwitterIcon{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 15px;
+    width: 30px;
+    height: auto;
+}
+
+#signInTitle{
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+#signInForm{
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+#signInMethods{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    flex: 1;
 }

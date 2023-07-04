@@ -3,6 +3,7 @@ import { useState } from "react";
 import background from '../assets/images/sign-up-image.jpg'
 import twitterIcon from '../assets/images/twitter-icon.svg'
 import closeIcon from '../assets/images/close-icon.svg'
+import googleIcon from '../assets/images/google-icon.png'
 import '../assets/styles/Login.css'
 import { useNavigate } from "react-router-dom";
 
@@ -54,26 +55,55 @@ function Login(){
                 <p id="loginTitle">Happening now</p>
                 <p id="loginJoinText">Join Twitter replica today.</p>
                 <div id="loginMainBlock">
-                    <button onClick={googleSignIn} id="googleSignIn">Sign in with Google</button>
+                    <button onClick={googleSignIn} id="googleSignIn">
+                        <img src={googleIcon} alt="google" className="googleSignInIcon"></img>
+                        Sign in with Google
+                    </button>
                     <p id="loginOr">or</p>
                     <button onClick={createPopupState} id="createAccount">Create account</button>
-                    
                 </div>
                 <p id="haveAccountText">Already have an account?</p>
-                {signInPopup ?
-                    <form onSubmit={signInUser}>
-                        <label>email</label>
-                        <input onChange={handleChange} name="email"></input>
-                        <label>password</label>
-                        <input onChange={handleChange} name="password"></input>
-                        <button type="submit">Submit</button>
-                    </form>
-                    :
-                    <button onClick={signInPopupState} id="signInToAccount">Sign in</button>
-                }
+                <button onClick={signInPopupState} id="signInToAccount">Sign in</button>
             </div>
             {createPopup ?
                 <CreateAccount goHome={goHome} popup={createPopupState} />
+                :
+                null
+            }
+            {signInPopup ?
+                <div className="popupLoginPage signIn">
+                    <button onClick={signInPopupState} className="closePopup">
+                        <img src={closeIcon} alt="x" className="closeIcon"></img>
+                    </button>
+                    <img src={twitterIcon} alt="icon" id="signInTwitterIcon"></img>
+                    <p id="signInTitle">Sign in to Twitter</p>
+                    <div id="signInMethods">
+                        <button onClick={googleSignIn} id="googleSignIn">
+                            <img src={googleIcon} alt="google" className="googleSignInIcon"></img>
+                            Sign in with Google
+                        </button>
+                        <p id="loginOr">or</p>
+                        <form onSubmit={signInUser} id="signInForm">
+                            <div id="createInputs">
+                                <input 
+                                    onChange={handleChange} 
+                                    name="email" 
+                                    placeholder="Email" 
+                                    className="signInInput"
+                                >
+                                </input>
+                                <input 
+                                    onChange={handleChange} 
+                                    name="password" 
+                                    placeholder="Password" 
+                                    className="signInInput"
+                                >
+                                </input>
+                            </div>
+                            <button type="submit" id="submitSignIn">Log in</button>
+                        </form>
+                    </div>
+                </div>
                 :
                 null
             }
@@ -102,7 +132,7 @@ function CreateAccount({goHome, popup}){
     }
 
     return(
-        <div id="createPopupWrapper">
+        <div className="popupLoginPage">
             <button onClick={popup} className="closePopup">
                 <img src={closeIcon} alt="x" className="closeIcon"></img>
             </button>
