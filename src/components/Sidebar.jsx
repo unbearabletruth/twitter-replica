@@ -34,7 +34,7 @@ function Sidebar({userState}) {
   const loginPopup = () => {
     setLoginWindow(true)
   }
-  console.log(loginPopupWindow, loginWindow)
+
   return(
     <div id="sidebar">
       <div id='sidebarContent'>

@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   signOut,
   signInWithRedirect,
+  getAdditionalUserInfo
 } from 'firebase/auth';
 import {
     getFirestore,
@@ -53,7 +54,9 @@ async function createUser(data){
     realName: data.name,
     profileName: `${data.name}_${uniqid()}`,
     joined: serverTimestamp(),
-    uid: res.user.uid
+    uid: res.user.uid,
+    followers: [],
+    following: []
   });
 }
 
@@ -64,16 +67,20 @@ async function signIn(data){
 
 async function signInWithGoogle() {
   let provider = new GoogleAuthProvider();
-  const res = await signInWithRedirect(getAuth(), provider);
-  const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
-  const docs = await getDocs(q);
-  if (docs.docs.length === 0){
-    await setDoc(doc(db, "users", res.user.displayName), {
+  const res = await signInWithPopup(getAuth(), provider);
+  const { isNewUser } = getAdditionalUserInfo(res) 
+  console.log(isNewUser)   
+  //const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
+  //const docs = await getDocs(q);
+  if (isNewUser){
+    await setDoc(doc(db, "users", res.user.uid), {
       profilePic: getProfilePicUrl(),
       realName: getUserName(),
       profileName: `${getUserName()}_${uniqid()}`,
       joined: serverTimestamp(),
-      uid: res.user.uid
+      uid: res.user.uid,
+      followers: [],
+      following: []
     });
   }
 }
@@ -202,18 +209,36 @@ async function updateComments(db, commentId, id){
   });
 }
 
-/*async function getTweets(db) {
-    const getTweets = query(collection(db, 'tweets'), orderBy("timestamp", "desc"));
-    const tweetsSnapshot = await getDocs(getTweets);
-    const tweets = tweetsSnapshot.docs.map(doc => doc.data())
-    console.log(tweets)
-    return tweets;
-}*/
+async function updateFollow(db, followerId, followeeId){
+  const followerRef = doc(db, "users", followerId);
+  const followerSnap = await getDoc(followerRef);
+  const followerData = followerSnap.data();
+
+  const followeeRef = doc(db, "users", followeeId);
+
+  if (followerData.following && followerData.following.includes(followeeId)){
+    await updateDoc(followerRef, {
+      following: arrayRemove(followeeId)
+    })
+    await updateDoc(followeeRef, {
+      followers: arrayRemove(followerId)
+    })
+  } else{
+    await updateDoc(followerRef, {
+      following: arrayUnion(followeeId)
+    })
+    
+    await updateDoc(followeeRef, {
+      followers: arrayUnion(followerId)
+    })
+  }
+}
 
 
 
 
   
-export {db, saveTweet, saveTweetWithImage, saveComment,
-signInWithGoogle, signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, getUserInfo,
-updateLikes, updateRetweets, updateComments, createUser, signIn}
+export {db, saveTweet, saveTweetWithImage, saveComment, signInWithGoogle,
+signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, 
+getUserInfo, updateLikes, updateRetweets, updateComments, createUser, signIn,
+updateFollow}

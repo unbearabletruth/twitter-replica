@@ -1,8 +1,8 @@
 import '../assets/styles/Profile.css'
-import { db, getUserInfo } from '../firebase/connection';
+import { db, getUserInfo, updateFollow } from '../firebase/connection';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { query, collection, onSnapshot, orderBy, where, and, or } from 'firebase/firestore';
+import { query, collection, onSnapshot, orderBy, where, and, doc } from 'firebase/firestore';
 import TweetCard from './TweetCard';
 
 function Profile({userState}){
@@ -20,10 +20,17 @@ function Profile({userState}){
   }, [tweets])
 
   useEffect(() => {
+    const q = query(collection(db, "users"), where("profileName", "==", id));
     async function getUser(){
-      const userPromise = getUserInfo(db, id);
-      const user = await userPromise;
-      setUserProfile(user[0])
+      onSnapshot(q, (snapshot) => {
+          snapshot.forEach(doc => {
+              let newUser = doc.data()
+              setUserProfile(newUser)
+          })
+      });
+    //const userPromise = getUserInfo(db, id);
+    //const user = await userPromise;
+    //setUserProfile(user[0])
     }
     getUser()
   }, [id])
@@ -79,6 +86,10 @@ function Profile({userState}){
     getLikes(db);
   }, [userProfile])
 
+  const addFollow = () => {
+    updateFollow(db, userState.uid, userProfile.uid)
+  }
+
   const handleSelected = (e) => {
     if (e.target.textContent === "Tweets"){
       setTab(tweets)
@@ -107,14 +118,21 @@ function Profile({userState}){
           <div className="profileBackground"></div>
           <div className="profilePictureAndFollow">
             <img src={userProfile.profilePic} className='profilePictureBig'></img>
-            <button>Edit profile</button>
+            {userProfile.profileName === userState.profileName ?
+              <button>Edit profile</button>
+              :
+              <button onClick={addFollow}>Follow</button>
+            }
           </div>
           <div className='profileNameBlock'>
             <p className='profileRealName'>{userProfile.realName}</p>
             <p className='profileName'>@{userProfile.profileName}</p>
           </div>
           <div className='profileJoined'>Joined {convertJoined(userProfile.joined.seconds)}</div>
-          <div>followers</div>
+          <div>
+            <span>{userProfile.following.length} Following</span>
+            <span>{userProfile.followers.length} Followers</span>
+          </div>
         </div>
         :
         null

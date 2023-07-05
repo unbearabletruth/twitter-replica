@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import '../assets/styles/Tweet.css'
 import { saveComment, db, getProfilePicUrl, updateComments } from "../firebase/connection";
 import uniqid from "uniqid";
 import uploadImage from '../assets/images/image-line-icon.svg'
 import { query, collection, onSnapshot, orderBy, where, doc, getDoc } from 'firebase/firestore';
 import TweetCard from "./TweetCard";
+
 
 function Tweet({userState}){
     const {id} = useParams();
@@ -105,7 +106,9 @@ function Tweet({userState}){
         <div className='tweetBig'>
           <div className="tweetProfileBig">
             <div className="tweetProfileNoMenuBig">
-              <img src={tweet.profilePic} className='tweetProfilePictureBig'></img>
+              <Link to={`/profile/${tweet.profileName}`}>
+                <img src={tweet.profilePic} className='tweetProfilePictureBig'></img>
+              </Link>
               <div className='tweetAuthorBig'>
                 <p className='tweetRealNameBig'>{tweet.author}</p>
                 <p className='tweetProfileNameBig'>@{tweet.profileName}</p>

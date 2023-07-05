@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     height: 50px;
+    
 }
 
 .sidebarLinkContent{
@@ -41,6 +42,7 @@
     align-items: center;
     padding: 15px;
     border-radius: 30px;
+    transition: background-color 0.2s ease-out;
 }
 
 .sidebarLinkWrapper:hover{
@@ -70,6 +72,7 @@
     width: 90%;
     height: 50px;
     border-radius: 30px;
+    transition: background-color 0.2s ease-out;
 }
 
 #composeTweet:hover{
@@ -84,6 +87,7 @@
     padding: 12px;
     border-radius: 30px;
     position: relative;
+    transition: background-color 0.2s ease-out;
 }
 
 .loginPopup{
