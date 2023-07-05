@@ -1,9 +1,10 @@
 import '../assets/styles/Profile.css'
 import { db, getUserInfo, updateFollow } from '../firebase/connection';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { query, collection, onSnapshot, orderBy, where, and, doc } from 'firebase/firestore';
+import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
 import TweetCard from './TweetCard';
+import { useLocation } from "react-router-dom";
 
 function Profile({userState}){
   const {id} = useParams();
@@ -118,10 +119,22 @@ function Profile({userState}){
           <div className="profileBackground"></div>
           <div className="profilePictureAndFollow">
             <img src={userProfile.profilePic} className='profilePictureBig'></img>
-            {userProfile.profileName === userState.profileName ?
-              <button>Edit profile</button>
+            {userState ?
+              <>
+                {userProfile.profileName === userState.profileName ?
+                  <button>Edit profile</button>
+                  :
+                  <>
+                    {userState.following.includes(userProfile.uid) ?
+                      <button onClick={addFollow} className='unfollowButton'>Unfollow</button>
+                    :
+                      <button onClick={addFollow} className='followButton'>Follow</button>
+                    }
+                  </>
+                }
+              </>
               :
-              <button onClick={addFollow}>Follow</button>
+              null
             }
           </div>
           <div className='profileNameBlock'>
@@ -129,9 +142,19 @@ function Profile({userState}){
             <p className='profileName'>@{userProfile.profileName}</p>
           </div>
           <div className='profileJoined'>Joined {convertJoined(userProfile.joined.seconds)}</div>
-          <div>
-            <span>{userProfile.following.length} Following</span>
-            <span>{userProfile.followers.length} Followers</span>
+          <div className='followBlock'>
+            <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
+              <p className='followAmountP'>
+                <span className='followAmount'>{userProfile.following.length}</span>
+                <span className='followText'>Following</span>
+              </p>
+            </Link>
+            <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
+              <p className='followAmountP'>
+                <span className='followAmount'>{userProfile.followers.length}</span>
+                <span className='followText'>Followers</span>
+              </p>
+            </Link>
           </div>
         </div>
         :
@@ -168,4 +191,99 @@ function Profile({userState}){
   )
 }
 
-export default Profile;
+function FollowPage(){
+  const location = useLocation();
+  const user = location.state;
+
+  const [followers, setFollowers] = useState()
+  const [followees, setFollowees] = useState()
+  const [tab, setTab] = useState()
+  const [selected, setSelected] = useState()
+
+  useEffect(() => {
+    setTab(followers)
+    setSelected(followers)
+  }, [followers])
+
+  useEffect(() => {
+    async function getFollowers(db) {
+      const q = query(collection(db, 'users'), 
+        where("following", "array-contains", user.uid ));
+      onSnapshot(q, (snapshot) => {
+        let followers = [];
+          snapshot.forEach(doc => {
+              let follower = doc.data()
+              followers.push(follower)
+          })
+        setFollowers(followers)
+      });
+    }
+    getFollowers(db);
+  }, [user])
+
+  useEffect(() => {
+    async function getFollowees(db) {
+      const q = query(collection(db, 'users'), 
+        where("followers", "array-contains", user.uid ));
+      onSnapshot(q, (snapshot) => {
+        let followees = [];
+          snapshot.forEach(doc => {
+              let followee = doc.data()
+              followees.push(followee)
+          })
+        setFollowees(followees)
+      });
+    }
+    getFollowees(db);
+  }, [user])
+
+  const handleSelected = (e) => {
+    if (e.target.textContent === "Followers"){
+      setTab(followers)
+    } else if (e.target.textContent === "Following"){
+      setTab(followees)
+    }
+    setSelected(e.currentTarget.id)
+  }
+  
+  console.log(tab)
+  return(
+    <>
+      <div className='followTabs'>
+        <button 
+          className={`tabFollowButton ${selected === 'followersTab' ? 'active' : ''}`}
+          id='followersTab' 
+          onClick={handleSelected}
+        >
+          Followers
+        </button>
+        <button 
+          className={`tabFollowButton ${selected === 'followingTab' ? 'active' : ''}`}
+          id='followingTab' 
+          onClick={handleSelected}
+        >
+          Following
+        </button>
+      </div>
+    {tab ? 
+      <>
+      {tab.map(person => {
+        return(
+          <div className='followerCard' key={person.uid}>
+            <img src={person.profilePic} alt='pic' className='followerProfilePic'></img>
+            <div>
+              <p>{person.realName}</p>
+              <p>{person.profileName}</p>
+            </div>
+          </div>
+        )
+      })}
+      </>
+      :
+      null
+    }
+    </>
+  )
+}
+
+export {Profile, FollowPage};

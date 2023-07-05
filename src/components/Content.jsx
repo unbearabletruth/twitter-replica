@@ -7,7 +7,7 @@ import Messages from './Messages';
 import Lists from './Lists';
 import Bookmarks from './Bookmarks';
 import Verified from './Verified';
-import Profile from './Profile';
+import {Profile, FollowPage} from './Profile';
 import Login from './Login';
 import Tweet from './Tweet';
 import { useState, useEffect } from 'react';
@@ -47,6 +47,7 @@ console.log(tweets)
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile/:id" element={<Profile userState={userState}/>} />
+            <Route path="/profile/:id/follow" element={<FollowPage />} />
             <Route path="/tweet/:id" element={<Tweet tweets={tweets} userState={userState}/>} />
           </Routes>
         </div>

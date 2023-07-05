@@ -27,6 +27,42 @@
     top: -65px;
 }
 
+.followButton{
+    border: 0px;
+    width: 80px;
+    height: 35px;
+    background-color: #18181b;
+    border-radius: 30px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.2s ease-out;
+}
+
+.followButton:hover{
+    background-color: #27272a;
+    cursor: pointer;
+}
+
+.unfollowButton{
+    border: 1px solid #d4d4d8;
+    width: 100px;
+    height: 35px;
+    background-color: white;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #52525b;
+    transition: all 0.2s ease-out;
+}
+
+.unfollowButton:hover{
+    border: 1px solid #fecaca;
+    background-color: #fee2e2;
+    color: #ef4444;
+    cursor: pointer;
+}
+
 .profileNameBlock{
     display: flex;
     flex-direction: column;
@@ -49,12 +85,14 @@
     color:#6b7280;
 }
 
-.profileTabs{
+.profileTabs,
+.followTabs{
     display: flex;
     border-bottom: 1px solid #e5e7eb;
 }
 
-.tabButton{
+.tabButton,
+.tabFollowButton{
     flex: 1;
     border: 0px;
     background-color: white;
@@ -63,12 +101,51 @@
     height: 55px;
 }
 
-.tabButton:hover{
+.tabButton:hover,
+.tabFollowButton:hover{
     background-color: #e4e4e7;
     cursor: pointer;
 }
 
-.tabButton.active{
+.tabButton.active,
+.tabFollowButton.active{
     color: black;
     border-bottom: 4px solid #1DA1F2;
+}
+
+.followBlock{
+    display: flex;
+    gap: 15px;
+}
+
+.followAmountP{
+    display: flex;
+    gap: 3px;
+}
+
+.followAmountP:hover{
+    text-decoration: underline black;
+}
+
+.followAmount{
+    font-weight: bold;
+    color: black;
+}
+
+.followText{
+    color: #6b7280;
+}
+
+
+.followerCard{
+    height: 90px;
+    display: flex;
+    padding: 12px 16px;
+    gap: 10px;
+}
+
+.followerProfilePic{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
 }

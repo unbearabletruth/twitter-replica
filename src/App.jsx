@@ -6,6 +6,7 @@ import Content from './components/Content';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { getCurrentUser, db } from './firebase/connection';
 import Login from './components/Login';
+import { query, collection, where, onSnapshot } from 'firebase/firestore';
 
 function App() {
   const [userState, setUserState] = useState()
@@ -13,12 +14,19 @@ function App() {
   useEffect(() => {
     const isUser = onAuthStateChanged(getAuth(), user => {
     if(user){
-        async function getUser(){
+      const q = query(collection(db, "users"), where("uid", "==", getAuth().currentUser.uid));
+      onSnapshot(q, (snapshot) => {
+          snapshot.forEach(doc => {
+              let user = doc.data()
+              setUserState(user)
+          })
+      });
+        /*async function getUser(){
           const userPromise = getCurrentUser(db, getAuth().currentUser.uid);
           const user = await userPromise;
           setUserState(user[0])
         }
-        getUser()
+        getUser()*/
     }else{
         setUserState(false);
       }
