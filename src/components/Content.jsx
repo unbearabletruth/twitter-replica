@@ -47,7 +47,7 @@ console.log(tweets)
             <Route path="/bookmarks" element={<Bookmarks />} />
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile/:id" element={<Profile userState={userState}/>} />
-            <Route path="/profile/:id/follow" element={<FollowPage />} />
+            <Route path="/profile/:id/follow" element={<FollowPage userState={userState}/>} />
             <Route path="/tweet/:id" element={<Tweet tweets={tweets} userState={userState}/>} />
           </Routes>
         </div>

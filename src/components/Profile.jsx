@@ -191,7 +191,7 @@ function Profile({userState}){
   )
 }
 
-function FollowPage(){
+function FollowPage({userState}){
   const location = useLocation();
   const user = location.state;
 
@@ -202,7 +202,7 @@ function FollowPage(){
 
   useEffect(() => {
     setTab(followers)
-    setSelected(followers)
+    setSelected('followersTab')
   }, [followers])
 
   useEffect(() => {
@@ -245,8 +245,12 @@ function FollowPage(){
     }
     setSelected(e.currentTarget.id)
   }
+
+  const addFollow = (e, personUid) => {
+    e.preventDefault();
+    updateFollow(db, userState.uid, personUid)
+  }
   
-  console.log(tab)
   return(
     <>
       <div className='followTabs'>
@@ -269,13 +273,28 @@ function FollowPage(){
       <>
       {tab.map(person => {
         return(
-          <div className='followerCard' key={person.uid}>
-            <img src={person.profilePic} alt='pic' className='followerProfilePic'></img>
-            <div>
-              <p>{person.realName}</p>
-              <p>{person.profileName}</p>
+          <Link to={`/profile/${person.profileName}`} key={person.uid}>
+            <div className='followerCard'>
+              <div className='followerInfo'>
+                <img src={person.profilePic} alt='pic' className='followerProfilePic'></img>
+                <div className='followerNames'>
+                  <p className='followerName'>{person.realName}</p>
+                  <p className='followerProfileName'>{person.profileName}</p>
+                </div>
+              </div>
+              {userState ?
+                <>
+                  {userState.following.includes(person.uid) ?
+                    <button onClick={(e) => addFollow(e, person.uid)} className='unfollowButton'>Unfollow</button>
+                  :
+                    <button onClick={(e) => addFollow(e, person.uid)} className='followButton'>Follow</button>
+                  }
+                </>
+                :
+                null
+              }
             </div>
-          </div>
+          </Link>
         )
       })}
       </>
