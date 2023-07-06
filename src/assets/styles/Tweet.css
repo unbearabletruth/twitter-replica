@@ -71,10 +71,22 @@
     gap: 20px;
 }
 
-.tweetLikesBarBig{
+.tweetResponseBarBig{
     display: flex;
     height: 50px;
     align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.responseImgWrapper.big{
+    width: 38px;
+    height: 38px;
+}
+
+.responseImg.big{
+    height: 22px;
+    width: auto;
 }
 
 .emptySpaceBottom{

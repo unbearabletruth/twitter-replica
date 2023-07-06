@@ -26,7 +26,7 @@ function TweetCard({tweets, userState}){
     });
     return stringDate
   }
-  console.log(userState)
+
   return (
     tweets.map(tweet => {
       return(

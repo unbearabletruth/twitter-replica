@@ -170,8 +170,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 35px;
-    height: 35px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     transition: background-color 0.2s ease-out;
 }
@@ -189,6 +189,10 @@
     transition: filter 0.2s ease-out;
 }
 
+.response.retweet:hover,
+.response.like:hover{
+    cursor: pointer;
+}
 
 .response.reply:hover .responseImg.reply{
     filter: invert(48%) sepia(87%) saturate(563%) hue-rotate(164deg) brightness(95%) contrast(99%);  

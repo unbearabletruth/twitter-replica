@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import '../assets/styles/Tweet.css'
-import { saveComment, db, getProfilePicUrl, updateComments } from "../firebase/connection";
+import { saveComment, db, updateComments, updateRetweets, updateLikes } from "../firebase/connection";
 import uniqid from "uniqid";
 import uploadImage from '../assets/images/image-line-icon.svg'
 import { query, collection, onSnapshot, orderBy, where, doc, getDoc } from 'firebase/firestore';
 import TweetCard from "./TweetCard";
+import like from '../assets/images/like.png'
+import retweet from '../assets/images/retweet.png'
 
 
 function Tweet({userState}){
@@ -19,7 +21,15 @@ function Tweet({userState}){
       id: uniqid(),
     })
 
-    useEffect(() => {
+    const addLike = () => {
+      updateLikes(db, tweet.id, userState.profileName)
+    }
+  
+    const addRetweet = () => {
+      updateRetweets(db, tweet.id, userState.profileName)
+    }
+
+    /*useEffect(() => {
       async function getTweet(db){
         const tweetRef = doc(db, "tweets", id);
         const tweetSnap = await getDoc(tweetRef);
@@ -27,7 +37,13 @@ function Tweet({userState}){
         setTweet(tweetData);
       }
       getTweet(db)
-    }, [id]);
+    }, [id]);*/
+
+    useEffect(() => {
+      onSnapshot(doc(db, "tweets", id), (doc) => {
+        setTweet(doc.data())
+      })
+    }, [id])
 
     useEffect(() => {
       async function getComments(db) {
@@ -145,11 +161,34 @@ function Tweet({userState}){
             :
             null
           }
-          
-          <div className='tweetLikesBarBig'>
-            <span>svg will be here</span>
+          <div className='tweetResponseBarBig'>
+            <div className='response retweet' onClick={addRetweet}>
+              <div className='responseImgWrapper big retweet'>
+                <img 
+                  src={retweet} 
+                  className={userState && tweet.retweetedBy && 
+                            tweet.retweetedBy.includes(userState.profileName) ? 
+                      'responseImg retweet big active'
+                    : 
+                      'responseImg retweet big'}
+                  >
+                  </img>
+              </div>
+            </div>
+            <div className='response like' onClick={addLike}>
+              <div className='responseImgWrapper big like'>
+                <img 
+                src={like} 
+                className={userState && tweet.likedBy && 
+                          tweet.likedBy.includes(userState.profileName) ?
+                    'responseImg like big active'
+                  :
+                    'responseImg like big'}
+                >
+                </img>
+              </div>
+            </div>
           </div>
-          
         </div>
         </>
         :
