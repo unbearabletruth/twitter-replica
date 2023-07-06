@@ -81,8 +81,17 @@
 }
 
 .profileJoined{
+    display: flex;
+    gap: 5px;
+    align-items: center;
     font-size: 1.1rem;
     color:#6b7280;
+}
+
+.joinedIcon{
+    width: 15px;
+    height: auto;
+    filter: invert(46%) sepia(17%) saturate(345%) hue-rotate(182deg) brightness(92%) contrast(84%);
 }
 
 .profileTabs,
@@ -99,6 +108,7 @@
     color: #6b7280;
     font-size: 1.1rem;
     height: 55px;
+    transition: background-color 0.2s ease-out;
 }
 
 .tabButton:hover,

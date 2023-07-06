@@ -37,6 +37,8 @@
 }
 
 .sidebarLinkContent{
+    display: flex;
+    gap: 20px;
     height: 50px;
     display: flex;
     align-items: center;
@@ -53,6 +55,11 @@
     background-color: #e4e4e7;
 }
 
+.sidebarIcon{
+    width: 25px;
+    height: auto;
+}
+
 .sidebarLink{
     color: #111827;
     font-size: 1.5rem;
@@ -67,6 +74,7 @@
     align-items: center;
     color: white;
     font-size: 1.3rem;
+    font-weight: bold;
     justify-content: center;
     background-color: #1DA1F2;
     width: 90%;
@@ -109,6 +117,7 @@
     font-weight: bold;
     font-size: 1.1rem;
     padding: 0px 15px;
+    transition: background-color 0.2s ease-out;
 }
 
 #logoutLink:hover{

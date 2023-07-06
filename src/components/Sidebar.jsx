@@ -5,7 +5,15 @@ import { useEffect, useState, useRef } from 'react';
 import { signOutUser } from "../firebase/connection";
 import uniqid from "uniqid";
 import { useLocation } from 'react-router-dom';
-
+import home from '../assets/images/sidebar/home.svg'
+import explore from '../assets/images/sidebar/explore.svg'
+import notifications from '../assets/images/sidebar/notifications.png'
+import messages from '../assets/images/sidebar/messages.png'
+import lists from '../assets/images/sidebar/lists.svg'
+import bookmarks from '../assets/images/sidebar/bookmarks.svg'
+import verified from '../assets/images/sidebar/verified.png'
+import profile from '../assets/images/sidebar/profile.png'
+import more from '../assets/images/sidebar/more.png'
 
 function Sidebar({userState}) {
   const tabs = ['home', 'explore', 'notifications',
@@ -55,6 +63,7 @@ function Sidebar({userState}) {
                 >
                 <div className='sidebarLinkWrapper'>
                   <div className='sidebarLinkContent'>
+                    <img src={eval(tab)} alt='logo' className='sidebarIcon'></img>
                     {tab.charAt(0).toUpperCase() + tab.slice(1)}
                   </div>
                 </div>
@@ -67,6 +76,7 @@ function Sidebar({userState}) {
             >
             <div className='sidebarLinkWrapper'>
               <div className='sidebarLinkContent'>
+                <img src={profile} alt='logo' className='sidebarIcon'></img>
                 Profile
               </div>
             </div>
@@ -76,6 +86,7 @@ function Sidebar({userState}) {
             >
             <div className='sidebarLinkWrapper'>
               <div className='sidebarLinkContent'>
+                <img src={more} alt='logo' className='sidebarIcon'></img>
                 More
               </div>
             </div>

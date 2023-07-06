@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
 import TweetCard from './TweetCard';
 import { useLocation } from "react-router-dom";
+import calendar from '../assets/images/calendar.svg'
 
 function Profile({userState}){
   const {id} = useParams();
@@ -141,7 +142,10 @@ function Profile({userState}){
             <p className='profileRealName'>{userProfile.realName}</p>
             <p className='profileName'>@{userProfile.profileName}</p>
           </div>
-          <div className='profileJoined'>Joined {convertJoined(userProfile.joined.seconds)}</div>
+          <div className='profileJoined'>
+            <img src={calendar} alt='icon' className='joinedIcon'></img>
+            Joined {convertJoined(userProfile.joined.seconds)}
+          </div>
           <div className='followBlock'>
             <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
               <p className='followAmountP'>
