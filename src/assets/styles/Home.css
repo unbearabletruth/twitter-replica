@@ -2,7 +2,6 @@
     min-height: 100px;
     padding: 10px;
     display: flex;
-    border-top: 1px solid;
     border-bottom: 1px solid;
     border-color: #e5e7eb;
     gap: 15px;
@@ -25,6 +24,8 @@
     background-color: white;
     opacity: 0.9;
     z-index: 1;
+    border-bottom: 1px solid;
+    border-color: #e5e7eb;
 }
 
 #uploadAndTweet{

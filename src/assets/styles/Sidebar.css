@@ -6,6 +6,7 @@
     position: sticky;
     top: 0px;
     left: 0px;
+    z-index: 1;
 }
 
 #sidebarContent{
@@ -79,12 +80,63 @@
     background-color: #1DA1F2;
     width: 90%;
     height: 50px;
+    border: 0px;
     border-radius: 30px;
     transition: background-color 0.2s ease-out;
 }
 
 #composeTweet:hover{
     background-color: #198fd8;
+    cursor: pointer;
+}
+
+#composePopup{
+    width: 600px;
+    min-height: 250px;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 15px;
+    display: flex;
+    align-items: flex-end;
+    padding-top: 40px;
+}
+
+#tweetComposeWrapperSidebar{
+    min-height: 100px;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+#composeMainContent{
+    display: flex;
+    height: 120px;
+    gap: 15px;
+}
+
+#previewImageWrapper{
+    display: flex;
+    justify-content: center;
+}
+
+#sidebarFormImagePreview{
+    width: auto;
+    height: 400px;
+    padding-bottom: 10px;
+}
+
+#uploadAndTweetSidebar{
+    border-top: 1px solid;
+    border-color: #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 0px 10px;
 }
 
 #sidebarUserInfo{

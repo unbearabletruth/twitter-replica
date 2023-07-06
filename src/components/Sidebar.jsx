@@ -14,6 +14,8 @@ import bookmarks from '../assets/images/sidebar/bookmarks.svg'
 import verified from '../assets/images/sidebar/verified.png'
 import profile from '../assets/images/sidebar/profile.png'
 import more from '../assets/images/sidebar/more.png'
+import Compose from './Compose';
+import closeIcon from '../assets/images/close-icon.svg'
 
 function Sidebar({userState}) {
   const tabs = ['home', 'explore', 'notifications',
@@ -22,6 +24,7 @@ function Sidebar({userState}) {
   const loginPopupWindow = useRef(null);
   const [selected, setSelected] = useState(null)
   const location = useLocation();
+  const [composePopup, setComposePopup] = useState(false)
 
   useEffect(() => {
     setSelected(location.pathname.slice(1))
@@ -41,6 +44,10 @@ function Sidebar({userState}) {
 
   const loginPopup = () => {
     setLoginWindow(true)
+  }
+
+  const handleCompose = () => {
+    setComposePopup(!composePopup)
   }
 
   return(
@@ -91,7 +98,7 @@ function Sidebar({userState}) {
               </div>
             </div>
           </div>
-          <Link to="/compose" id='composeTweet'>Tweet</Link>
+          <button to="/compose" id='composeTweet' onClick={handleCompose}>Tweet</button>
         </div>
           {userState ?
               <>
@@ -118,6 +125,16 @@ function Sidebar({userState}) {
               <Link to="/login" id='toLoginPage'>Sign up or Log in</Link>
           }
         </div>
+        {userState && composePopup ?
+          <div id='composePopup'>
+            <button onClick={handleCompose} className="closePopup">
+              <img src={closeIcon} alt="x" className="closeIcon"></img>
+            </button>
+            <Compose userState={userState} where={"sidebar"} handleCompose={handleCompose}/>
+          </div>
+          :
+          null
+        }
       </div>
   )
 }
