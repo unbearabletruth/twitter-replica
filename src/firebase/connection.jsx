@@ -209,27 +209,27 @@ async function updateComments(db, commentId, id){
   });
 }
 
-async function updateFollow(db, followerId, followeeId){
-  const followerRef = doc(db, "users", followerId);
+async function updateFollow(db, follower, followee){
+  const followerRef = doc(db, "users", follower.uid);
   const followerSnap = await getDoc(followerRef);
   const followerData = followerSnap.data();
 
-  const followeeRef = doc(db, "users", followeeId);
+  const followeeRef = doc(db, "users", followee.uid);
 
-  if (followerData.following && followerData.following.includes(followeeId)){
+  if (followerData.following && followerData.following.includes(followee.profileName)){
     await updateDoc(followerRef, {
-      following: arrayRemove(followeeId)
+      following: arrayRemove(followee.profileName)
     })
     await updateDoc(followeeRef, {
-      followers: arrayRemove(followerId)
+      followers: arrayRemove(follower.profileName)
     })
   } else{
     await updateDoc(followerRef, {
-      following: arrayUnion(followeeId)
+      following: arrayUnion(followee.profileName)
     })
     
     await updateDoc(followeeRef, {
-      followers: arrayUnion(followerId)
+      followers: arrayUnion(follower.profileName)
     })
   }
 }

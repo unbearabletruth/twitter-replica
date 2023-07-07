@@ -8,38 +8,15 @@ import Lists from './Lists';
 import Bookmarks from './Bookmarks';
 import Verified from './Verified';
 import {Profile, FollowPage} from './Profile';
-import Login from './Login';
 import Tweet from './Tweet';
-import { useState, useEffect } from 'react';
-import { db } from '../firebase/connection';
-import { query, collection, onSnapshot, orderBy, where } from 'firebase/firestore';
+
 
 function Content({userState}){
-  const [tweets, setTweets] = useState([])
-
-  useEffect(() => {
-    async function getLastTweet(db) {
-      const getTweets = query(collection(db, 'tweets'), 
-        where("parent", "==", null), orderBy("timestamp", "desc"));
-      
-      onSnapshot(getTweets, (snapshot) => {
-        let newTweets = [];
-          snapshot.forEach(doc => {
-              let newPost = doc.data()
-              newTweets.push(newPost)
-              
-          })
-        setTweets(tweets.concat(newTweets))
-      });
-    }
-    getLastTweet(db);
-  }, [])
-console.log(tweets)
     return(
       <div id='content'>
         <div id="mainContent">
           <Routes>
-            <Route path="/home" element={<Home tweets={tweets} userState={userState}/>} />
+            <Route path="/home" element={<Home userState={userState}/>} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/messages" element={<Messages />} />
@@ -48,7 +25,7 @@ console.log(tweets)
             <Route path="/verified" element={<Verified />} />
             <Route path="/profile/:id" element={<Profile userState={userState}/>} />
             <Route path="/profile/:id/follow" element={<FollowPage userState={userState}/>} />
-            <Route path="/tweet/:id" element={<Tweet tweets={tweets} userState={userState}/>} />
+            <Route path="/tweet/:id" element={<Tweet userState={userState}/>} />
           </Routes>
         </div>
         <div id='sideContent'>

@@ -15,7 +15,7 @@
 }
 
 #homeTitle{
-    height: 80px;
+    height: 50px;
     padding: 15px;
     font-size: 1.5rem;
     position: sticky;
@@ -24,8 +24,31 @@
     background-color: white;
     opacity: 0.9;
     z-index: 1;
-    border-bottom: 1px solid;
-    border-color: #e5e7eb;
+}
+
+.homeTabs{
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.homeTabButton{
+    flex: 1;
+    border: 0px;
+    background-color: white;
+    color: #6b7280;
+    font-size: 1.1rem;
+    height: 55px;
+    transition: background-color 0.2s ease-out;
+}
+
+.homeTabButton:hover{
+    background-color: #e4e4e7;
+    cursor: pointer;
+}
+
+.homeTabButton.active{
+    color: black;
+    border-bottom: 4px solid #1DA1F2;
 }
 
 #uploadAndTweet{

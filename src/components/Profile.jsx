@@ -89,7 +89,7 @@ function Profile({userState}){
   }, [userProfile])
 
   const addFollow = () => {
-    updateFollow(db, userState.uid, userProfile.uid)
+    updateFollow(db, userState, userProfile)
   }
 
   const handleSelected = (e) => {
@@ -126,7 +126,7 @@ function Profile({userState}){
                   <button>Edit profile</button>
                   :
                   <>
-                    {userState.following.includes(userProfile.uid) ?
+                    {userProfile.followers.includes(userState.profileName) ?
                       <button onClick={addFollow} className='unfollowButton'>Unfollow</button>
                     :
                       <button onClick={addFollow} className='followButton'>Follow</button>
@@ -212,7 +212,7 @@ function FollowPage({userState}){
   useEffect(() => {
     async function getFollowers(db) {
       const q = query(collection(db, 'users'), 
-        where("following", "array-contains", user.uid ));
+        where("following", "array-contains", user.profileName ));
       onSnapshot(q, (snapshot) => {
         let followers = [];
           snapshot.forEach(doc => {
@@ -228,7 +228,7 @@ function FollowPage({userState}){
   useEffect(() => {
     async function getFollowees(db) {
       const q = query(collection(db, 'users'), 
-        where("followers", "array-contains", user.uid ));
+        where("followers", "array-contains", user.profileName ));
       onSnapshot(q, (snapshot) => {
         let followees = [];
           snapshot.forEach(doc => {
@@ -250,9 +250,9 @@ function FollowPage({userState}){
     setSelected(e.currentTarget.id)
   }
 
-  const addFollow = (e, personUid) => {
+  const addFollow = (e, person) => {
     e.preventDefault();
-    updateFollow(db, userState.uid, personUid)
+    updateFollow(db, userState, person)
   }
   
   return(
@@ -288,10 +288,10 @@ function FollowPage({userState}){
               </div>
               {userState ?
                 <>
-                  {userState.following.includes(person.uid) ?
-                    <button onClick={(e) => addFollow(e, person.uid)} className='unfollowButton'>Unfollow</button>
+                  {person.followers.includes(userState.profileName) ?
+                    <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
                   :
-                    <button onClick={(e) => addFollow(e, person.uid)} className='followButton'>Follow</button>
+                    <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>
                   }
                 </>
                 :
