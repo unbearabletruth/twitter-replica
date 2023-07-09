@@ -234,6 +234,14 @@ async function updateFollow(db, follower, followee){
   }
 }
 
+async function updateProfileInfo(db, uid, profileInfo){
+  const userRef = doc(db, 'users', uid);
+  await updateDoc(userRef, {
+    bio: profileInfo.bio,
+    location: profileInfo.location
+  })
+}
+
 
 
 
@@ -241,4 +249,4 @@ async function updateFollow(db, follower, followee){
 export {db, auth, saveTweet, saveTweetWithImage, saveComment, signInWithGoogle,
 signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, 
 getUserInfo, updateLikes, updateRetweets, updateComments, createUser, signIn,
-updateFollow}
+updateFollow, updateProfileInfo}

@@ -1,11 +1,13 @@
 import '../assets/styles/Profile.css'
-import { db, getUserInfo, updateFollow } from '../firebase/connection';
+import { db, getUserInfo, updateFollow, updateProfileInfo } from '../firebase/connection';
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
 import TweetCard from './TweetCard';
 import { useLocation } from "react-router-dom";
 import calendar from '../assets/images/calendar.svg'
+import location from '../assets/images/location.svg'
+import closeIcon from '../assets/images/close-icon.svg'
 
 function Profile({userState}){
   const {id} = useParams();
@@ -15,6 +17,11 @@ function Profile({userState}){
   const [likes, setLikes] = useState([])
   const [tab, setTab] = useState()
   const [selected, setSelected] = useState()
+  const [editPopup, setEditPopup] = useState(false)
+  const [profileInfo, setProfileInfo] = useState({
+    bio: '',
+    location: ''
+  })
 
   useEffect(() => {
     setTab(tweets)
@@ -22,10 +29,9 @@ function Profile({userState}){
   }, [tweets])
 
   useEffect(() => {
-    let unsub;
     const q = query(collection(db, "users"), where("profileName", "==", id));
     async function getUser(){
-      unsub = onSnapshot(q, (snapshot) => {
+      onSnapshot(q, (snapshot) => {
           snapshot.forEach(doc => {
               let newUser = doc.data()
               setUserProfile(newUser)
@@ -40,6 +46,15 @@ function Profile({userState}){
     
     getUser()
   }, [id])
+
+  useEffect(() => {
+    if (userProfile){
+      setProfileInfo({
+        bio: userProfile.bio,
+        location: userProfile.location
+      })
+    }
+  }, [userProfile])
 
   useEffect(() => {
     async function getRetweets(db) {
@@ -96,6 +111,19 @@ function Profile({userState}){
     updateFollow(db, userState, userProfile)
   }
 
+  const handleEditChange = (e) => {
+    setProfileInfo({
+      ...profileInfo,
+      [e.target.name] : e.target.value
+    })
+  }
+
+  const onEditSubmit = (e) => {
+    e.preventDefault()
+    updateProfileInfo(db, userState.uid, profileInfo)
+    handleEditPopup()
+  }
+
   const handleSelected = (e) => {
     if (e.target.textContent === "Tweets"){
       setTab(tweets)
@@ -107,6 +135,10 @@ function Profile({userState}){
     setSelected(e.currentTarget.id)
   }
 
+  const handleEditPopup = () => {
+    setEditPopup(!editPopup)
+  }
+
   const convertJoined = (timestamp) => {
     let date = new Date(timestamp * 1000);
     let stringDate = date.toLocaleString(undefined, {
@@ -115,9 +147,40 @@ function Profile({userState}){
     });
     return stringDate
   }
-
+  console.log(profileInfo)
   return(
     <>
+      {editPopup ?
+        <div id='editPopupWrapper'>
+          <button onClick={handleEditPopup} className="closePopup">
+            <img src={closeIcon} alt="x" className="closeIcon"></img>
+          </button>
+          <div id='editPopupHeader'>
+            <p id='editPopupTitle'>Edit profile</p>
+            <button id='editPopupSave' form='editProfileForm' type='submit'>Save</button>
+          </div>
+          <form id='editProfileForm' onSubmit={onEditSubmit}>
+              <textarea 
+                id='editPopupTextArea' 
+                onChange={handleEditChange} 
+                placeholder='Bio'
+                name='bio'
+                value={profileInfo.bio}
+              >
+              </textarea>
+              <input
+                className='editPopupInput' 
+                onChange={handleEditChange} 
+                placeholder='Location'
+                name='location'
+                value={profileInfo.location}
+              >
+              </input>
+          </form>
+        </div>
+        :
+        null
+      }
       {userProfile ?
         <div className="profileHeader">
           <div className="profileBackground"></div>
@@ -126,7 +189,7 @@ function Profile({userState}){
             {userState ?
               <>
                 {userProfile.profileName === userState.profileName ?
-                  <button>Edit profile</button>
+                  <button onClick={handleEditPopup} className='editProfileButton'>Edit profile</button>
                   :
                   <>
                     {userProfile.followers.includes(userState.profileName) ?
@@ -145,9 +208,26 @@ function Profile({userState}){
             <p className='profileRealName'>{userProfile.realName}</p>
             <p className='profileName'>@{userProfile.profileName}</p>
           </div>
-          <div className='profileJoined'>
-            <img src={calendar} alt='icon' className='joinedIcon'></img>
-            Joined {convertJoined(userProfile.joined.seconds)}
+          {userProfile.bio ?
+            <div className='profileBio'>
+              {userProfile.bio}
+            </div>
+            :
+            null
+          }
+          <div className='profileExtraInfo'>
+            {userProfile.location ?
+              <div className='profileExtraSubBlock'>
+                <img src={location} alt='icon' className='profileExtraInfoIcon'></img>
+                {userProfile.location}
+              </div>
+              :
+              null
+            }
+            <div className='profileExtraSubBlock'>
+              <img src={calendar} alt='icon' className='profileExtraInfoIcon'></img>
+              Joined {convertJoined(userProfile.joined.seconds)}
+            </div>
           </div>
           <div className='followBlock'>
             <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>

@@ -14,7 +14,7 @@
 
 .profilePictureAndFollow{
     display: flex;
-    height: 100px;
+    height: 70px;
     justify-content: space-between;
 }
 
@@ -24,10 +24,11 @@
     border-radius: 50%;
     border: 3px solid white;
     position: relative;
-    top: -65px;
+    top: -80px;
 }
 
-.followButton{
+.followButton,
+#editPopupSave{
     border: 0px;
     width: 80px;
     height: 35px;
@@ -39,12 +40,19 @@
     transition: all 0.2s ease-out;
 }
 
-.followButton:hover{
+#editPopupSave{
+    height: 30px;
+    width: 65px;
+}
+
+.followButton:hover,
+#editPopupSave:hover{
     background-color: #27272a;
     cursor: pointer;
 }
 
-.unfollowButton{
+.unfollowButton,
+.editProfileButton{
     border: 1px solid #d4d4d8;
     width: 100px;
     height: 35px;
@@ -61,6 +69,11 @@
     background-color: #fee2e2;
     color: #ef4444;
     cursor: pointer;
+}
+
+.editProfileButton:hover{
+    cursor: pointer;
+    background-color: #e4e4e7;
 }
 
 .profileNameBlock{
@@ -80,7 +93,16 @@
     color:#6b7280;
 }
 
-.profileJoined{
+.profileBio{
+    font-size: 1.1rem;
+}
+
+.profileExtraInfo{
+    display: flex;
+    gap: 20px;
+}
+
+.profileExtraSubBlock{
     display: flex;
     gap: 5px;
     align-items: center;
@@ -88,7 +110,7 @@
     color:#6b7280;
 }
 
-.joinedIcon{
+.profileExtraInfoIcon{
     width: 15px;
     height: auto;
     filter: invert(46%) sepia(17%) saturate(345%) hue-rotate(182deg) brightness(92%) contrast(84%);
@@ -178,4 +200,58 @@
 
 .followerProfileName{
     color: #6b7280;
+}
+
+#editPopupWrapper{
+    background-color: white;
+    width: 600px;
+    height: 500px;
+    position: fixed;
+    z-index: 1;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 15px;
+}
+
+#editPopupHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 55px;
+    margin-left: 50px;
+    padding: 0px 16px;
+}
+
+#editPopupTitle{
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.editPopupInput,
+#editPopupTextArea{
+    height: 55px;
+    border: 1px solid #d4d4d8;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1.1rem;
+    resize: none;
+}
+
+#editPopupTextArea{
+    height: 100px;
+}
+
+#editProfileForm{
+    display: flex;
+    flex-direction: column;
+    padding: 0px 16px;
+    gap: 25px;
+}
+
+.editPopupInput:focus,
+#editPopupTextArea:focus{
+    outline: none;
+    border: 2px solid #1DA1F2;
 }
