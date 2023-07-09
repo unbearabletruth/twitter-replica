@@ -46,9 +46,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app)
 
 async function createUser(data){
-  const res = await createUserWithEmailAndPassword(getAuth(app), data.email, data.password)
+  const res = await createUserWithEmailAndPassword(auth, data.email, data.password)
   await setDoc(doc(db, "users", res.user.uid), {
     profilePic: avatarPlaceholder,
     realName: data.name,
@@ -61,13 +62,13 @@ async function createUser(data){
 }
 
 async function signIn(data){
-  signInWithEmailAndPassword(getAuth(), data.email, data.password)
+  signInWithEmailAndPassword(auth, data.email, data.password)
 }
 
 
 async function signInWithGoogle() {
   let provider = new GoogleAuthProvider();
-  const res = await signInWithPopup(getAuth(), provider);
+  const res = await signInWithPopup(auth, provider);
   const { isNewUser } = getAdditionalUserInfo(res) 
   console.log(isNewUser)   
   //const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
@@ -86,7 +87,7 @@ async function signInWithGoogle() {
 }
 
 function signOutUser() {
-  signOut(getAuth());
+  signOut(auth);
 }
 
 function getProfilePicUrl() {
@@ -227,7 +228,6 @@ async function updateFollow(db, follower, followee){
     await updateDoc(followerRef, {
       following: arrayUnion(followee.profileName)
     })
-    
     await updateDoc(followeeRef, {
       followers: arrayUnion(follower.profileName)
     })
@@ -238,7 +238,7 @@ async function updateFollow(db, follower, followee){
 
 
   
-export {db, saveTweet, saveTweetWithImage, saveComment, signInWithGoogle,
+export {db, auth, saveTweet, saveTweetWithImage, saveComment, signInWithGoogle,
 signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, 
 getUserInfo, updateLikes, updateRetweets, updateComments, createUser, signIn,
 updateFollow}

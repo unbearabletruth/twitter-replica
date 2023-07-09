@@ -22,18 +22,22 @@ function Profile({userState}){
   }, [tweets])
 
   useEffect(() => {
+    let unsub;
     const q = query(collection(db, "users"), where("profileName", "==", id));
     async function getUser(){
-      onSnapshot(q, (snapshot) => {
+      unsub = onSnapshot(q, (snapshot) => {
           snapshot.forEach(doc => {
               let newUser = doc.data()
               setUserProfile(newUser)
           })
       });
-    //const userPromise = getUserInfo(db, id);
-    //const user = await userPromise;
-    //setUserProfile(user[0])
     }
+    /*async function getUser(){
+      const userPromise = getUserInfo(db, id);
+      const user = await userPromise;
+      setUserProfile(user[0])
+    }*/
+    
     getUser()
   }, [id])
 
@@ -112,7 +116,6 @@ function Profile({userState}){
     return stringDate
   }
 
-  console.log(userProfile)
   return(
     <>
       {userProfile ?
