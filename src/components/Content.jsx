@@ -1,5 +1,5 @@
 import '../assets/styles/Content.css'
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Home from './Home';
 import Explore from './Expole';
 import Notifications from './Notifications';
@@ -16,6 +16,7 @@ function Content({userState}){
       <div id='content'>
         <div id="mainContent">
           <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
             <Route path="/home" element={<Home userState={userState}/>} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/notifications" element={<Notifications />} />
@@ -31,14 +32,14 @@ function Content({userState}){
         <div id='sideContent'>
           <input type='search' id='search' placeholder='Search Twitter'></input>
           <div id='getVerified'>
-            <p>Get Verified</p>
-            <p>Subscribe to unlock new features</p>
-            <a>Subscribe</a>
+            <p>Just</p>
+            <p>a non-functional</p>
+            <a>placeholder</a>
           </div>
           <div id='trends'>
             <p>Trends for you</p>
             <div id='trendsEntry'>
-              some text
+              placeholder
             </div>
           </div>
         </div>

@@ -35,20 +35,22 @@ function Home({userState}){
   }, [])
 
   useEffect(() => {
-    async function getFollowTweets(db) {
-      const getTweets = query(collection(db, 'tweets'), 
-        where("profileName", "in", userState.following), orderBy("timestamp", "desc"));
-      onSnapshot(getTweets, (snapshot) => {
-        let tweets = [];
-          snapshot.forEach(doc => {
-              let tweet = doc.data()
-              tweets.push(tweet)
-              
-          })
-        setFollowTweets(tweets)
-      });
+    if (userState && userState.following.length !== 0){
+      async function getFollowTweets(db) {
+        const getTweets = query(collection(db, 'tweets'), 
+          where("profileName", "in", userState.following), orderBy("timestamp", "desc"));
+        onSnapshot(getTweets, (snapshot) => {
+          let tweets = [];
+            snapshot.forEach(doc => {
+                let tweet = doc.data()
+                tweets.push(tweet)
+                
+            })
+          setFollowTweets(tweets)
+        });
+      }
+      getFollowTweets(db);
     }
-    getFollowTweets(db);
   }, [userState])
   
   const handleSelected = (e) => {
@@ -60,7 +62,6 @@ function Home({userState}){
     setSelected(e.currentTarget.id)
   }
 
-  console.log(followTweets)
   return(
     <>
       <div id='homeHeader'>

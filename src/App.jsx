@@ -17,8 +17,8 @@ function App() {
       if (user) {
         const docRef = doc(db, "users", user.uid);
         unsubscribe = onSnapshot(docRef, (doc) => {
-          console.log(user.uid);
-          console.log(doc.data().uid);
+          //console.log(user.uid);   sometimes onSnapshot gets wrong user data on follow 
+          //console.log(doc.data().uid);
           setUserState(doc.data());
         });
       } else {
@@ -32,7 +32,6 @@ function App() {
     };
   }, []);
 
-  console.log(userState, isUserSignedIn())
   return (
     <BrowserRouter>
       <Routes>

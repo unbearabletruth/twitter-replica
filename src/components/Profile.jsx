@@ -378,15 +378,21 @@ function FollowPage({userState}){
                     <p className='followerProfileName'>{person.profileName}</p>
                   </div>
                   {userState ?
-                  <>
-                    {person.followers.includes(userState.profileName) ?
-                      <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
+                    <>
+                      {person.profileName === userState.profileName ?
+                        null
+                        :
+                        <>
+                          {person.followers.includes(userState.profileName) ?
+                            <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
+                          :
+                            <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>
+                          }
+                        </>
+                      }
+                    </>
                     :
-                      <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>
-                    }
-                  </>
-                  :
-                  null
+                    null
                   }
                 </div>
                 <p className='followerBio'>{person.bio}</p>

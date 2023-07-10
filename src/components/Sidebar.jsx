@@ -18,8 +18,15 @@ import Compose from './Compose';
 import closeIcon from '../assets/images/close-icon.svg'
 
 function Sidebar({userState}) {
-  const tabs = ['home', 'explore', 'notifications',
-                'messages', 'lists', 'bookmarks', 'verified']
+  const tabs = [
+    {title:'home', img: home},
+    {title:'explore', img: explore},
+    {title:'notifications', img: notifications},
+    {title:'messages', img: messages},
+    {title:'lists', img: lists},
+    {title:'bookmarks', img: bookmarks},
+    {title:'verified', img: verified},
+  ]
   const [loginWindow, setLoginWindow] = useState(false)
   const loginPopupWindow = useRef(null);
   const [selected, setSelected] = useState(null)
@@ -65,13 +72,13 @@ function Sidebar({userState}) {
             return(
               <Link 
                 key={uniqid()}
-                to={`/${tab}`} 
-                className={`sidebarLink ${selected === tab ? 'active' : ''}`}  
+                to={`/${tab.title}`} 
+                className={`sidebarLink ${selected === tab.title ? 'active' : ''}`}  
                 >
                 <div className='sidebarLinkWrapper'>
                   <div className='sidebarLinkContent'>
-                    <img src={eval(tab)} alt='logo' className='sidebarIcon'></img>
-                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    <img src={tab.img} alt='logo' className='sidebarIcon'></img>
+                    {tab.title.charAt(0).toUpperCase() + tab.title.slice(1)}
                   </div>
                 </div>
               </Link>
