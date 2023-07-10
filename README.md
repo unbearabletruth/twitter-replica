@@ -1,5 +1,5 @@
 # Twitter replica
-Attempt to rebuild key features of [Twitter](twitter.com) to test the skills that i learned.
+Attempt to rebuild key features of [Twitter](https://twitter.com/home) to test the skills that i learned.
 ## Functionality
 * Home page with 'all' and 'following' tabs
 * Profile page with 'tweets', 'retweets', 'likes' tabs

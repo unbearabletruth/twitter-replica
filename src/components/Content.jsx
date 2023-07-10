@@ -7,7 +7,8 @@ import Messages from './Messages';
 import Lists from './Lists';
 import Bookmarks from './Bookmarks';
 import Verified from './Verified';
-import {Profile, FollowPage} from './Profile';
+import Profile from './Profile';
+import FollowPage from './FollowPage';
 import Tweet from './Tweet';
 
 

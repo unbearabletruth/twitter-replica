@@ -51,7 +51,6 @@ const auth = getAuth(app)
 async function createUser(data){
   const res = await createUserWithEmailAndPassword(auth, data.email, data.password)
   await setDoc(doc(db, "users", res.user.uid), {
-    profilePic: avatarPlaceholder,
     realName: data.name,
     profileName: `${data.name}_${uniqid()}`,
     joined: serverTimestamp(),
@@ -59,6 +58,12 @@ async function createUser(data){
     followers: [],
     following: []
   });
+  const publicImageUrl = await getDownloadURL(ref(getStorage(), 'man-line-icon.svg'));
+
+  const mesRef = doc(db, "users", res.user.uid)
+    await updateDoc(mesRef,{
+      profilePic: publicImageUrl,
+    });
 }
 
 async function signIn(data){
