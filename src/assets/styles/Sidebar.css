@@ -63,7 +63,7 @@
 
 .sidebarLink{
     color: #111827;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
 }
 
 .sidebarLink.active{
@@ -167,7 +167,7 @@
     display: flex;
     align-items: center;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     padding: 0px 15px;
     transition: background-color 0.2s ease-out;
 }
@@ -193,9 +193,15 @@
     border-radius: 50%;
 }
 
+.profileNames{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 #realName{
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 #profileName{

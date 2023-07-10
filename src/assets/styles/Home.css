@@ -14,16 +14,19 @@
     justify-content: space-between;
 }
 
+#homeHeader{
+    position: sticky;
+    top: 0px;
+    opacity: 0.95;
+    z-index: 1;
+}
+
 #homeTitle{
     height: 50px;
     padding: 15px;
     font-size: 1.5rem;
-    position: sticky;
     align-self: flex-start;
-    top: 0px;
     background-color: white;
-    opacity: 0.9;
-    z-index: 1;
 }
 
 .homeTabs{
@@ -36,7 +39,8 @@
     border: 0px;
     background-color: white;
     color: #6b7280;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    font-weight: bold;
     height: 55px;
     transition: background-color 0.2s ease-out;
 }
@@ -60,7 +64,7 @@
 #homeCompose{
     width: 80%;
     border: 0px;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     resize: none;
 }
 
@@ -160,8 +164,9 @@
 
 .tweetAuthor{
     display: flex;
+    flex: 0;
     gap: 4px;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     color: #6b7280;
 }
 
@@ -202,6 +207,7 @@
 .replyNumber,
 .retweetNumber,
 .likeNumber{
+    font-size: 0.8rem;
     transition: color 0.2s ease-out;
 }
 

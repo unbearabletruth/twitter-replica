@@ -57,54 +57,60 @@ function Profile({userState}){
   }, [userProfile])
 
   useEffect(() => {
-    async function getRetweets(db) {
-      const getTweets = query(collection(db, 'tweets'), 
-        where("retweetedBy", "array-contains", userProfile.profileName ), 
-        orderBy("timestamp", "desc"));
-      onSnapshot(getTweets, (snapshot) => {
-        let newTweets = [];
-          snapshot.forEach(doc => {
-              let newPost = doc.data()
-              newTweets.push(newPost)
-          })
-        setRetweets(newTweets)
-      });
+    if (userProfile){
+      async function getRetweets(db) {
+        const getTweets = query(collection(db, 'tweets'), 
+          where("retweetedBy", "array-contains", userProfile.profileName ), 
+          orderBy("timestamp", "desc"));
+        onSnapshot(getTweets, (snapshot) => {
+          let newTweets = [];
+            snapshot.forEach(doc => {
+                let newPost = doc.data()
+                newTweets.push(newPost)
+            })
+          setRetweets(newTweets)
+        });
+      }
+      getRetweets(db);
     }
-    getRetweets(db);
   }, [userProfile])
 
   useEffect(() => {
-    async function getTweets(db) {
-      const getTweets = query(collection(db, 'tweets'), 
-        and(where("profileName", "==", userProfile.profileName ),
-          where("parent", "==", null)), orderBy("timestamp", "desc"));
-      onSnapshot(getTweets, (snapshot) => {
-        let newTweets = [];
-          snapshot.forEach(doc => {
-              let newPost = doc.data()
-              newTweets.push(newPost)
-          })
-        setTweets(newTweets)
-      });
+    if (userProfile){
+      async function getTweets(db) {
+        const getTweets = query(collection(db, 'tweets'), 
+          and(where("profileName", "==", userProfile.profileName ),
+            where("parent", "==", null)), orderBy("timestamp", "desc"));
+        onSnapshot(getTweets, (snapshot) => {
+          let newTweets = [];
+            snapshot.forEach(doc => {
+                let newPost = doc.data()
+                newTweets.push(newPost)
+            })
+          setTweets(newTweets)
+        });
+      }
+      getTweets(db);
     }
-    getTweets(db);
   }, [userProfile])
 
   useEffect(() => {
-    async function getLikes(db) {
-      const getTweets = query(collection(db, 'tweets'), 
-        where("likedBy", "array-contains", userProfile.profileName ), 
-        orderBy("timestamp", "desc"));
-      onSnapshot(getTweets, (snapshot) => {
-        let newTweets = [];
-          snapshot.forEach(doc => {
-              let newPost = doc.data()
-              newTweets.push(newPost)
-          })
-        setLikes(newTweets)
-      });
+    if (userProfile){
+      async function getLikes(db) {
+        const getTweets = query(collection(db, 'tweets'), 
+          where("likedBy", "array-contains", userProfile.profileName ), 
+          orderBy("timestamp", "desc"));
+        onSnapshot(getTweets, (snapshot) => {
+          let newTweets = [];
+            snapshot.forEach(doc => {
+                let newPost = doc.data()
+                newTweets.push(newPost)
+            })
+          setLikes(newTweets)
+        });
+      }
+      getLikes(db);
     }
-    getLikes(db);
   }, [userProfile])
 
   const addFollow = () => {
@@ -182,68 +188,70 @@ function Profile({userState}){
         null
       }
       {userProfile ?
-        <div className="profileHeader">
+        <>
           <div className="profileBackground"></div>
-          <div className="profilePictureAndFollow">
-            <img src={userProfile.profilePic} className='profilePictureBig'></img>
-            {userState ?
-              <>
-                {userProfile.profileName === userState.profileName ?
-                  <button onClick={handleEditPopup} className='editProfileButton'>Edit profile</button>
-                  :
-                  <>
-                    {userProfile.followers.includes(userState.profileName) ?
-                      <button onClick={addFollow} className='unfollowButton'>Unfollow</button>
+          <div className="profileHeader">
+            <div className="profilePictureAndFollow">
+              <img src={userProfile.profilePic} className='profilePictureBig'></img>
+              {userState ?
+                <>
+                  {userProfile.profileName === userState.profileName ?
+                    <button onClick={handleEditPopup} className='editProfileButton'>Edit profile</button>
                     :
-                      <button onClick={addFollow} className='followButton'>Follow</button>
-                    }
-                  </>
-                }
-              </>
-              :
-              null
-            }
-          </div>
-          <div className='profileNameBlock'>
-            <p className='profileRealName'>{userProfile.realName}</p>
-            <p className='profileName'>@{userProfile.profileName}</p>
-          </div>
-          {userProfile.bio ?
-            <div className='profileBio'>
-              {userProfile.bio}
+                    <>
+                      {userProfile.followers.includes(userState.profileName) ?
+                        <button onClick={addFollow} className='unfollowButton'>Unfollow</button>
+                      :
+                        <button onClick={addFollow} className='followButton'>Follow</button>
+                      }
+                    </>
+                  }
+                </>
+                :
+                null
+              }
             </div>
-            :
-            null
-          }
-          <div className='profileExtraInfo'>
-            {userProfile.location ?
-              <div className='profileExtraSubBlock'>
-                <img src={location} alt='icon' className='profileExtraInfoIcon'></img>
-                {userProfile.location}
+            <div className='profileNameBlock'>
+              <p className='profileRealName'>{userProfile.realName}</p>
+              <p className='profileName'>@{userProfile.profileName}</p>
+            </div>
+            {userProfile.bio ?
+              <div className='profileBio'>
+                {userProfile.bio}
               </div>
               :
               null
             }
-            <div className='profileExtraSubBlock'>
-              <img src={calendar} alt='icon' className='profileExtraInfoIcon'></img>
-              Joined {convertJoined(userProfile.joined.seconds)}
+            <div className='profileExtraInfo'>
+              {userProfile.location ?
+                <div className='profileExtraSubBlock'>
+                  <img src={location} alt='icon' className='profileExtraInfoIcon'></img>
+                  {userProfile.location}
+                </div>
+                :
+                null
+              }
+              <div className='profileExtraSubBlock'>
+                <img src={calendar} alt='icon' className='profileExtraInfoIcon'></img>
+                Joined {convertJoined(userProfile.joined.seconds)}
+              </div>
+            </div>
+            <div className='followBlock'>
+              <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
+                <p className='followAmountP'>
+                  <span className='followAmount'>{userProfile.following.length}</span>
+                  <span className='followText'>Following</span>
+                </p>
+              </Link>
+              <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
+                <p className='followAmountP'>
+                  <span className='followAmount'>{userProfile.followers.length}</span>
+                  <span className='followText'>Followers</span>
+                </p>
+              </Link>
             </div>
           </div>
-          <div className='followBlock'>
-            <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
-              <p className='followAmountP'>
-                <span className='followAmount'>{userProfile.following.length}</span>
-                <span className='followText'>Following</span>
-              </p>
-            </Link>
-            <Link to={`/profile/${userProfile.profileName}/follow`} state={userProfile}>
-              <p className='followAmountP'>
-                <span className='followAmount'>{userProfile.followers.length}</span>
-                <span className='followText'>Followers</span>
-              </p>
-            </Link>
-          </div>
-        </div>
+        </>
         :
         null
       }
@@ -362,24 +370,27 @@ function FollowPage({userState}){
         return(
           <Link to={`/profile/${person.profileName}`} key={person.uid}>
             <div className='followerCard'>
-              <div className='followerInfo'>
-                <img src={person.profilePic} alt='pic' className='followerProfilePic'></img>
-                <div className='followerNames'>
-                  <p className='followerName'>{person.realName}</p>
-                  <p className='followerProfileName'>{person.profileName}</p>
-                </div>
-              </div>
-              {userState ?
-                <>
-                  {person.followers.includes(userState.profileName) ?
-                    <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
+              <img src={person.profilePic} alt='pic' className='followerProfilePic'></img>
+              <div className='followerFullInfo'>
+                <div className='followerInfo'>
+                  <div className='followerNames'>
+                    <p className='followerName'>{person.realName}</p>
+                    <p className='followerProfileName'>{person.profileName}</p>
+                  </div>
+                  {userState ?
+                  <>
+                    {person.followers.includes(userState.profileName) ?
+                      <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
+                    :
+                      <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>
+                    }
+                  </>
                   :
-                    <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>
+                  null
                   }
-                </>
-                :
-                null
-              }
+                </div>
+                <p className='followerBio'>{person.bio}</p>
+              </div>
             </div>
           </Link>
         )

@@ -63,22 +63,24 @@ function Home({userState}){
   console.log(followTweets)
   return(
     <>
-      <p id='homeTitle'>Home</p>
-      <div className='homeTabs'>
-        <button 
-          className={`homeTabButton ${selected === 'allTweets' ? 'active' : ''}`}
-          id='allTweets' 
-          onClick={handleSelected}
-        >
-          All
-        </button>
-        <button 
-          className={`homeTabButton ${selected === 'followTweets' ? 'active' : ''}`}
-          id='followTweets' 
-          onClick={handleSelected}
-        >
-          Following
-        </button>
+      <div id='homeHeader'>
+        <p id='homeTitle'>Home</p>
+        <div className='homeTabs'>
+          <button 
+            className={`homeTabButton ${selected === 'allTweets' ? 'active' : ''}`}
+            id='allTweets' 
+            onClick={handleSelected}
+          >
+            All
+          </button>
+          <button 
+            className={`homeTabButton ${selected === 'followTweets' ? 'active' : ''}`}
+            id='followTweets' 
+            onClick={handleSelected}
+          >
+            Following
+          </button>
+        </div>
       </div>
       {userState ?
         <Compose userState={userState} where={'home'}/>
