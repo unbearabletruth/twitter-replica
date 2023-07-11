@@ -72,37 +72,39 @@ function Login(){
                 null
             }
             {signInPopup ?
-                <div className="popupLoginPage signIn">
-                    <button onClick={signInPopupState} className="closePopup">
-                        <img src={closeIcon} alt="x" className="closeIcon"></img>
-                    </button>
-                    <img src={twitterIcon} alt="icon" id="signInTwitterIcon"></img>
-                    <p id="signInTitle">Sign in to Twitter</p>
-                    <div id="signInMethods">
-                        <button onClick={googleSignIn} id="googleSignIn">
-                            <img src={googleIcon} alt="google" className="googleSignInIcon"></img>
-                            Sign in with Google
+                <div id='popupBackground'>
+                    <div className="popupLoginPage signIn">
+                        <button onClick={signInPopupState} className="closePopup">
+                            <img src={closeIcon} alt="x" className="closeIcon"></img>
                         </button>
-                        <p id="loginOr">or</p>
-                        <form onSubmit={signInUser} id="signInForm">
-                            <div id="createInputs">
-                                <input 
-                                    onChange={handleChange} 
-                                    name="email" 
-                                    placeholder="Email" 
-                                    className="signInInput"
-                                >
-                                </input>
-                                <input 
-                                    onChange={handleChange} 
-                                    name="password" 
-                                    placeholder="Password" 
-                                    className="signInInput"
-                                >
-                                </input>
-                            </div>
-                            <button type="submit" id="submitSignIn">Log in</button>
-                        </form>
+                        <img src={twitterIcon} alt="icon" id="signInTwitterIcon"></img>
+                        <p id="signInTitle">Sign in to Twitter</p>
+                        <div id="signInMethods">
+                            <button onClick={googleSignIn} id="googleSignIn">
+                                <img src={googleIcon} alt="google" className="googleSignInIcon"></img>
+                                Sign in with Google
+                            </button>
+                            <p id="loginOr">or</p>
+                            <form onSubmit={signInUser} id="signInForm">
+                                <div id="createInputs">
+                                    <input 
+                                        onChange={handleChange} 
+                                        name="email" 
+                                        placeholder="Email" 
+                                        className="signInInput"
+                                    >
+                                    </input>
+                                    <input 
+                                        onChange={handleChange} 
+                                        name="password" 
+                                        placeholder="Password" 
+                                        className="signInInput"
+                                    >
+                                    </input>
+                                </div>
+                                <button type="submit" id="submitSignIn">Log in</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 :
@@ -133,37 +135,39 @@ function CreateAccount({goHome, popup}){
     }
 
     return(
-        <div className="popupLoginPage">
-            <button onClick={popup} className="closePopup">
-                <img src={closeIcon} alt="x" className="closeIcon"></img>
-            </button>
-            <p id="createTitle">Create your account</p>
-            <form onSubmit={createNewUser} id="createForm">
-                <div id="createInputs">
-                    <input 
-                        onChange={handleChange} 
-                        name="name" 
-                        placeholder="Name" 
-                        className="createInput"
-                    >
-                    </input>
-                    <input 
-                        onChange={handleChange} 
-                        name="email" 
-                        placeholder="Email" 
-                        className="createInput"
-                    >
-                    </input>
-                    <input 
-                        onChange={handleChange} 
-                        name="password" 
-                        placeholder="Password" 
-                        className="createInput"
-                    >
-                    </input>
-                </div>
-                <button type="submit" id="submitCreate">Create</button>
-            </form>
+        <div id='popupBackground'>
+            <div className="popupLoginPage">
+                <button onClick={popup} className="closePopup">
+                    <img src={closeIcon} alt="x" className="closeIcon"></img>
+                </button>
+                <p id="createTitle">Create your account</p>
+                <form onSubmit={createNewUser} id="createForm">
+                    <div id="createInputs">
+                        <input 
+                            onChange={handleChange} 
+                            name="name" 
+                            placeholder="Name" 
+                            className="createInput"
+                        >
+                        </input>
+                        <input 
+                            onChange={handleChange} 
+                            name="email" 
+                            placeholder="Email" 
+                            className="createInput"
+                        >
+                        </input>
+                        <input 
+                            onChange={handleChange} 
+                            name="password" 
+                            placeholder="Password" 
+                            className="createInput"
+                        >
+                        </input>
+                    </div>
+                    <button type="submit" id="submitCreate">Create</button>
+                </form>
+            </div>
         </div>
     )
 }

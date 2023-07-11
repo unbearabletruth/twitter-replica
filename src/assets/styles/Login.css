@@ -114,40 +114,12 @@
     padding: 80px;
     background-color: white;
     border-radius: 15px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
+    position: relative;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
 
 .popupLoginPage.signIn{
     align-items: center;
-}
-
-.closePopup{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    background-color: white;
-    border-radius: 50%;
-    width: 34px;
-    height: 34px;
-    border: 0px;
-    transition: background-color 0.2s ease-out;
-}
-
-.closePopup:hover{
-    background-color: #e4e4e7;
-    cursor: pointer;
-}
-
-.closeIcon{
-    width: 12px;
-    height: auto;
 }
 
 #createTitle{

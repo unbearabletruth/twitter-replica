@@ -133,11 +133,13 @@ function Sidebar({userState}) {
           }
         </div>
         {userState && composePopup ?
-          <div id='composePopup'>
-            <button onClick={handleCompose} className="closePopup">
-              <img src={closeIcon} alt="x" className="closeIcon"></img>
-            </button>
-            <Compose userState={userState} where={"sidebar"} handleCompose={handleCompose}/>
+          <div id='popupBackground'>
+            <div id='composePopup'>
+              <button onClick={handleCompose} className="closePopup">
+                <img src={closeIcon} alt="x" className="closeIcon"></img>
+              </button>
+              <Compose userState={userState} where={"sidebar"} handleCompose={handleCompose}/>
+            </div>
           </div>
           :
           null

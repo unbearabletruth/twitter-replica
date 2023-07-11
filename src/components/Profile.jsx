@@ -169,46 +169,48 @@ function Profile({userState}){
   return(
     <>
       {editPopup ?
-        <div id='editPopupWrapper'>
-          <button onClick={handleEditPopup} className="closePopup">
-            <img src={closeIcon} alt="x" className="closeIcon"></img>
-          </button>
-          <div id='editPopupHeader'>
-            <p id='editPopupTitle'>Edit profile</p>
-            <button id='editPopupSave' form='editProfileForm' type='submit'>Save</button>
-          </div>
-          <form id='editProfileForm' onSubmit={onEditSubmit}>
-            <div className='changeProfilePicture'>
-              <img 
-                src={profileInfo.image ? URL.createObjectURL(profileInfo.image) : userProfile.profilePic}
-                alt="imgUL" 
-                className='uploadProfileImage'
-              >
-              </img>
-              <label>
-                <div className='addImageWrapper'>
-                  <input type="file" id='uploadInput' onChange={onProfileImageChange}></input>
-                  <img src={addPhoto} alt='add' className='uploadImageAdd'></img>
-                </div>
-              </label>
+        <div id='popupBackground'>
+          <div id='editPopupWrapper'>
+            <button onClick={handleEditPopup} className="closePopup">
+              <img src={closeIcon} alt="x" className="closeIcon"></img>
+            </button>
+            <div id='editPopupHeader'>
+              <p id='editPopupTitle'>Edit profile</p>
+              <button id='editPopupSave' form='editProfileForm' type='submit'>Save</button>
             </div>
-            <textarea 
-              id='editPopupTextArea' 
-              onChange={handleEditChange} 
-              placeholder='Bio'
-              name='bio'
-              value={profileInfo.bio}
-            >
-            </textarea>
-            <input
-              className='editPopupInput' 
-              onChange={handleEditChange} 
-              placeholder='Location'
-              name='location'
-              value={profileInfo.location}
-            >
-            </input>
-          </form>
+            <form id='editProfileForm' onSubmit={onEditSubmit}>
+              <div className='changeProfilePicture'>
+                <img 
+                  src={profileInfo.image ? URL.createObjectURL(profileInfo.image) : userProfile.profilePic}
+                  alt="imgUL" 
+                  className='uploadProfileImage'
+                >
+                </img>
+                <label>
+                  <div className='addImageWrapper'>
+                    <input type="file" id='uploadInput' onChange={onProfileImageChange}></input>
+                    <img src={addPhoto} alt='add' className='uploadImageAdd'></img>
+                  </div>
+                </label>
+              </div>
+              <textarea 
+                id='editPopupTextArea' 
+                onChange={handleEditChange} 
+                placeholder='Bio'
+                name='bio'
+                value={profileInfo.bio}
+              >
+              </textarea>
+              <input
+                className='editPopupInput' 
+                onChange={handleEditChange} 
+                placeholder='Location'
+                name='location'
+                value={profileInfo.location}
+              >
+              </input>
+            </form>
+          </div>
         </div>
         :
         null

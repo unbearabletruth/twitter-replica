@@ -42,6 +42,7 @@ function Tweet({userState}){
     useEffect(() => {
       onSnapshot(doc(db, "tweets", id), (doc) => {
         setTweet(doc.data())
+        setParent(null)
       })
     }, [id])
 
@@ -134,7 +135,11 @@ function Tweet({userState}){
           </div>
           <div className='tweetContentBig'>
             <p className='tweetTextBig'>{tweet.text}</p>
-            <img src={tweet.imageUrl} className='tweetImageBig'></img>
+            {tweet.image ?
+              <img src={tweet.imageUrl} className='tweetImageBig'></img>
+              :
+              null
+            }
           </div>
           <div className="tweetTimeAndViewsBig">
             <p className='tweetTimeBig'>{tweet.timestamp ? convertDate(tweet.timestamp.seconds) : ""}</p>
