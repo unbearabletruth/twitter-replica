@@ -239,19 +239,25 @@ async function updateFollow(db, follower, followee){
   }
 }
 
-async function updateProfileInfo(db, uid, profileInfo){
+async function updateProfile(db, uid, profileInfo){
   const userRef = doc(db, 'users', uid);
   await updateDoc(userRef, {
     bio: profileInfo.bio,
     location: profileInfo.location
   })
+  if (profileInfo.image){
+    const filePath = `${profileInfo.image.name}`;
+    const newImageRef = ref(getStorage(), filePath);
+    await uploadBytesResumable(newImageRef, profileInfo.image);
+    const publicImageUrl = await getDownloadURL(newImageRef);
+    await updateDoc(userRef, {
+      profilePic: publicImageUrl
+    })
+  }
 }
 
 
-
-
-  
 export {db, auth, saveTweet, saveTweetWithImage, saveComment, signInWithGoogle,
 signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, 
 getUserInfo, updateLikes, updateRetweets, updateComments, createUser, signIn,
-updateFollow, updateProfileInfo}
+updateFollow, updateProfile}
