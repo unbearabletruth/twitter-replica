@@ -24,7 +24,7 @@ import {
     increment,
     arrayUnion,
     arrayRemove,
-    getDoc
+    getDoc,
   } from 'firebase/firestore';
 import {
     getStorage,
@@ -239,8 +239,8 @@ async function updateFollow(db, follower, followee){
   }
 }
 
-async function updateProfile(db, uid, profileInfo){
-  const userRef = doc(db, 'users', uid);
+async function updateProfile(db, user, profileInfo){
+  const userRef = doc(db, 'users', user.uid);
   await updateDoc(userRef, {
     bio: profileInfo.bio,
     location: profileInfo.location
@@ -253,6 +253,10 @@ async function updateProfile(db, uid, profileInfo){
     await updateDoc(userRef, {
       profilePic: publicImageUrl
     })
+    //update in tweets
+    const q = query(collection(db, 'tweets'), where("profileName", "==", user.profileName))
+    const tweetsSnapshot = await getDocs(q);
+    tweetsSnapshot.docs.map(doc => updateDoc(doc.ref, {profilePic: publicImageUrl}))
   }
 }
 

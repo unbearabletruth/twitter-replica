@@ -28,7 +28,7 @@ function Home({userState}){
               tweets.push(tweet)
               
           })
-        setAllTweets(allTweets.concat(tweets))
+        setAllTweets(tweets)
       });
     }
     getAllTweets(db);

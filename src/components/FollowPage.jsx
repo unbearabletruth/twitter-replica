@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { db } from "../firebase/connection";
+import { db, updateFollow } from "../firebase/connection";
 import { query, collection, where, onSnapshot } from "firebase/firestore";
 import { Link } from "react-router-dom";
 
@@ -101,7 +101,7 @@ function FollowPage({userState}){
                         null
                         :
                         <>
-                          {person.followers.includes(userState.profileName) ?
+                          {userState.following.includes(person.profileName) ?
                             <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
                           :
                             <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>

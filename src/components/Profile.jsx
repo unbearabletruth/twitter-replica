@@ -134,7 +134,7 @@ function Profile({userState}){
 
   const onEditSubmit = (e) => {
     e.preventDefault()
-    updateProfile(db, userState.uid, profileInfo)
+    updateProfile(db, userState, profileInfo)
     handleEditPopup()
   }
 

@@ -284,10 +284,6 @@
     border: 3px solid white;
 }
 
-.changeProfilePicture:hover{
-
-}
-
 .addImageWrapper{
     display: flex;
     justify-content: center;
