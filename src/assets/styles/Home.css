@@ -89,11 +89,8 @@
     filter: invert(49%) sepia(78%) saturate(1726%) hue-rotate(176deg) brightness(98%) contrast(93%);
 }
 
-.uploadImage:hover{
-    cursor: pointer;
-}
-
-#homeComposeButton{
+#composeButton,
+#composeButtonInactive{
     border: 0px;
     width: 90px;
     height: 35px;
@@ -105,7 +102,11 @@
     transition: background-color 0.2s ease-out;
 }
 
-#homeComposeButton:hover{
+#composeButtonInactive{
+    opacity: 0.5;
+}
+
+#composeButton:hover{
     background-color: #198fd8;
     cursor: pointer;
 }
@@ -194,7 +195,8 @@
     gap: 3px;
 }
 
-.responseImgWrapper{
+.responseImgWrapper,
+.uploadImageWrapper{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -202,6 +204,11 @@
     height: 34px;
     border-radius: 50%;
     transition: background-color 0.2s ease-out;
+}
+
+.uploadImageWrapper:hover{
+    background-color: #e0f2fe;
+    cursor: pointer;
 }
 
 .replyNumber,

@@ -3,7 +3,7 @@ import TweetCard from './TweetCard';
 import Compose from './Compose';
 import { useState, useEffect } from 'react';
 import { db } from '../firebase/connection';
-import { query, collection, onSnapshot, orderBy, where } from 'firebase/firestore';
+import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
 
 
 function Home({userState}){
@@ -38,7 +38,8 @@ function Home({userState}){
     if (userState && userState.following.length !== 0){
       async function getFollowTweets(db) {
         const getTweets = query(collection(db, 'tweets'), 
-          where("profileName", "in", userState.following), orderBy("timestamp", "desc"));
+          and(where("profileName", "in", userState.following),
+              where("parent", "==", null)), orderBy("timestamp", "desc"));
         onSnapshot(getTweets, (snapshot) => {
           let tweets = [];
             snapshot.forEach(doc => {

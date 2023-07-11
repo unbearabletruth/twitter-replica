@@ -63,9 +63,15 @@ function Compose({userState, where, handleCompose}){
                     <div id="uploadAndTweet">
                         <label>
                         <input type="file" id='uploadInput' onChange={onImageChange}></input>
-                        <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+                        <div className="uploadImageWrapper">
+                            <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+                        </div>
                         </label>
-                        <button id='homeComposeButton' type='submit'>Tweet</button>
+                        {tweet.text === "" && tweet.image === null ?
+                            <button id='composeButtonInactive' type='button'>Tweet</button>
+                            :
+                            <button id='composeButton' type='submit'>Tweet</button>
+                        }
                     </div>
                 </form>
             </div>
@@ -95,7 +101,11 @@ function Compose({userState, where, handleCompose}){
                         <input type="file" id='uploadInput' onChange={onImageChange}></input>
                         <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
                         </label>
-                        <button id='homeComposeButton' type='submit'>Tweet</button>
+                        {tweet.text === "" && tweet.image === null ?
+                            <button id='composeButtonInactive' type='button'>Tweet</button>
+                            :
+                            <button id='composeButton' type='submit'>Tweet</button>
+                        }
                     </div>
                 </form>
             </div>

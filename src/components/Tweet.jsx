@@ -135,7 +135,7 @@ function Tweet({userState}){
           </div>
           <div className='tweetContentBig'>
             <p className='tweetTextBig'>{tweet.text}</p>
-            {tweet.image ?
+            {tweet.imageUrl ?
               <img src={tweet.imageUrl} className='tweetImageBig'></img>
               :
               null
@@ -217,7 +217,11 @@ function Tweet({userState}){
                   <input type="file" id='uploadInput' onChange={onImageChange}></input>
                   <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
                 </label>
-                <button id='homeComposeButton' type='submit'>Reply</button>
+                {comment.text === "" && comment.image === null ?
+                  <button id='composeButtonInactive' type='button'>Tweet</button>
+                  :
+                  <button id='composeButton' type='submit'>Tweet</button>
+                }
               </div>
           </form>
         </div>
