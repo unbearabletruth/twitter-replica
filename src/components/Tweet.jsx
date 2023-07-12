@@ -11,8 +11,8 @@ import retweet from '../assets/images/retweet.png'
 
 
 function Tweet({userState}){
-    const isImage = ['gif','jpg','jpeg','png'];
-    const isVideo = ['mpg', 'mp2', 'mpeg', 'mpe', 'mpv', 'mp4']
+    const isImage = ['.gif','.jpg','.jpeg','.png'];
+    const isVideo = ['.mp4','.mov']
     const {id} = useParams();
     const [tweet, setTweet] = useState()
     const [parent, setParent] = useState()

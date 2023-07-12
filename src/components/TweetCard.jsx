@@ -7,7 +7,7 @@ import reply from '../assets/images/reply.png'
 
 function TweetCard({tweets, userState}){
   const isImage = ['.gif','.jpg','.jpeg','.png'];
-  const isVideo = ['.mpg', '.mp2', '.mpeg', '.mpe', '.mpv', '.mp4']
+  const isVideo = ['.mp4','.mov']
 
   const addLike = (e, id) => {
     e.preventDefault()
@@ -28,6 +28,7 @@ function TweetCard({tweets, userState}){
     });
     return stringDate
   }
+
   console.log(tweets)
   return (
     tweets.map(tweet => {

@@ -6,7 +6,7 @@
     position: sticky;
     top: 0px;
     left: 0px;
-    z-index: 2;
+    z-index: 3;
 }
 
 #sidebarContent{
@@ -92,7 +92,8 @@
 
 #composePopup{
     width: 600px;
-    min-height: 250px;
+    min-height: 200px;
+    max-height: 800px;
     position: relative;
     background-color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
