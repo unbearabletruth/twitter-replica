@@ -6,6 +6,8 @@ import retweet from '../assets/images/retweet.png'
 import reply from '../assets/images/reply.png'
 
 function TweetCard({tweets, userState}){
+  const isImage = ['.gif','.jpg','.jpeg','.png'];
+  const isVideo = ['.mpg', '.mp2', '.mpeg', '.mpe', '.mpv', '.mp4']
 
   const addLike = (e, id) => {
     e.preventDefault()
@@ -26,7 +28,7 @@ function TweetCard({tweets, userState}){
     });
     return stringDate
   }
-
+  console.log(tweets)
   return (
     tweets.map(tweet => {
       return(
@@ -44,7 +46,19 @@ function TweetCard({tweets, userState}){
               </div>
               <div className='tweetContent'>
                 <p className='tweetText'>{tweet.text}</p>
-                <img src={tweet.imageUrl} className='tweetImage'></img>
+                {tweet.imageUrl ? 
+                  <>
+                    {isImage.some(type => tweet.imageUrl.includes(type)) ? 
+                      <img src={tweet.imageUrl} className='tweetImage'></img>
+                      : isVideo.some(type => tweet.imageUrl.includes(type)) ?
+                      <video src={tweet.imageUrl} className='tweetImage' controls></video>
+                      :
+                      null
+                    }
+                  </>
+                  :
+                  null
+                }
               </div>
               <div className='tweetResponseBar'>
                 <div className='response reply'>

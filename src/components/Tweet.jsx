@@ -11,6 +11,8 @@ import retweet from '../assets/images/retweet.png'
 
 
 function Tweet({userState}){
+    const isImage = ['gif','jpg','jpeg','png'];
+    const isVideo = ['mpg', 'mp2', 'mpeg', 'mpe', 'mpv', 'mp4']
     const {id} = useParams();
     const [tweet, setTweet] = useState()
     const [parent, setParent] = useState()
@@ -136,9 +138,17 @@ function Tweet({userState}){
           <div className='tweetContentBig'>
             <p className='tweetTextBig'>{tweet.text}</p>
             {tweet.imageUrl ?
-              <img src={tweet.imageUrl} className='tweetImageBig'></img>
-              :
-              null
+              <>
+              {isImage.some(type => tweet.imageUrl.includes(type)) ? 
+                <img src={tweet.imageUrl} className='tweetImageBig'></img>
+                : isVideo.some(type => tweet.imageUrl.includes(type)) ?
+                <video src={tweet.imageUrl} className='tweetImageBig' controls></video>
+                :
+                null
+              }
+            </>
+            :
+            null
             }
           </div>
           <div className="tweetTimeAndViewsBig">

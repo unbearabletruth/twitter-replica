@@ -145,7 +145,7 @@ async function saveTweetWithImage(db, file, text, id, userState) {
       parent: null
     });
 
-    const filePath = `${file.name}`;
+    const filePath = `tweets media/${file.name}`;
     const newImageRef = ref(getStorage(), filePath);
     const fileSnapshot = await uploadBytesResumable(newImageRef, file);
     const publicImageUrl = await getDownloadURL(newImageRef);
@@ -241,12 +241,19 @@ async function updateFollow(db, follower, followee){
 
 async function updateProfile(db, user, profileInfo){
   const userRef = doc(db, 'users', user.uid);
-  await updateDoc(userRef, {
-    bio: profileInfo.bio,
-    location: profileInfo.location
-  })
+  if (profileInfo.bio !== undefined){
+    console.log('empty')
+    await updateDoc(userRef, {
+      bio: profileInfo.bio,
+    })
+  }
+  if (profileInfo.location !== undefined){
+    await updateDoc(userRef, {
+      location: profileInfo.location
+    })
+  }
   if (profileInfo.image){
-    const filePath = `${profileInfo.image.name}`;
+    const filePath = `profile pictures${profileInfo.image.name}`;
     const newImageRef = ref(getStorage(), filePath);
     await uploadBytesResumable(newImageRef, profileInfo.image);
     const publicImageUrl = await getDownloadURL(newImageRef);

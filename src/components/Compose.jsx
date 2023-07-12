@@ -5,6 +5,8 @@ import { db } from '../firebase/connection';
 import uploadImage from '../assets/images/image-line-icon.svg'
 
 function Compose({userState, where, handleCompose}){
+    const isImage = ['gif','jpg','jpeg','png'];
+    const isVideo = ['mpg', 'mp2', 'mpeg', 'mpe', 'mpv', 'mp4']
     const [tweet, setTweet] = useState({
         text: "",
         image: null,
@@ -56,13 +58,21 @@ function Compose({userState, where, handleCompose}){
                     >
                     </textarea>
                     {tweet.image ? 
-                        <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                        <>
+                            {isImage.some(type => tweet.image.type.includes(type)) ?
+                                <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                                : isVideo.some(type => tweet.image.type.includes(type)) ?
+                                <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                                :
+                                null
+                            }
+                        </>
                         :
                         null
                     }
                     <div id="uploadAndTweet">
                         <label>
-                        <input type="file" id='uploadInput' onChange={onImageChange}></input>
+                        <input type="file" id='uploadInput' onChange={onImageChange} accept="image/*, video/*"></input>
                         <div className="uploadImageWrapper">
                             <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
                         </div>
