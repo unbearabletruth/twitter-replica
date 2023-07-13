@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import '../assets/styles/Tweet.css'
+import '../assets/styles/TweetBig.css'
 import { saveComment, db, updateComments, updateRetweets, updateLikes } from "../firebase/connection";
 import uniqid from "uniqid";
 import uploadImage from '../assets/images/image-line-icon.svg'

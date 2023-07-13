@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import like from '../assets/images/like.png'
 import retweet from '../assets/images/retweet.png'
 import reply from '../assets/images/reply.png'
+import '../assets/styles/TweetCard.css'
 
 function TweetCard({tweets, userState}){
   const isImage = ['.gif','.jpg','.jpeg','.png'];

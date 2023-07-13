@@ -28,7 +28,7 @@ function Sidebar({userState}) {
     {title:'verified', img: verified},
   ]
   const [loginWindow, setLoginWindow] = useState(false)
-  const loginPopupWindow = useRef(null);
+  const logoutPopupRef = useRef(null);
   const [selected, setSelected] = useState(null)
   const location = useLocation();
   const [composePopup, setComposePopup] = useState(false)
@@ -39,7 +39,7 @@ function Sidebar({userState}) {
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (loginPopupWindow.current && loginPopupWindow.current !== e.target) {
+      if (!logoutPopupRef.current.contains(e.target)){
         setLoginWindow(false)
       }
     }
@@ -47,7 +47,7 @@ function Sidebar({userState}) {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [loginPopupWindow]);
+  }, [logoutPopupRef]);
 
   const loginPopup = () => {
     setLoginWindow(true)
@@ -109,7 +109,7 @@ function Sidebar({userState}) {
         </div>
           {userState ?
               <>
-                <div id="sidebarUserInfo" onClick={loginPopup} ref={loginPopupWindow}>
+                <div id="sidebarUserInfo" onClick={loginPopup} ref={logoutPopupRef}>
                   <div id='sidebarProfileBlock'>
                     <img src={userState.profilePic} alt='profilePic' id='profilePic'></img>
                     <div className='profileNames'>
