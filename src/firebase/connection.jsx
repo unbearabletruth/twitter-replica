@@ -118,19 +118,7 @@ async function getUserInfo(db, profileName) {
   return user
 }
 
-async function saveTweet(db, tweet, userState){
-    await setDoc(doc(db, "tweets", tweet.id), {
-      profilePic: userState.profilePic,
-      author: userState.realName,
-      profileName: userState.profileName,
-      text: tweet.text,
-      id: tweet.id,
-      timestamp: serverTimestamp(),
-      parent: null
-    });
-}
-
-async function saveTweetWithImage(db, tweet, userState) {
+async function saveTweet(db, tweet, userState, parentId) {
   try {
     await setDoc(doc(db, 'tweets', tweet.id), {
       profilePic: userState.profilePic,
@@ -139,34 +127,24 @@ async function saveTweetWithImage(db, tweet, userState) {
       text: tweet.text,
       id: tweet.id,
       timestamp: serverTimestamp(),
-      parent: null
+      parent: parentId
     });
 
-    const filePath = `tweets media/${tweet.media.name}`;
-    const newMediaRef = ref(getStorage(), filePath);
-    const fileSnapshot = await uploadBytesResumable(newMediaRef, tweet.media);
-    const publicMediaUrl = await getDownloadURL(newMediaRef);
-    
-    const mesRef = doc(db, "tweets", tweet.id)
-    await updateDoc(mesRef,{
-      mediaUrl: publicMediaUrl,
-      storageUri: fileSnapshot.metadata.fullPath
-    });
+    if(tweet.media){
+      const filePath = `tweets media/${tweet.media.name}`;
+      const newMediaRef = ref(getStorage(), filePath);
+      const fileSnapshot = await uploadBytesResumable(newMediaRef, tweet.media);
+      const publicMediaUrl = await getDownloadURL(newMediaRef);
+      
+      const mesRef = doc(db, "tweets", tweet.id)
+      await updateDoc(mesRef,{
+        mediaUrl: publicMediaUrl,
+        storageUri: fileSnapshot.metadata.fullPath
+      });
+    }
   } catch (error) {
     console.error('There was an error uploading a file to Cloud Storage:', error);
   }
-}
-
-async function saveComment(db, comment, userState, parentId){
-  await setDoc(doc(db, 'tweets', comment.id), {
-    profilePic: userState.profilePic,
-    author: userState.realName,
-    profileName: userState.profileName,
-    text: comment.text,
-    id: comment.id,
-    timestamp: serverTimestamp(),
-    parent: parentId
-  });
 }
 
 async function updateLikes(db, id, profileName){
@@ -264,7 +242,7 @@ async function updateProfile(db, user, profileInfo){
 }
 
 
-export {db, auth, saveTweet, saveTweetWithImage, saveComment, signInWithGoogle,
+export {db, auth, saveTweet, signInWithGoogle,
 signOutUser, getProfilePicUrl, getUserName, isUserSignedIn, getCurrentUser, 
 getUserInfo, updateLikes, updateRetweets, updateComments, createUser, signIn,
 updateFollow, updateProfile}

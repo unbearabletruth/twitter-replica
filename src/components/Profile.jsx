@@ -165,7 +165,7 @@ function Profile({userState}){
     });
     return stringDate
   }
-  console.log(profileInfo)
+
   return(
     <>
       {editPopup ?

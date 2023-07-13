@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import '../assets/styles/TweetBig.css'
-import { saveComment, db, updateComments, updateRetweets, updateLikes } from "../firebase/connection";
-import uniqid from "uniqid";
-import uploadImage from '../assets/images/image-line-icon.svg'
+import { db, updateRetweets, updateLikes } from "../firebase/connection";
 import { query, collection, onSnapshot, orderBy, where, doc, getDoc } from 'firebase/firestore';
 import TweetCard from "./TweetCard";
 import like from '../assets/images/like.png'
 import retweet from '../assets/images/retweet.png'
+import Compose from "./Compose";
 
 
 function Tweet({userState}){
@@ -17,11 +16,6 @@ function Tweet({userState}){
     const [tweet, setTweet] = useState()
     const [parent, setParent] = useState()
     const [comments, setComments] = useState([])
-    const [comment, setComment] = useState({
-      text: "",
-      image: null,
-      id: uniqid(),
-    })
 
     const addLike = () => {
       updateLikes(db, tweet.id, userState.profileName)
@@ -40,7 +34,9 @@ function Tweet({userState}){
 
     useEffect(() => {
       async function getComments(db) {
-        const getComments = query(collection(db, 'tweets'), where('parent', '==', id));
+        const getComments = query(collection(db, 'tweets'), 
+                                  where('parent', '==', id), 
+                                  orderBy("timestamp", "desc"));
         onSnapshot(getComments, (snapshot) => {
           let newComments = [];
             snapshot.forEach(doc => {
@@ -64,35 +60,6 @@ function Tweet({userState}){
         getParentTweet(db)
       }
     }, [tweet]);
-    
-    const onTextChange = (e) => {
-      setComment({
-        ...comment,
-        [e.target.name] : e.target.value
-    })
-    }
-  
-    const onImageChange = (e) => {
-      setComment({
-        ...comment,
-        image: e.target.files[0]
-    })  
-    }
-  
-    const addComment = (e) => {
-      e.preventDefault();
-      if (comment.image !== null){
-        //saveCommentWithImage(comment.image, comment.text, comment.id)
-      } else{
-        saveComment(db, comment, userState, tweet.id)
-        updateComments(db, comment.id, tweet.id)
-      }
-      setComment({
-        text: "",
-        image: null,
-        id: uniqid(),
-      })  
-    }
 
     const convertDate = (timestamp) => {
       let date = new Date(timestamp * 1000);
@@ -199,32 +166,8 @@ function Tweet({userState}){
         :
         null
       }
-      {userState ? 
-        <div id='tweetComposeWrapper'>
-          <img src={userState.profilePic} alt='profilePic' id='homeComposeProfilePicture'></img>
-          <form onSubmit={addComment} id='tweetForm'>
-              <textarea 
-                id="homeCompose" 
-                name='text'
-                placeholder="Tweet your reply!"
-                value={comment.text}
-                onChange={onTextChange}
-              >
-              </textarea>
-              <img src={comment.image? URL.createObjectURL(comment.image) : null} id='homeFormImagePreview'></img>
-              <div id="uploadAndTweet">
-                <label>
-                  <input type="file" id='uploadInput' onChange={onImageChange}></input>
-                  <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
-                </label>
-                {comment.text === "" && comment.image === null ?
-                  <button id='composeButtonInactive' type='button'>Tweet</button>
-                  :
-                  <button id='composeButton' type='submit'>Tweet</button>
-                }
-              </div>
-          </form>
-        </div>
+      {userState && tweet?
+        <Compose userState={userState} where={'home'} parentId={tweet.id}/>
         :
         null
       }

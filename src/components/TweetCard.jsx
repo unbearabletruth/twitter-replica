@@ -30,7 +30,6 @@ function TweetCard({tweets, userState}){
     return stringDate
   }
 
-  console.log(tweets)
   return (
     tweets.map(tweet => {
       return(

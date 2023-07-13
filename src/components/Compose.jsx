@@ -1,11 +1,11 @@
-import { saveTweet, saveTweetWithImage } from "../firebase/connection"
+import { saveTweet, updateComments } from "../firebase/connection"
 import { useState, useEffect, useRef } from 'react';
 import uniqid from "uniqid";
 import { db } from '../firebase/connection';
 import uploadIcon from '../assets/images/image-line-icon.svg'
 import closeIcon from '../assets/images/close-icon.svg'
 
-function Compose({userState, where, handleCompose}){
+function Compose({userState, where, handleCompose, parentId = null}){
   const isImage = ['gif','jpg','jpeg','png'];
   const isVideo = ['mp4','mov']
   const [wrongFile, setWrongFile] = useState(false)
@@ -24,7 +24,6 @@ function Compose({userState, where, handleCompose}){
   }
 
   const onMediaChange = (e) => {
-    console.log(e.target.files[0])
     if(isImage.some(type => e.target.files[0].type.includes(type)) ||
       isVideo.some(type => e.target.files[0].type.includes(type))){
         setTweet({
@@ -40,11 +39,14 @@ function Compose({userState, where, handleCompose}){
   
   const addTweet = (e) => {
     e.preventDefault();
-    if (tweet.media !== null){
-      saveTweetWithImage(db, tweet, userState)
-    } else{
-      saveTweet(db, tweet, userState)
+    saveTweet(db, tweet, userState, parentId)
+    if (parentId){
+      updateComments(db, tweet.id, parentId)
     }
+    resetCompose()
+  }
+
+  const resetCompose = () => {
     setTweet({
       text: "",
       media: null,
@@ -92,7 +94,7 @@ function Compose({userState, where, handleCompose}){
             <textarea 
               id="homeCompose" 
               name='text'
-              placeholder="What is happening?!"
+              placeholder={parentId ? "Tweet your reply!" : "What is happening?!"}
               value={tweet.text}
               onChange={onTextChange}
             >
