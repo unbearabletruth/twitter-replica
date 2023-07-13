@@ -63,6 +63,7 @@
 
 #homeCompose{
     width: 80%;
+    min-height: 80px;
     border: 0px;
     font-size: 1.3rem;
     resize: none;
@@ -74,9 +75,39 @@
     border-radius: 50%;
 }
 
-#homeFormImagePreview{
+#mediaPreviewWrapper{
+    position: relative;
     width: 80%;
+}
+
+.removeMedia{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: #52525b;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    border: 0px;
+    transition: background-color 0.2s ease-out;
+}
+
+.removeMedia:hover{
+    background-color: #6b7280;
+    cursor: pointer;
+}
+
+.closeIcon.remove{
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(99deg) brightness(100%) contrast(108%);
+}
+
+#homeFormImagePreview{
+    width: 100%;
     height: auto;
+    border-radius: 15px;
 }
 
 #homeCompose:focus{

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import uniqid from "uniqid";
 import { db } from '../firebase/connection';
 import uploadImage from '../assets/images/image-line-icon.svg'
+import closeIcon from '../assets/images/close-icon.svg'
 
 function Compose({userState, where, handleCompose}){
   const isImage = ['gif','jpg','jpeg','png'];
@@ -65,7 +66,15 @@ function Compose({userState, where, handleCompose}){
       }
     }
   }, [wrongFile]);
-  console.log(wrongFile)
+  
+  const removeMedia = () => {
+    fileInputRef.current.value = null
+    setTweet({
+      ...tweet,
+      image: null,
+    })
+  }
+
   return(
     <>
       {wrongFile ?
@@ -91,9 +100,19 @@ function Compose({userState, where, handleCompose}){
             {tweet.image ? 
               <>
                 {isImage.some(type => tweet.image.type.includes(type)) ?
-                  <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                  <div id="mediaPreviewWrapper">
+                    <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                    <div className="removeMedia" onClick={removeMedia}>
+                      <img className="closeIcon remove" src={closeIcon}></img>
+                    </div>
+                  </div>
                   : 
-                  <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                  <div id="mediaPreviewWrapper">
+                    <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                    <div className="removeMedia" onClick={removeMedia}>
+                      <img className="closeIcon remove" src={closeIcon}></img>
+                    </div>
+                  </div>
                 }
               </>
               :
@@ -138,9 +157,19 @@ function Compose({userState, where, handleCompose}){
             {tweet.image ? 
               <>
                 {isImage.some(type => tweet.image.type.includes(type)) ?
-                  <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                  <div id="mediaPreviewWrapper">
+                    <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                    <div className="removeMedia" onClick={removeMedia}>
+                      <img className="closeIcon remove" src={closeIcon}></img>
+                    </div>
+                  </div>
                   : isVideo.some(type => tweet.image.type.includes(type)) ?
-                  <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                  <div id="mediaPreviewWrapper">
+                    <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                    <div className="removeMedia" onClick={removeMedia}>
+                      <img className="closeIcon remove" src={closeIcon}></img>
+                    </div>
+                  </div>
                   :
                   null
                 }
