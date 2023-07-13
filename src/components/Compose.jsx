@@ -123,7 +123,7 @@ function Compose({userState, where, handleCompose}){
         </div>
         :
         <div id='tweetComposeWrapperSidebar'>
-          <form onSubmit={addTweet} id='tweetForm'>
+          <form onSubmit={addTweet} id='tweetFormSidebar'>
             <div id='composeMainContent'>
               <img src={userState.profilePic} alt='profilePic' id='homeComposeProfilePicture'></img>
               <textarea 
