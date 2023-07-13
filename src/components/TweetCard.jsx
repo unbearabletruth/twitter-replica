@@ -48,12 +48,12 @@ function TweetCard({tweets, userState}){
               </div>
               <div className='tweetContent'>
                 <p className='tweetText'>{tweet.text}</p>
-                {tweet.imageUrl ? 
+                {tweet.mediaUrl ? 
                   <>
-                    {isImage.some(type => tweet.imageUrl.includes(type)) ? 
-                      <img src={tweet.imageUrl} className='tweetImage'></img>
-                      : isVideo.some(type => tweet.imageUrl.includes(type)) ?
-                      <video src={tweet.imageUrl} className='tweetImage' controls></video>
+                    {isImage.some(type => tweet.mediaUrl.includes(type)) ? 
+                      <img src={tweet.mediaUrl} className='tweetImage'></img>
+                      : isVideo.some(type => tweet.mediaUrl.includes(type)) ?
+                      <video src={tweet.mediaUrl} className='tweetImage' controls></video>
                       :
                       null
                     }

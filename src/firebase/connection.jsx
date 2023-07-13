@@ -74,10 +74,7 @@ async function signIn(data){
 async function signInWithGoogle() {
   let provider = new GoogleAuthProvider();
   const res = await signInWithPopup(auth, provider);
-  const { isNewUser } = getAdditionalUserInfo(res) 
-  console.log(isNewUser)   
-  //const q = query(collection(db, "users"), where("uid", "==", res.user.uid));
-  //const docs = await getDocs(q);
+  const { isNewUser } = getAdditionalUserInfo(res)   
   if (isNewUser){
     await setDoc(doc(db, "users", res.user.uid), {
       profilePic: getProfilePicUrl(),
@@ -121,38 +118,38 @@ async function getUserInfo(db, profileName) {
   return user
 }
 
-async function saveTweet(db, text, id, userState){
-    await setDoc(doc(db, "tweets", id), {
+async function saveTweet(db, tweet, userState){
+    await setDoc(doc(db, "tweets", tweet.id), {
       profilePic: userState.profilePic,
       author: userState.realName,
       profileName: userState.profileName,
-      text: text,
-      id: id,
+      text: tweet.text,
+      id: tweet.id,
       timestamp: serverTimestamp(),
       parent: null
     });
 }
 
-async function saveTweetWithImage(db, file, text, id, userState) {
+async function saveTweetWithImage(db, tweet, userState) {
   try {
-    await setDoc(doc(db, 'tweets', id), {
+    await setDoc(doc(db, 'tweets', tweet.id), {
       profilePic: userState.profilePic,
       author: userState.realName,
       profileName: userState.profileName,
-      text: text,
-      id: id,
+      text: tweet.text,
+      id: tweet.id,
       timestamp: serverTimestamp(),
       parent: null
     });
 
-    const filePath = `tweets media/${file.name}`;
-    const newImageRef = ref(getStorage(), filePath);
-    const fileSnapshot = await uploadBytesResumable(newImageRef, file);
-    const publicImageUrl = await getDownloadURL(newImageRef);
+    const filePath = `tweets media/${tweet.media.name}`;
+    const newMediaRef = ref(getStorage(), filePath);
+    const fileSnapshot = await uploadBytesResumable(newMediaRef, tweet.media);
+    const publicMediaUrl = await getDownloadURL(newMediaRef);
     
-    const mesRef = doc(db, "tweets", id)
+    const mesRef = doc(db, "tweets", tweet.id)
     await updateDoc(mesRef,{
-      imageUrl: publicImageUrl,
+      mediaUrl: publicMediaUrl,
       storageUri: fileSnapshot.metadata.fullPath
     });
   } catch (error) {
@@ -160,16 +157,15 @@ async function saveTweetWithImage(db, file, text, id, userState) {
   }
 }
 
-async function saveComment(db, text, userState, id, parentId){
-  await setDoc(doc(db, 'tweets', id), {
+async function saveComment(db, comment, userState, parentId){
+  await setDoc(doc(db, 'tweets', comment.id), {
     profilePic: userState.profilePic,
     author: userState.realName,
     profileName: userState.profileName,
-    text: text,
-    id: id,
+    text: comment.text,
+    id: comment.id,
     timestamp: serverTimestamp(),
     parent: parentId
-    
   });
 }
 

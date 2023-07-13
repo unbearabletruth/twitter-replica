@@ -74,7 +74,7 @@
 }
 
 .responseImgWrapper,
-.uploadImageWrapper{
+.uploadIconWrapper{
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,7 +84,7 @@
     transition: background-color 0.2s ease-out;
 }
 
-.uploadImageWrapper:hover{
+.uploadIconWrapper:hover{
     background-color: #e0f2fe;
     cursor: pointer;
 }

@@ -31,16 +31,6 @@ function Tweet({userState}){
       updateRetweets(db, tweet.id, userState.profileName)
     }
 
-    /*useEffect(() => {
-      async function getTweet(db){
-        const tweetRef = doc(db, "tweets", id);
-        const tweetSnap = await getDoc(tweetRef);
-        const tweetData = tweetSnap.data();
-        setTweet(tweetData);
-      }
-      getTweet(db)
-    }, [id]);*/
-
     useEffect(() => {
       onSnapshot(doc(db, "tweets", id), (doc) => {
         setTweet(doc.data())
@@ -94,13 +84,13 @@ function Tweet({userState}){
       if (comment.image !== null){
         //saveCommentWithImage(comment.image, comment.text, comment.id)
       } else{
-        saveComment(db, comment.text, userState, comment.id, tweet.id)
+        saveComment(db, comment, userState, tweet.id)
         updateComments(db, comment.id, tweet.id)
       }
       setComment({
-        ...comment,
         text: "",
         image: null,
+        id: uniqid(),
       })  
     }
 
@@ -137,12 +127,12 @@ function Tweet({userState}){
           </div>
           <div className='tweetContentBig'>
             <p className='tweetTextBig'>{tweet.text}</p>
-            {tweet.imageUrl ?
+            {tweet.mediaUrl ?
               <>
-              {isImage.some(type => tweet.imageUrl.includes(type)) ? 
-                <img src={tweet.imageUrl} className='tweetImageBig'></img>
-                : isVideo.some(type => tweet.imageUrl.includes(type)) ?
-                <video src={tweet.imageUrl} className='tweetImageBig' controls></video>
+              {isImage.some(type => tweet.mediaUrl.includes(type)) ? 
+                <img src={tweet.mediaUrl} className='tweetImageBig'></img>
+                : isVideo.some(type => tweet.mediaUrl.includes(type)) ?
+                <video src={tweet.mediaUrl} className='tweetImageBig' controls></video>
                 :
                 null
               }

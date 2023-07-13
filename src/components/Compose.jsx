@@ -2,7 +2,7 @@ import { saveTweet, saveTweetWithImage } from "../firebase/connection"
 import { useState, useEffect, useRef } from 'react';
 import uniqid from "uniqid";
 import { db } from '../firebase/connection';
-import uploadImage from '../assets/images/image-line-icon.svg'
+import uploadIcon from '../assets/images/image-line-icon.svg'
 import closeIcon from '../assets/images/close-icon.svg'
 
 function Compose({userState, where, handleCompose}){
@@ -12,7 +12,7 @@ function Compose({userState, where, handleCompose}){
   const fileInputRef = useRef(null);
   const [tweet, setTweet] = useState({
     text: "",
-    image: null,
+    media: null,
     id: uniqid(),
   })
   
@@ -23,13 +23,13 @@ function Compose({userState, where, handleCompose}){
     })
   }
 
-  const onImageChange = (e) => {
+  const onMediaChange = (e) => {
     console.log(e.target.files[0])
     if(isImage.some(type => e.target.files[0].type.includes(type)) ||
       isVideo.some(type => e.target.files[0].type.includes(type))){
         setTweet({
           ...tweet,
-          image: e.target.files[0]
+          media: e.target.files[0]
         }) 
       }
     else{
@@ -40,15 +40,15 @@ function Compose({userState, where, handleCompose}){
   
   const addTweet = (e) => {
     e.preventDefault();
-    if (tweet.image !== null){
-      saveTweetWithImage(db, tweet.image, tweet.text, tweet.id, userState)
+    if (tweet.media !== null){
+      saveTweetWithImage(db, tweet, userState)
     } else{
-      saveTweet(db, tweet.text, tweet.id, userState)
+      saveTweet(db, tweet, userState)
     }
     setTweet({
-      ...tweet,
       text: "",
-      image: null,
+      media: null,
+      id: uniqid(),
     })
     if (where === 'sidebar'){
         handleCompose();
@@ -71,7 +71,7 @@ function Compose({userState, where, handleCompose}){
     fileInputRef.current.value = null
     setTweet({
       ...tweet,
-      image: null,
+      media: null,
     })
   }
 
@@ -97,18 +97,18 @@ function Compose({userState, where, handleCompose}){
               onChange={onTextChange}
             >
             </textarea>
-            {tweet.image ? 
+            {tweet.media ? 
               <>
-                {isImage.some(type => tweet.image.type.includes(type)) ?
+                {isImage.some(type => tweet.media.type.includes(type)) ?
                   <div id="mediaPreviewWrapper">
-                    <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                    <img src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview'></img>
                     <div className="removeMedia" onClick={removeMedia}>
                       <img className="closeIcon remove" src={closeIcon}></img>
                     </div>
                   </div>
                   : 
                   <div id="mediaPreviewWrapper">
-                    <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                    <video src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview' controls></video>
                     <div className="removeMedia" onClick={removeMedia}>
                       <img className="closeIcon remove" src={closeIcon}></img>
                     </div>
@@ -123,16 +123,16 @@ function Compose({userState, where, handleCompose}){
               <input 
                 type="file" 
                 id='uploadInput'
-                onChange={onImageChange} 
+                onChange={onMediaChange} 
                 accept='.gif,.jpg,.jpeg,.png,.mp4,.mov'
                 ref={fileInputRef}
               >
               </input>
-              <div className="uploadImageWrapper">
-                <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+              <div className="uploadIconWrapper">
+                <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
               </div>
               </label>
-              {tweet.text === "" && tweet.image === null ?
+              {tweet.text === "" && tweet.media === null ?
                 <button id='composeButtonInactive' type='button'>Tweet</button>
                 :
                 <button id='composeButton' type='submit'>Tweet</button>
@@ -154,18 +154,18 @@ function Compose({userState, where, handleCompose}){
               >
               </textarea>
             </div>
-            {tweet.image ? 
+            {tweet.media ? 
               <>
-                {isImage.some(type => tweet.image.type.includes(type)) ?
+                {isImage.some(type => tweet.media.type.includes(type)) ?
                   <div id="mediaPreviewWrapper">
-                    <img src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview'></img>
+                    <img src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview'></img>
                     <div className="removeMedia" onClick={removeMedia}>
                       <img className="closeIcon remove" src={closeIcon}></img>
                     </div>
                   </div>
-                  : isVideo.some(type => tweet.image.type.includes(type)) ?
+                  : isVideo.some(type => tweet.media.type.includes(type)) ?
                   <div id="mediaPreviewWrapper">
-                    <video src={ URL.createObjectURL(tweet.image)} id='homeFormImagePreview' controls></video>
+                    <video src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview' controls></video>
                     <div className="removeMedia" onClick={removeMedia}>
                       <img className="closeIcon remove" src={closeIcon}></img>
                     </div>
@@ -182,16 +182,16 @@ function Compose({userState, where, handleCompose}){
                 <input 
                   type="file" 
                   id='uploadInput' 
-                  onChange={onImageChange} 
+                  onChange={onMediaChange} 
                   accept='.gif,.jpg,.jpeg,.png,.mp4,.mov' 
                   ref={fileInputRef}
                 >
                 </input>
-                <div className="uploadImageWrapper">
-                    <img src={uploadImage} alt="imgUL" className='uploadImage'></img>
+                <div className="uploadIconWrapper">
+                    <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
                 </div>
               </label>
-              {tweet.text === "" && tweet.image === null ?
+              {tweet.text === "" && tweet.media === null ?
                 <button id='composeButtonInactive' type='button'>Tweet</button>
                 :
                 <button id='composeButton' type='submit'>Tweet</button>
