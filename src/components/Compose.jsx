@@ -12,9 +12,9 @@ function Compose({userState, where, handleCompose, parentId = null}){
   const fileInputRef = useRef(null);
   const [tweet, setTweet] = useState({
     text: "",
-    media: null,
     id: uniqid(),
   })
+  const [media, setMedia] = useState(null)
  
   const onTextChange = (e) => {
     setTweet({
@@ -26,10 +26,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
   const onMediaChange = (e) => {
     if(isImage.some(type => e.target.files[0].type.includes(type)) ||
       isVideo.some(type => e.target.files[0].type.includes(type))){
-        setTweet({
-          ...tweet,
-          media: e.target.files[0]
-        }) 
+        setMedia(e.target.files[0])
       }
     else{
       fileInputRef.current.value = null
@@ -49,9 +46,9 @@ function Compose({userState, where, handleCompose, parentId = null}){
   const resetCompose = () => {
     setTweet({
       text: "",
-      media: null,
       id: uniqid(),
     })
+    setMedia(null)
     if (where === 'sidebar'){
         handleCompose();
     }  
@@ -71,22 +68,19 @@ function Compose({userState, where, handleCompose, parentId = null}){
   
   const removeMedia = () => {
     fileInputRef.current.value = null
-    setTweet({
-      ...tweet,
-      media: null,
-    })
+    setMedia(null)
   }
 
   const mediaPreview = useMemo(() => (
-    tweet.media ?
+    media ?
       <MediaPreview 
-        tweet={tweet} 
+        media={media} 
         isImage={isImage} 
         removeMedia={removeMedia}
       />
     :
       null
-  ), [tweet.media])
+  ), [media])
 
   return(
     <>
@@ -130,7 +124,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
                 <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
               </div>
               </label>
-              {tweet.text === "" && tweet.media === null ?
+              {tweet.text === "" && media === null ?
                 <button id='composeButtonInactive' type='button'>Tweet</button>
                 :
                 <button id='composeButton' type='submit'>Tweet</button>
@@ -172,7 +166,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
                     <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
                 </div>
               </label>
-              {tweet.text === "" && tweet.media === null ?
+              {tweet.text === "" && media === null ?
                 <button id='composeButtonInactive' type='button'>Tweet</button>
                 :
                 <button id='composeButton' type='submit'>Tweet</button>
@@ -185,12 +179,12 @@ function Compose({userState, where, handleCompose, parentId = null}){
   )
 }
 
-function MediaPreview({tweet, isImage, removeMedia}){
+function MediaPreview({media, isImage, removeMedia}){
   return (
-    isImage.some(type => tweet.media.type.includes(type)) ?
+    isImage.some(type => media.type.includes(type)) ?
       <div id="mediaPreviewWrapper">
         <img 
-          src={ URL.createObjectURL(tweet.media)} 
+          src={ URL.createObjectURL(media)} 
           id='homeFormImagePreview'
         >
         </img>
@@ -201,7 +195,7 @@ function MediaPreview({tweet, isImage, removeMedia}){
     : 
       <div id="mediaPreviewWrapper">
         <video 
-          src={ URL.createObjectURL(tweet.media)} 
+          src={ URL.createObjectURL(media)} 
           id='homeFormImagePreview' 
           controls
         >
