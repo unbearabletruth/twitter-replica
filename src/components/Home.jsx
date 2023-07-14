@@ -20,7 +20,8 @@ function Home({userState}){
   useEffect(() => {
     async function getAllTweets(db) {
       const getTweets = query(collection(db, 'tweets'), 
-        where("parent", "==", null), orderBy("timestamp", "desc"));
+                              where("parent", "==", null), 
+                              orderBy("timestamp", "desc"));
       onSnapshot(getTweets, (snapshot) => {
         let tweets = [];
           snapshot.forEach(doc => {
@@ -38,8 +39,9 @@ function Home({userState}){
     if (userState && userState.following.length !== 0){
       async function getFollowTweets(db) {
         const getTweets = query(collection(db, 'tweets'), 
-          and(where("profileName", "in", userState.following),
-              where("parent", "==", null)), orderBy("timestamp", "desc"));
+                            and(where("profileName", "in", userState.following),
+                                where("parent", "==", null)), 
+                                orderBy("timestamp", "desc"));
         onSnapshot(getTweets, (snapshot) => {
           let tweets = [];
             snapshot.forEach(doc => {

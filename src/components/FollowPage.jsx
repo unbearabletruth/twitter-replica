@@ -21,7 +21,7 @@ function FollowPage({userState}){
   useEffect(() => {
     async function getFollowers(db) {
       const q = query(collection(db, 'users'), 
-        where("following", "array-contains", user.profileName ));
+                where("following", "array-contains", user.profileName ));
       onSnapshot(q, (snapshot) => {
         let followers = [];
           snapshot.forEach(doc => {
@@ -37,7 +37,7 @@ function FollowPage({userState}){
   useEffect(() => {
     async function getFollowees(db) {
       const q = query(collection(db, 'users'), 
-        where("followers", "array-contains", user.profileName ));
+                where("followers", "array-contains", user.profileName ));
       onSnapshot(q, (snapshot) => {
         let followees = [];
           snapshot.forEach(doc => {
@@ -88,7 +88,12 @@ function FollowPage({userState}){
         return(
           <Link to={`/profile/${person.profileName}`} key={person.uid}>
             <div className='followerCard'>
-              <img src={person.profilePic} alt='pic' className='followerProfilePic'></img>
+              <img 
+                src={person.profilePic} 
+                alt='pic' 
+                className='followerProfilePic'
+              >
+              </img>
               <div className='followerFullInfo'>
                 <div className='followerInfo'>
                   <div className='followerNames'>
@@ -102,9 +107,19 @@ function FollowPage({userState}){
                         :
                         <>
                           {userState.following.includes(person.profileName) ?
-                            <button onClick={(e) => addFollow(e, person)} className='unfollowButton'>Unfollow</button>
+                            <button 
+                              onClick={(e) => addFollow(e, person)} 
+                              className='unfollowButton'
+                            >
+                              Unfollow
+                            </button>
                           :
-                            <button onClick={(e) => addFollow(e, person)} className='followButton'>Follow</button>
+                            <button 
+                              onClick={(e) => addFollow(e, person)} 
+                              className='followButton'
+                            >
+                              Follow
+                            </button>
                           }
                         </>
                       }

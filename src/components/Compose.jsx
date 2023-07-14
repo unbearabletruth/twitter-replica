@@ -100,7 +100,12 @@ function Compose({userState, where, handleCompose, parentId = null}){
       }
       {where === 'home' ?
         <div id='tweetComposeWrapper'>
-          <img src={userState.profilePic} alt='profilePic' id='homeComposeProfilePicture'></img>
+          <img 
+            src={userState.profilePic} 
+            alt='profilePic' 
+            id='homeComposeProfilePicture'
+          >
+          </img>
           <form onSubmit={addTweet} id='tweetForm'>
             <textarea 
               id="homeCompose" 
@@ -137,7 +142,12 @@ function Compose({userState, where, handleCompose, parentId = null}){
         <div id='tweetComposeWrapperSidebar'>
           <form onSubmit={addTweet} id='tweetFormSidebar'>
             <div id='composeMainContent'>
-              <img src={userState.profilePic} alt='profilePic' id='homeComposeProfilePicture'></img>
+              <img 
+                src={userState.profilePic} 
+                alt='profilePic' 
+                id='homeComposeProfilePicture'
+              >
+              </img>
               <textarea 
                 id="homeCompose" 
                 name='text'
@@ -179,7 +189,11 @@ function MediaPreview({tweet, isImage, removeMedia}){
   return (
     isImage.some(type => tweet.media.type.includes(type)) ?
       <div id="mediaPreviewWrapper">
-        <img src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview'></img>
+        <img 
+          src={ URL.createObjectURL(tweet.media)} 
+          id='homeFormImagePreview'
+        >
+        </img>
         <div className="removeMedia" onClick={removeMedia}>
           <img className="closeIcon remove" src={closeIcon}></img>
         </div>
