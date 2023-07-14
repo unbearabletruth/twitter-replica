@@ -118,7 +118,7 @@ async function getUserInfo(db, profileName) {
   return user
 }
 
-async function saveTweet(db, tweet, userState, parentId) {
+async function saveTweet(db, tweet, media, userState, parentId) {
   try {
     await setDoc(doc(db, 'tweets', tweet.id), {
       profilePic: userState.profilePic,
@@ -130,10 +130,10 @@ async function saveTweet(db, tweet, userState, parentId) {
       parent: parentId
     });
 
-    if(tweet.media){
-      const filePath = `tweets media/${tweet.media.name}`;
+    if(media){
+      const filePath = `tweets media/${media.name}`;
       const newMediaRef = ref(getStorage(), filePath);
-      const fileSnapshot = await uploadBytesResumable(newMediaRef, tweet.media);
+      const fileSnapshot = await uploadBytesResumable(newMediaRef, media);
       const publicMediaUrl = await getDownloadURL(newMediaRef);
       
       const mesRef = doc(db, "tweets", tweet.id)

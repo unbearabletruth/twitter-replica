@@ -36,7 +36,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
   
   const addTweet = (e) => {
     e.preventDefault();
-    saveTweet(db, tweet, userState, parentId)
+    saveTweet(db, tweet, media, userState, parentId)
     if (parentId){
       updateComments(db, tweet.id, parentId)
     }
