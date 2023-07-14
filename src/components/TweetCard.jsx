@@ -30,6 +30,14 @@ function TweetCard({tweets, userState}){
     return stringDate
   }
 
+  const onVideoClick = (e) => {
+    e.preventDefault()
+    e.target.paused ?
+      e.target.play()
+      :
+      e.target.pause()
+  }
+
   return (
     tweets.map(tweet => {
       return(
@@ -52,7 +60,7 @@ function TweetCard({tweets, userState}){
                     {isImage.some(type => tweet.mediaUrl.includes(type)) ? 
                       <img src={tweet.mediaUrl} className='tweetImage'></img>
                       : isVideo.some(type => tweet.mediaUrl.includes(type)) ?
-                      <video src={tweet.mediaUrl} className='tweetImage' controls></video>
+                      <video src={tweet.mediaUrl} className='tweetImage' onClick={onVideoClick} controls></video>
                       :
                       null
                     }

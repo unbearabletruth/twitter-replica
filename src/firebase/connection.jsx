@@ -227,7 +227,7 @@ async function updateProfile(db, user, profileInfo){
     })
   }
   if (profileInfo.image){
-    const filePath = `profile pictures${profileInfo.image.name}`;
+    const filePath = `profile pictures/${profileInfo.image.name}`;
     const newImageRef = ref(getStorage(), filePath);
     await uploadBytesResumable(newImageRef, profileInfo.image);
     const publicImageUrl = await getDownloadURL(newImageRef);

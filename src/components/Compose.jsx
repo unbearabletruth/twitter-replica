@@ -1,5 +1,5 @@
 import { saveTweet, updateComments } from "../firebase/connection"
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import uniqid from "uniqid";
 import { db } from '../firebase/connection';
 import uploadIcon from '../assets/images/image-line-icon.svg'
@@ -15,7 +15,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
     media: null,
     id: uniqid(),
   })
-  
+ 
   const onTextChange = (e) => {
     setTweet({
       ...tweet,
@@ -77,6 +77,17 @@ function Compose({userState, where, handleCompose, parentId = null}){
     })
   }
 
+  const mediaPreview = useMemo(() => (
+    tweet.media ?
+      <MediaPreview 
+        tweet={tweet} 
+        isImage={isImage} 
+        removeMedia={removeMedia}
+      />
+    :
+      null
+  ), [tweet.media])
+
   return(
     <>
       {wrongFile ?
@@ -99,27 +110,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
               onChange={onTextChange}
             >
             </textarea>
-            {tweet.media ? 
-              <>
-                {isImage.some(type => tweet.media.type.includes(type)) ?
-                  <div id="mediaPreviewWrapper">
-                    <img src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview'></img>
-                    <div className="removeMedia" onClick={removeMedia}>
-                      <img className="closeIcon remove" src={closeIcon}></img>
-                    </div>
-                  </div>
-                  : 
-                  <div id="mediaPreviewWrapper">
-                    <video src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview' controls></video>
-                    <div className="removeMedia" onClick={removeMedia}>
-                      <img className="closeIcon remove" src={closeIcon}></img>
-                    </div>
-                  </div>
-                }
-              </>
-              :
-              null
-            }
+            {mediaPreview}
             <div id="uploadAndTweet">
               <label>
               <input 
@@ -156,29 +147,7 @@ function Compose({userState, where, handleCompose, parentId = null}){
               >
               </textarea>
             </div>
-            {tweet.media ? 
-              <>
-                {isImage.some(type => tweet.media.type.includes(type)) ?
-                  <div id="mediaPreviewWrapper">
-                    <img src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview'></img>
-                    <div className="removeMedia" onClick={removeMedia}>
-                      <img className="closeIcon remove" src={closeIcon}></img>
-                    </div>
-                  </div>
-                  : isVideo.some(type => tweet.media.type.includes(type)) ?
-                  <div id="mediaPreviewWrapper">
-                    <video src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview' controls></video>
-                    <div className="removeMedia" onClick={removeMedia}>
-                      <img className="closeIcon remove" src={closeIcon}></img>
-                    </div>
-                  </div>
-                  :
-                  null
-                }
-              </>
-              :
-              null
-            }
+            {mediaPreview}
             <div id="uploadAndTweetSidebar">
               <label>
                 <input 
@@ -203,6 +172,30 @@ function Compose({userState, where, handleCompose, parentId = null}){
         </div>
       }
     </>
+  )
+}
+
+function MediaPreview({tweet, isImage, removeMedia}){
+  return (
+    isImage.some(type => tweet.media.type.includes(type)) ?
+      <div id="mediaPreviewWrapper">
+        <img src={ URL.createObjectURL(tweet.media)} id='homeFormImagePreview'></img>
+        <div className="removeMedia" onClick={removeMedia}>
+          <img className="closeIcon remove" src={closeIcon}></img>
+        </div>
+      </div>
+    : 
+      <div id="mediaPreviewWrapper">
+        <video 
+          src={ URL.createObjectURL(tweet.media)} 
+          id='homeFormImagePreview' 
+          controls
+        >
+        </video>
+        <div className="removeMedia" onClick={removeMedia}>
+          <img className="closeIcon remove" src={closeIcon}></img>
+        </div>
+      </div>
   )
 }
 
