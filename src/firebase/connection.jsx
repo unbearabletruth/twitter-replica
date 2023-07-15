@@ -49,16 +49,18 @@ const db = getFirestore(app);
 const auth = getAuth(app)
 
 async function createUser(data){
+  let userName = `${data.name}_${uniqid()}`
   const res = await createUserWithEmailAndPassword(auth, data.email, data.password)
   await setDoc(doc(db, "users", res.user.uid), {
     realName: data.name,
-    profileName: `${data.name}_${uniqid()}`,
+    profileName: userName,
+    lowercaseProfileName: userName.toLowerCase(),
     joined: serverTimestamp(),
     uid: res.user.uid,
     followers: [],
     following: []
   });
-  const publicImageUrl = await getDownloadURL(ref(getStorage(), 'man-line-icon.svg'));
+  const publicImageUrl = await getDownloadURL(ref(getStorage(), 'profile pictures/man-line-icon.svg'));
 
   const mesRef = doc(db, "users", res.user.uid)
     await updateDoc(mesRef,{
@@ -70,8 +72,8 @@ async function signIn(data){
   signInWithEmailAndPassword(auth, data.email, data.password)
 }
 
-
 async function signInWithGoogle() {
+  let userName = `${getUserName()}_${uniqid()}`
   let provider = new GoogleAuthProvider();
   const res = await signInWithPopup(auth, provider);
   const { isNewUser } = getAdditionalUserInfo(res)   
@@ -79,7 +81,8 @@ async function signInWithGoogle() {
     await setDoc(doc(db, "users", res.user.uid), {
       profilePic: getProfilePicUrl(),
       realName: getUserName(),
-      profileName: `${getUserName()}_${uniqid()}`,
+      profileName: userName,
+      lowercaseProfileName: userName.toLowerCase(),
       joined: serverTimestamp(),
       uid: res.user.uid,
       followers: [],

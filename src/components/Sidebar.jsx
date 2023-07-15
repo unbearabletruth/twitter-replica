@@ -39,7 +39,7 @@ function Sidebar({userState}) {
 
   useEffect(() => {
     function handleClickOutside(e) {
-      if (!logoutPopupRef.current.contains(e.target)){
+      if (logoutPopupRef.current && !logoutPopupRef.current.contains(e.target)){
         setLoginWindow(false)
       }
     }

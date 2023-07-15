@@ -10,6 +10,7 @@ import Verified from './Verified';
 import Profile from './Profile';
 import FollowPage from './FollowPage';
 import Tweet from './Tweet';
+import Search from './Search';
 
 
 function Content({userState}){
@@ -31,7 +32,7 @@ function Content({userState}){
           </Routes>
         </div>
         <div id='sideContent'>
-          <input type='search' id='search' placeholder='Search Twitter'></input>
+          <Search />
           <div id='getVerified'>
             <p>Just</p>
             <p>a non-functional</p>
