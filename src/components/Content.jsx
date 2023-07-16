@@ -32,7 +32,7 @@ function Content({userState}){
           </Routes>
         </div>
         <div id='sideContent'>
-          <Search />
+          <Search userState={userState}/>
           <div id='getVerified'>
             <p>Just</p>
             <p>a non-functional</p>

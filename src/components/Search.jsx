@@ -1,12 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
 import { db } from "../firebase/connection";
+import '../assets/styles/Search.css'
+import searchIcon from '../assets/images/search.svg'
+import profileIcon from '../assets/images/sidebar/profile.png'
+import { useNavigate } from "react-router-dom";
 
-function Search(){
+function Search({userState}){
   const [input, setInput] = useState('')
   const [results, setResults] = useState()
   const [searchPopup, setSearchPopup] = useState(false)
   const searchPopupRef = useRef(null)
+  const search = useRef(null)
+  const [searchActive, setSearchActive] = useState(false)
+  const navigate = useNavigate();
 
   useEffect(() => {
     let lowerCase = input.toLowerCase()
@@ -35,6 +42,7 @@ function Search(){
     function handleClickOutside(e) {
       if (searchPopupRef.current && !searchPopupRef.current.contains(e.target)){
         setSearchPopup(false)
+        setSearchActive(false)
       }
     }
     document.addEventListener("click", handleClickOutside);
@@ -48,30 +56,51 @@ function Search(){
   }
 
   const handlePopup = () => {
-    setSearchPopup(!searchPopup)
+    setSearchPopup(true)
+    search.current.focus()
+    setSearchActive(true)
   }
-  console.log(searchPopup)
+
+  const navigateProfile = (profileName) => {
+    navigate(`/profile/${profileName}`)
+    setInput('')
+  }
+
   return(
     <div id="searchWrapper">
-      <input 
-        type='search' 
-        id='search' 
-        placeholder='Search Twitter'
-        onChange={handleInput}
-        autoComplete="off"
-        ref={searchPopupRef}
-        onClick={handlePopup}
-      >
-      </input>
+      <div id="searchBar" onClick={handlePopup} ref={searchPopupRef}>
+        <div id="searchIconWrapper" className={searchActive ? 'active' : ''}>
+          <img src={searchIcon} alt="search" id="searchIcon"></img>
+        </div>
+        <input 
+          type='search' 
+          id='search' 
+          placeholder='Search Twitter'
+          onChange={handleInput}
+          autoComplete="off"
+          ref={search}
+          className={searchActive ? 'active' : ''}
+          value={input}
+        >
+        </input>
+      </div>
       {results && searchPopup ?
         <div id="searchResultsWrapper">
           {results.map(result => {
             return(
-              <div key={result.uid} className="searchResult">
+              <div key={result.uid} className="searchResult" onClick={() => navigateProfile(result.profileName)}>
                 <img src={result.profilePic} className="searchResultProfilePicture"></img>
                 <div className="searchResultNameBlock">
-                  <span>{result.realName}</span>
-                  <span>{result.profileName}</span>
+                  <span className="searchResultRealName">{result.realName}</span>
+                  <span className="searchResultProfileName">{`@${result.profileName}`}</span>
+                  {userState && userState.following.includes(result.profileName) ?
+                    <div className="searchResultFollowingBlock">
+                      <img src={profileIcon} alt="icon" className="searchResultFollowingIcon"></img>
+                      <span className="searchResultFollowing">Following</span>
+                    </div>
+                    :
+                    null
+                  }
                 </div>
               </div>
             )
@@ -79,7 +108,7 @@ function Search(){
           )}
         </div>
       : searchPopup ?
-        <div id="searchResultsWrapper">
+        <div id="searchNoResultsWrapper">
           Try searching for people
         </div>
         :
