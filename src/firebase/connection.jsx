@@ -73,11 +73,11 @@ async function signIn(data){
 }
 
 async function signInWithGoogle() {
-  let userName = `${getUserName()}_${uniqid()}`
   let provider = new GoogleAuthProvider();
   const res = await signInWithPopup(auth, provider);
   const { isNewUser } = getAdditionalUserInfo(res)   
   if (isNewUser){
+    let userName = `${getUserName()}_${uniqid()}`
     await setDoc(doc(db, "users", res.user.uid), {
       profilePic: getProfilePicUrl(),
       realName: getUserName(),
@@ -96,15 +96,15 @@ function signOutUser() {
 }
 
 function getProfilePicUrl() {
-  return getAuth().currentUser.photoURL || '/images/profile_placeholder.png';
+  return auth.currentUser.photoURL || '/images/profile_placeholder.png';
 }
 
 function getUserName() {
-  return getAuth().currentUser.displayName;
+  return auth.currentUser.displayName;
 }
 
 function isUserSignedIn() {
-  return !!getAuth().currentUser;
+  return !!auth.currentUser;
 }
 
 async function getCurrentUser(db, id) {
