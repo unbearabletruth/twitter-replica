@@ -11,6 +11,7 @@ import Profile from './Profile';
 import FollowPage from './FollowPage';
 import Tweet from './Tweet';
 import Search from './Search';
+import WhoToFollow from './WhoToFollow';
 
 
 function Content({userState}){
@@ -33,17 +34,7 @@ function Content({userState}){
         </div>
         <div id='sideContent'>
           <Search userState={userState}/>
-          <div id='getVerified'>
-            <p>Just</p>
-            <p>a non-functional</p>
-            <a>placeholder</a>
-          </div>
-          <div id='trends'>
-            <p>Trends for you</p>
-            <div id='trendsEntry'>
-              placeholder
-            </div>
-          </div>
+          <WhoToFollow userState={userState}/>
         </div>
       </div>
     )

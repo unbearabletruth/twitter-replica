@@ -1,0 +1,75 @@
+#wtfWrapper{
+    background-color: #f5f5f5;
+    width: 340px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+}
+
+#wtfTitle{
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 12px 16px;
+}
+
+.wtfUser{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    transition: background-color 0.2s ease-out;
+}
+
+#wtfWrapper .wtfUser:last-child{
+    border-radius: 0px 0px 20px 20px;
+}
+
+.wtfUser:hover{
+    background-color: #eeeeee;
+    cursor: pointer;
+}
+
+.wtfUserInfoBlock{
+    display: flex;
+    gap: 8px;
+}
+
+.wtfProfilePicture{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.wtfNamesBlock{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.95rem;
+}
+
+.wtfRealName{
+    font-weight: bold;
+    color: black;
+}
+
+.wtfProfileName{
+    color: #6b7280;
+}
+
+.wtfFollowButton{
+    border: 0px;
+    width: 70px;
+    height: 30px;
+    background-color: #18181b;
+    border-radius: 30px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: all 0.2s ease-out;
+}
+
+.wtfFollowButton:hover{
+    background-color: #27272a;
+    cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
+import { query, collection, onSnapshot, where, and } from 'firebase/firestore';
 import { db } from "../firebase/connection";
 import '../assets/styles/Search.css'
 import searchIcon from '../assets/images/search.svg'

@@ -23,25 +23,4 @@
     align-self: flex-start;
 }
 
-#getVerified{
-    background-color: #f3f4f6;
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 20px;
-    gap: 15px;
-}
-
-#trends{
-    background-color: #f3f4f6;
-    width: 340px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 20px;
-    border-radius: 20px;
-    gap: 20px;
-}
 
