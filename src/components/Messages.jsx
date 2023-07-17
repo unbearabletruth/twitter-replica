@@ -1,6 +1,8 @@
+import Error404 from "./Error404";
+
 function Messages(){
     return(
-        <p>messages</p>
+        <Error404 development={true}/>
     )
 }
 

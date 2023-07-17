@@ -1,6 +1,8 @@
+import Error404 from "./Error404";
+
 function Notifications(){
     return(
-        <p>notif</p>
+        <Error404 development={true}/>
     )
 }
 

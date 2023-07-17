@@ -12,6 +12,7 @@ import FollowPage from './FollowPage';
 import Tweet from './Tweet';
 import Search from './Search';
 import WhoToFollow from './WhoToFollow';
+import Error404 from './Error404';
 
 
 function Content({userState}){
@@ -30,6 +31,7 @@ function Content({userState}){
             <Route path="/profile/:id" element={<Profile userState={userState}/>} />
             <Route path="/profile/:id/follow" element={<FollowPage userState={userState}/>} />
             <Route path="/tweet/:id" element={<Tweet userState={userState}/>} />
+            <Route path="*" element={<Error404/>} />
           </Routes>
         </div>
         <div id='sideContent'>

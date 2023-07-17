@@ -1,0 +1,32 @@
+#error404Wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 10vh;
+    gap: 30px;
+}
+
+#error404Text{
+    color: #6b7280;
+}
+
+#error404Link{
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    justify-content: center;
+    background-color: #1DA1F2;
+    width: 90px;
+    height: 40px;
+    border: 0px;
+    border-radius: 30px;
+    transition: background-color 0.2s ease-out;
+}
+
+#error404Link:hover{
+    background-color: #198fd8;
+    cursor: pointer;
+}

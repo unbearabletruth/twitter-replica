@@ -1,6 +1,8 @@
+import Error404 from "./Error404";
+
 function Bookmarks(){
     return(
-        <p>bookmarks</p>
+        <Error404 development={true}/>
     )
 }
 

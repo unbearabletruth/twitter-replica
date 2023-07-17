@@ -1,6 +1,8 @@
+import Error404 from "./Error404";
+
 function Lists(){
     return(
-        <p>lists</p>
+        <Error404 development={true}/>
     )
 }
 
