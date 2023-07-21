@@ -68,7 +68,7 @@ function Sidebar({userState}) {
   const handleCompose = () => {
     setComposePopup(!composePopup)
   }
-  console.log(width)
+
   return(
     <div id="sidebar">
       <div id='sidebarContent'>

@@ -9,6 +9,7 @@
 
 #tweetForm{
     width: 100%;
+    gap: 10px;
     display: flex; 
     flex-direction: column;
     justify-content: space-between;
@@ -62,7 +63,7 @@
 }
 
 #homeCompose{
-    width: 80%;
+    width: 100%;
     min-height: 80px;
     border: 0px;
     font-size: 1.3rem;
@@ -120,6 +121,11 @@
     filter: invert(49%) sepia(78%) saturate(1726%) hue-rotate(176deg) brightness(98%) contrast(93%);
 }
 
+#composeButtonAndSymbols{
+    display: flex;
+    gap: 40px;
+}
+
 #composeButton,
 #composeButtonInactive{
     border: 0px;
@@ -140,6 +146,23 @@
 #composeButton:hover{
     background-color: #198fd8;
     cursor: pointer;
+}
+
+#composeSymbolsLeft{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border: 2px solid #1DA1F2;
+    border-radius: 50%;
+    color: #1DA1F2;
+    font-size: 0.8rem;
+}
+
+#composeSymbolsLeft.tooMany{
+    border: 2px solid #dc2626;
+    color: #dc2626;
 }
 
 #uploadInput{

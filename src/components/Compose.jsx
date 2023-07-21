@@ -124,10 +124,21 @@ function Compose({userState, where, handleCompose, parentId = null}){
                 <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
               </div>
               </label>
-              {tweet.text === "" && media === null ?
-                <button id='composeButtonInactive' type='button'>Tweet</button>
+              {tweet.text === "" && media === null || tweet.text.length >= 280 ?
+                tweet.text.length >= 280 ?
+                  <div id="composeButtonAndSymbols">
+                    <div id="composeSymbolsLeft" className='tooMany'>
+                      {280 - tweet.text.length}
+                    </div>
+                    <button id='composeButtonInactive' type='button'>Tweet</button>
+                  </div>
+                  :
+                  <button id='composeButtonInactive' type='button'>Tweet</button>
                 :
-                <button id='composeButton' type='submit'>Tweet</button>
+                <div id="composeButtonAndSymbols">
+                  <div id="composeSymbolsLeft">{280 - tweet.text.length}</div>
+                  <button id='composeButton' type='submit'>Tweet</button>
+                </div>
               }
             </div>
           </form>
@@ -166,10 +177,21 @@ function Compose({userState, where, handleCompose, parentId = null}){
                     <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
                 </div>
               </label>
-              {tweet.text === "" && media === null ?
-                <button id='composeButtonInactive' type='button'>Tweet</button>
+              {tweet.text === "" && media === null || tweet.text.length >= 280 ?
+                tweet.text.length >= 280 ?
+                  <div id="composeButtonAndSymbols">
+                    <div id="composeSymbolsLeft" className='tooMany'>
+                      {280 - tweet.text.length}
+                    </div>
+                    <button id='composeButtonInactive' type='button'>Tweet</button>
+                  </div>
+                  :
+                  <button id='composeButtonInactive' type='button'>Tweet</button>
                 :
-                <button id='composeButton' type='submit'>Tweet</button>
+                <div id="composeButtonAndSymbols">
+                  <div id="composeSymbolsLeft">{280 - tweet.text.length}</div>
+                  <button id='composeButton' type='submit'>Tweet</button>
+                </div>
               }
             </div>
           </form>

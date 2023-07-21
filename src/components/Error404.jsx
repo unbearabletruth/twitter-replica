@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import '../assets/styles/Error404.css'
 
 function Error404({development = false}){
-  console.log(development)
+
   return(
     <div id="error404Wrapper">
       {development ? 
