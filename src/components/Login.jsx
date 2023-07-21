@@ -1,6 +1,5 @@
 import { signInWithGoogle, signOutUser, createUser, signIn } from "../firebase/connection";
 import { useState } from "react";
-import background from '../assets/images/sign-up-image.jpg'
 import twitterIcon from '../assets/images/twitter-icon.svg'
 import closeIcon from '../assets/images/close-icon.svg'
 import googleIcon from '../assets/images/google-icon.png'
@@ -49,7 +48,7 @@ function Login(){
 
   return(
     <div id="loginWrapper">
-      <img src={background} alt="background"></img>
+      <div id="loginBackground"></div>
       <div id="loginContent">
         <img src={twitterIcon} alt="icon" id="loginTwitterIcon"></img>
         <p id="loginTitle">Happening now</p>

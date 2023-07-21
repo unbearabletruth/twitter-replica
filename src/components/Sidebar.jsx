@@ -152,7 +152,12 @@ function Sidebar({userState}) {
                 }
               </>
             :
-              <Link to="/login" id='toLoginPage'>Sign up or Log in</Link>
+              <Link 
+                to="/login" 
+                id='toLoginPage'
+              >
+                {width > 1300 ? 'Sign up or Log in' : 'Sign in'}
+              </Link>
           }
         </div>
         {userState && composePopup ?
