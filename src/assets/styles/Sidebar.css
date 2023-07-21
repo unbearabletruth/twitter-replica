@@ -90,6 +90,12 @@
     cursor: pointer;
 }
 
+#composeIcon{
+    width: 24px;
+    height: auto;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(128deg) brightness(105%) contrast(102%);
+}
+
 #composePopup{
     width: 600px;
     min-height: 200px;
@@ -240,3 +246,26 @@
     background-color: #f1f5f9;
     cursor: pointer;
 }
+
+@media (max-width: 1300px) {
+    #sidebarContent{
+        width: 90px;
+    }
+
+    .sidebarText{
+        display: none;
+    }
+
+    .sidebarLinks{
+        width: 55px;
+    }
+
+    #sidebarUserInfo{
+        width: 64px;
+        height: 64px;
+    }
+
+    .loginPopup{
+        left: 100px
+    }
+  }

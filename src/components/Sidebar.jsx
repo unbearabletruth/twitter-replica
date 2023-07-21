@@ -16,6 +16,7 @@ import profile from '../assets/images/sidebar/profile.png'
 import more from '../assets/images/sidebar/more.png'
 import Compose from './Compose';
 import closeIcon from '../assets/images/close-icon.svg'
+import composeIcon from '../assets/images/write.svg'
 
 function Sidebar({userState}) {
   const tabs = [
@@ -32,10 +33,21 @@ function Sidebar({userState}) {
   const [selected, setSelected] = useState(null)
   const location = useLocation();
   const [composePopup, setComposePopup] = useState(false)
+  const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {
     setSelected(location.pathname.slice(1))
   }, [location])
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, [])
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -56,7 +68,7 @@ function Sidebar({userState}) {
   const handleCompose = () => {
     setComposePopup(!composePopup)
   }
-
+  console.log(width)
   return(
     <div id="sidebar">
       <div id='sidebarContent'>
@@ -78,7 +90,7 @@ function Sidebar({userState}) {
                 <div className='sidebarLinkWrapper'>
                   <div className='sidebarLinkContent'>
                     <img src={tab.img} alt='logo' className='sidebarIcon'></img>
-                    {tab.title.charAt(0).toUpperCase() + tab.title.slice(1)}
+                    <p className='sidebarText'>{tab.title.charAt(0).toUpperCase() + tab.title.slice(1)}</p>
                   </div>
                 </div>
               </Link>
@@ -91,7 +103,7 @@ function Sidebar({userState}) {
             <div className='sidebarLinkWrapper'>
               <div className='sidebarLinkContent'>
                 <img src={profile} alt='logo' className='sidebarIcon'></img>
-                Profile
+                <p className='sidebarText'>Profile</p>
               </div>
             </div>
           </Link>
@@ -101,27 +113,38 @@ function Sidebar({userState}) {
             <div className='sidebarLinkWrapper'>
               <div className='sidebarLinkContent'>
                 <img src={more} alt='logo' className='sidebarIcon'></img>
-                More
+                <p className='sidebarText'>More</p>
               </div>
             </div>
           </div>
-          <button to="/compose" id='composeTweet' onClick={handleCompose}>Tweet</button>
+          {width > 1300 ?
+            <button to="/compose" id='composeTweet' onClick={handleCompose}>Tweet</button>
+            :
+            <button to="/compose" id='composeTweet' onClick={handleCompose}>
+              <img src={composeIcon} alt='compose' id='composeIcon'></img>
+            </button>
+          }
         </div>
           {userState ?
               <>
-                <div id="sidebarUserInfo" onClick={loginPopup} ref={logoutPopupRef}>
-                  <div id='sidebarProfileBlock'>
-                    <img src={userState.profilePic} alt='profilePic' id='profilePic'></img>
-                    <div className='profileNames'>
-                      <p id='realName'>{userState.realName}</p>
-                      <p id='profileName'>@{userState.profileName}</p>
+                {width > 1300 ?
+                  <div id="sidebarUserInfo" onClick={loginPopup} ref={logoutPopupRef}>
+                    <div id='sidebarProfileBlock'>
+                      <img src={userState.profilePic} alt='profilePic' id='profilePic'></img>
+                      <div className='profileNames'>
+                        <p id='realName'>{userState.realName}</p>
+                        <p id='profileName'>@{userState.profileName}</p>
+                      </div>
                     </div>
+                    <p id='profileMenu'>&#8230;</p>
                   </div>
-                  <p id='profileMenu'>&#8230;</p>
-                  
-                </div>
+                :
+                  <div id="sidebarUserInfo" onClick={loginPopup} ref={logoutPopupRef}>
+                    <img src={userState.profilePic} alt='profilePic' id='profilePic'></img>
+                  </div>
+                }
                 {loginWindow ? 
-                  <div className='loginPopup' >
+                  <div className='loginPopup'>
                     <a id='logoutLink' onClick={signOutUser}>Log out @{userState.profileName}</a>
                   </div>
                   :
