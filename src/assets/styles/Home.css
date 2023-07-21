@@ -62,12 +62,21 @@
     align-items: center;
 }
 
+#uploadAndTweet.focus{
+    padding-top: 10px;
+    border-top: 1px solid;
+    border-color: #e5e7eb;
+}
+
 #homeCompose{
     width: 100%;
-    min-height: 80px;
     border: 0px;
     font-size: 1.3rem;
     resize: none;
+}
+
+#homeCompose.focus{
+    height: 120px;
 }
 
 #homeComposeProfilePicture{

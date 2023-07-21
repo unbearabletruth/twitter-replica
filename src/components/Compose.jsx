@@ -15,6 +15,11 @@ function Compose({userState, where, handleCompose, parentId = null}){
     id: uniqid(),
   })
   const [media, setMedia] = useState(null)
+  const [textInputFocus, setTextInputFocus] = useState(false)
+
+  const handleFocus = () => {
+    setTextInputFocus(true)
+  }
  
   const onTextChange = (e) => {
     setTweet({
@@ -103,14 +108,16 @@ function Compose({userState, where, handleCompose, parentId = null}){
           <form onSubmit={addTweet} id='tweetForm'>
             <textarea 
               id="homeCompose" 
+              className={textInputFocus ? 'focus' : null}
               name='text'
               placeholder={parentId ? "Tweet your reply!" : "What is happening?!"}
               value={tweet.text}
               onChange={onTextChange}
+              onFocus={handleFocus}
             >
             </textarea>
             {mediaPreview}
-            <div id="uploadAndTweet">
+            <div id="uploadAndTweet" className={textInputFocus ? 'focus' : null}>
               <label>
               <input 
                 type="file" 
@@ -162,37 +169,37 @@ function Compose({userState, where, handleCompose, parentId = null}){
               >
               </textarea>
             </div>
-            {mediaPreview}
-            <div id="uploadAndTweetSidebar">
-              <label>
-                <input 
-                  type="file" 
-                  id='uploadInput' 
-                  onChange={onMediaChange} 
-                  accept='.gif,.jpg,.jpeg,.png,.mp4,.mov' 
-                  ref={fileInputRef}
-                >
-                </input>
-                <div className="uploadIconWrapper">
-                    <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
-                </div>
-              </label>
-              {tweet.text === "" && media === null || tweet.text.length >= 280 ?
-                tweet.text.length >= 280 ?
-                  <div id="composeButtonAndSymbols">
-                    <div id="composeSymbolsLeft" className='tooMany'>
-                      {280 - tweet.text.length}
-                    </div>
-                    <button id='composeButtonInactive' type='button'>Tweet</button>
+              {mediaPreview}
+              <div id="uploadAndTweetSidebar">
+                <label>
+                  <input 
+                    type="file" 
+                    id='uploadInput' 
+                    onChange={onMediaChange} 
+                    accept='.gif,.jpg,.jpeg,.png,.mp4,.mov' 
+                    ref={fileInputRef}
+                  >
+                  </input>
+                  <div className="uploadIconWrapper">
+                      <img src={uploadIcon} alt="imgUL" className='uploadIcon'></img>
                   </div>
+                </label>
+                {tweet.text === "" && media === null || tweet.text.length >= 280 ?
+                  tweet.text.length >= 280 ?
+                    <div id="composeButtonAndSymbols">
+                      <div id="composeSymbolsLeft" className='tooMany'>
+                        {280 - tweet.text.length}
+                      </div>
+                      <button id='composeButtonInactive' type='button'>Tweet</button>
+                    </div>
+                    :
+                    <button id='composeButtonInactive' type='button'>Tweet</button>
                   :
-                  <button id='composeButtonInactive' type='button'>Tweet</button>
-                :
-                <div id="composeButtonAndSymbols">
-                  <div id="composeSymbolsLeft">{280 - tweet.text.length}</div>
-                  <button id='composeButton' type='submit'>Tweet</button>
-                </div>
-              }
+                  <div id="composeButtonAndSymbols">
+                    <div id="composeSymbolsLeft">{280 - tweet.text.length}</div>
+                    <button id='composeButton' type='submit'>Tweet</button>
+                  </div>
+                }
             </div>
           </form>
         </div>
