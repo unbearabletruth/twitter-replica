@@ -98,6 +98,7 @@
 
 #composePopup{
     width: 600px;
+    margin: 0px 15px 0px 15px;
     min-height: 200px;
     max-height: 800px;
     position: relative;
@@ -248,6 +249,10 @@
 }
 
 @media (max-width: 1300px) {
+    #sidebar{
+        width: 20%;
+    }
+
     #sidebarContent{
         width: 90px;
     }
@@ -268,4 +273,4 @@
     .loginPopup{
         left: 100px
     }
-  }
+}
