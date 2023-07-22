@@ -1,13 +1,12 @@
 import '../assets/styles/Profile.css'
-import { db, getUserInfo, updateFollow, updateProfile } from '../firebase/connection';
+import { db, updateFollow } from '../firebase/connection';
 import { useParams, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { query, collection, onSnapshot, orderBy, where, and } from 'firebase/firestore';
 import TweetCard from './TweetCard';
 import calendar from '../assets/images/calendar.svg'
 import location from '../assets/images/location.svg'
-import closeIcon from '../assets/images/close-icon.svg'
-import addPhoto from '../assets/images/add_photo.png'
+import ProfileEdit from './ProfileEdit';
 
 function Profile({userState}){
   const {id} = useParams();
@@ -18,11 +17,6 @@ function Profile({userState}){
   const [tab, setTab] = useState()
   const [selected, setSelected] = useState()
   const [editPopup, setEditPopup] = useState(false)
-  const [profileInfo, setProfileInfo] = useState({
-    bio: '',
-    location: '',
-    image: null
-  })
 
   useEffect(() => {
     setTab(tweets)
@@ -39,23 +33,8 @@ function Profile({userState}){
           })
       });
     }
-    /*async function getUser(){
-      const userPromise = getUserInfo(db, id);
-      const user = await userPromise;
-      setUserProfile(user[0])
-    }*/
-    
     getUser()
   }, [id])
-
-  useEffect(() => {
-    if (userProfile){
-      setProfileInfo({
-        bio: userProfile.bio,
-        location: userProfile.location
-      })
-    }
-  }, [userProfile])
 
   useEffect(() => {
     if (userProfile){
@@ -118,26 +97,6 @@ function Profile({userState}){
     updateFollow(db, userState, userProfile)
   }
 
-  const handleEditChange = (e) => {
-    setProfileInfo({
-      ...profileInfo,
-      [e.target.name] : e.target.value
-    })
-  }
-
-  const onProfileImageChange = (e) => {
-    setProfileInfo({
-      ...profileInfo,
-      image: e.target.files[0]
-    })  
-  }
-
-  const onEditSubmit = (e) => {
-    e.preventDefault()
-    updateProfile(db, userState, profileInfo)
-    handleEditPopup()
-  }
-
   const handleSelected = (e) => {
     if (e.target.textContent === "Tweets"){
       setTab(tweets)
@@ -151,10 +110,6 @@ function Profile({userState}){
 
   const handleEditPopup = () => {
     setEditPopup(!editPopup)
-    setProfileInfo({
-      ...profileInfo,
-      image: null
-    }) 
   }
 
   const convertJoined = (timestamp) => {
@@ -169,49 +124,11 @@ function Profile({userState}){
   return(
     <>
       {editPopup ?
-        <div id='popupBackground'>
-          <div id='editPopupWrapper'>
-            <button onClick={handleEditPopup} className="closePopup">
-              <img src={closeIcon} alt="x" className="closeIcon"></img>
-            </button>
-            <div id='editPopupHeader'>
-              <p id='editPopupTitle'>Edit profile</p>
-              <button id='editPopupSave' form='editProfileForm' type='submit'>Save</button>
-            </div>
-            <form id='editProfileForm' onSubmit={onEditSubmit}>
-              <div className='changeProfilePicture'>
-                <img 
-                  src={profileInfo.image ? URL.createObjectURL(profileInfo.image) : userProfile.profilePic}
-                  alt="imgUL" 
-                  className='uploadProfileImage'
-                >
-                </img>
-                <label>
-                  <div className='addImageWrapper'>
-                    <input type="file" id='uploadInput' onChange={onProfileImageChange}></input>
-                    <img src={addPhoto} alt='add' className='uploadImageAdd'></img>
-                  </div>
-                </label>
-              </div>
-              <textarea 
-                id='editPopupTextArea' 
-                onChange={handleEditChange} 
-                placeholder='Bio'
-                name='bio'
-                value={profileInfo.bio}
-              >
-              </textarea>
-              <input
-                className='editPopupInput' 
-                onChange={handleEditChange} 
-                placeholder='Location'
-                name='location'
-                value={profileInfo.location}
-              >
-              </input>
-            </form>
-          </div>
-        </div>
+        <ProfileEdit 
+          userState={userState} 
+          handleEditPopup={handleEditPopup}
+          userProfile={userProfile}
+        />
         :
         null
       }
@@ -313,7 +230,5 @@ function Profile({userState}){
     </>
   )
 }
-
-
 
 export default Profile;

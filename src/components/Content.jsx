@@ -1,12 +1,12 @@
 import '../assets/styles/Content.css'
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from './Home';
-import Explore from './Expole';
-import Notifications from './Notifications';
-import Messages from './Messages';
-import Lists from './Lists';
-import Bookmarks from './Bookmarks';
-import Verified from './Verified';
+import Explore from './in development/Expole';
+import Notifications from './in development/Notifications';
+import Messages from './in development/Messages';
+import Lists from './in development/Lists';
+import Bookmarks from './in development/Bookmarks';
+import Verified from './in development/Verified';
 import Profile from './Profile';
 import FollowPage from './FollowPage';
 import Tweet from './Tweet';

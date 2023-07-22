@@ -4,6 +4,7 @@ import uniqid from "uniqid";
 import { db } from '../firebase/connection';
 import uploadIcon from '../assets/images/image-line-icon.svg'
 import closeIcon from '../assets/images/close-icon.svg'
+import '../assets/styles/Compose.css'
 
 function Compose({userState, where, handleCompose, parentId = null}){
   const isImage = ['gif','jpg','jpeg','png'];

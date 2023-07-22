@@ -1,0 +1,241 @@
+#tweetComposeWrapper{
+    min-height: 100px;
+    padding: 10px;
+    display: flex;
+    border-bottom: 1px solid;
+    border-color: #e5e7eb;
+    gap: 15px;
+}
+
+#tweetForm{
+    width: 100%;
+    gap: 10px;
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#uploadAndTweet{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#uploadAndTweet.focus{
+    padding-top: 10px;
+    border-top: 1px solid;
+    border-color: #e5e7eb;
+}
+
+#homeCompose{
+    width: 100%;
+    border: 0px;
+    font-size: 1.3rem;
+    resize: none;
+}
+
+#homeCompose.focus{
+    height: 120px;
+}
+
+#homeComposeProfilePicture{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+#mediaPreviewWrapper{
+    position: relative;
+    width: 80%;
+}
+
+.removeMedia{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: #52525b;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    border: 0px;
+    transition: background-color 0.2s ease-out;
+}
+
+.removeMedia:hover{
+    background-color: #6b7280;
+    cursor: pointer;
+}
+
+.closeIcon.remove{
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(99deg) brightness(100%) contrast(108%);
+}
+
+#homeFormImagePreview{
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+}
+
+#homeCompose:focus{
+    outline: none;
+}
+
+.uploadIcon{
+    width: 16px;
+    height: auto;
+    filter: invert(49%) sepia(78%) saturate(1726%) hue-rotate(176deg) brightness(98%) contrast(93%);
+}
+
+#composeButtonAndSymbols{
+    display: flex;
+    gap: 40px;
+}
+
+#composeButton,
+#composeButtonInactive{
+    border: 0px;
+    width: 90px;
+    height: 35px;
+    border-radius: 30px;
+    background-color: #1DA1F2;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease-out;
+}
+
+#composeButtonInactive{
+    opacity: 0.5;
+}
+
+#composeButton:hover{
+    background-color: #198fd8;
+    cursor: pointer;
+}
+
+#composeSymbolsLeft{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 35px;
+    height: 35px;
+    border: 2px solid #1DA1F2;
+    border-radius: 50%;
+    color: #1DA1F2;
+    font-size: 0.8rem;
+}
+
+#composeSymbolsLeft.tooMany{
+    border: 2px solid #dc2626;
+    color: #dc2626;
+}
+
+#uploadInput{
+    display: none;
+}
+
+#wrongFileMessage{
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    align-items: center;
+    border-radius: 5px;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
+    bottom: 5vh;
+    width: 300px;
+    height: 60px;
+    background-color: #1DA1F2;
+    color: white;
+    font-weight: bold;
+}
+
+#tweetFormContent{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Compose popup on sidebar */
+
+#composePopup{
+    width: 600px;
+    margin: 0px 15px 0px 15px;
+    min-height: 200px;
+    max-height: 750px;
+    position: relative;
+    background-color: white;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 15px;
+    display: flex;
+    padding-top: 40px;
+}
+
+#tweetComposeWrapperSidebar{
+    min-height: 100px;
+    width: 100%;
+    padding: 10px 16px;
+    display: flex;
+    gap: 15px;
+}
+
+#tweetFormSidebar{
+    width: 100%;
+    display: flex; 
+    gap: 10px;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+#composeMainContent{
+    display: flex;
+}
+
+#composeTextAndPreview{
+    width: 100%;
+    padding: 0px 15px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+#sidebarCompose{
+    width: 100%;
+    border: 0px;
+    font-size: 1.3rem;
+    resize: none;
+    height: 120px;
+}
+
+#sidebarCompose:focus{
+    outline: none;
+}
+
+#previewImageWrapper{
+    display: flex;
+    justify-content: center;
+}
+
+#sidebarFormImagePreview{
+    width: auto;
+    height: 400px;
+    padding-bottom: 10px;
+}
+
+#uploadAndTweetSidebar{
+    border-top: 1px solid;
+    border-color: #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 0px 10px;
+    position: sticky;
+    bottom: 0px;
+    background-color: white;
+}

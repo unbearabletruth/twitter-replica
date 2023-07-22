@@ -1,4 +1,4 @@
-import Error404 from "./Error404";
+import Error404 from "../Error404";
 
 function Messages(){
     return(

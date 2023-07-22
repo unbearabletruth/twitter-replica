@@ -219,7 +219,6 @@ async function updateFollow(db, follower, followee){
 async function updateProfile(db, user, profileInfo){
   const userRef = doc(db, 'users', user.uid);
   if (profileInfo.bio !== undefined){
-    console.log('empty')
     await updateDoc(userRef, {
       bio: profileInfo.bio,
     })
