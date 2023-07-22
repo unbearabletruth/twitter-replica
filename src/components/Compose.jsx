@@ -160,16 +160,18 @@ function Compose({userState, where, handleCompose, parentId = null}){
                 id='homeComposeProfilePicture'
               >
               </img>
-              <textarea 
-                id="homeCompose" 
-                name='text'
-                placeholder="What is happening?!"
-                value={tweet.text}
-                onChange={onTextChange}
-              >
-              </textarea>
+              <div id="composeTextAndPreview">
+                <textarea 
+                  id="sidebarCompose" 
+                  name='text'
+                  placeholder="What is happening?!"
+                  value={tweet.text}
+                  onChange={onTextChange}
+                >
+                </textarea>
+                {mediaPreview}
+              </div>
             </div>
-              {mediaPreview}
               <div id="uploadAndTweetSidebar">
                 <label>
                   <input 

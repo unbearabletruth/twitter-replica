@@ -100,13 +100,12 @@
     width: 600px;
     margin: 0px 15px 0px 15px;
     min-height: 200px;
-    max-height: 800px;
+    max-height: 750px;
     position: relative;
     background-color: white;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
     border-radius: 15px;
     display: flex;
-    align-items: flex-end;
     padding-top: 40px;
 }
 
@@ -125,13 +124,30 @@
     flex-direction: column;
     justify-content: space-between;
     overflow-y: auto;
-    max-height: 500px;
 }
 
 #composeMainContent{
     display: flex;
-    height: 120px;
+}
+
+#composeTextAndPreview{
+    width: 100%;
+    padding: 0px 15px;
+    display: flex;
     gap: 15px;
+    flex-direction: column;
+}
+
+#sidebarCompose{
+    width: 100%;
+    border: 0px;
+    font-size: 1.3rem;
+    resize: none;
+    height: 120px;
+}
+
+#sidebarCompose:focus{
+    outline: none;
 }
 
 #previewImageWrapper{
@@ -152,6 +168,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 10px 0px 10px;
+    position: sticky;
+    bottom: 0px;
+    background-color: white;
 }
 
 #sidebarUserInfo{
