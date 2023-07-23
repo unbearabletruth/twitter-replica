@@ -17,21 +17,20 @@ function Search({userState}){
 
   useEffect(() => {
     let lowerCase = input.toLowerCase()
-    console.log(lowerCase)
-    if(input.length > 0){
+    async function getUsers(){
       const q = query(collection(db, "users"), 
-                      and(where("lowercaseProfileName", '>=', lowerCase),
-                          where("lowercaseProfileName", '<', `${lowerCase}\uf7ff`)));
-      async function getUsers(){
-        onSnapshot(q, (snapshot) => {
-          let users = [];
-          snapshot.forEach(doc => {
-              let user = doc.data()
-              users.push(user)
-          })
-          setResults(users)
-        });
-      }
+                    and(where("lowercaseProfileName", '>=', lowerCase),
+                        where("lowercaseProfileName", '<', `${lowerCase}\uf7ff`)));
+      onSnapshot(q, (snapshot) => {
+        let users = [];
+        snapshot.forEach(doc => {
+            let user = doc.data()
+            users.push(user)
+        })
+        setResults(users)
+      });
+    }
+    if(input.length > 0){
       getUsers()
     } else{
       setResults()

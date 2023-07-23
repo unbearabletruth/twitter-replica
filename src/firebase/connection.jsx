@@ -3,11 +3,9 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
-  signInWithRedirect,
   getAdditionalUserInfo
 } from 'firebase/auth';
 import {
@@ -15,7 +13,6 @@ import {
     collection,
     doc,
     setDoc,
-    addDoc,
     updateDoc,
     getDocs,
     query,
@@ -33,7 +30,6 @@ import {
     getDownloadURL,
   } from 'firebase/storage';
 import uniqid from "uniqid";
-import avatarPlaceholder from '../assets/images/man-line-icon.svg'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCvJ-2uriYsQG8Qd5p4AfEVTrHHzn_EYTc",

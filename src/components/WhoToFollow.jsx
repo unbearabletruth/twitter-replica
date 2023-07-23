@@ -8,22 +8,22 @@ function WhoToFollow({userState}){
   const [toFollow, setToFollow] = useState([])
 
   useEffect(() => {
+    async function getNotFollowing(db) {
+      const getUsers = query(collection(db, 'users'), limit(3))
+      onSnapshot(getUsers, (snapshot) => {
+        let users = [];
+          snapshot.forEach(doc => {
+              let user = doc.data()
+              if (!(userState.following && 
+              (userState.following.includes(user.profileName) ||
+              user.uid === userState.uid))){
+                users.push(user)
+              }
+          })
+        setToFollow(users)
+      });
+    }
     if (userState){
-      async function getNotFollowing(db) {
-        const getUsers = query(collection(db, 'users'), limit(3))
-        onSnapshot(getUsers, (snapshot) => {
-          let users = [];
-            snapshot.forEach(doc => {
-                let user = doc.data()
-                if (!(userState.following && 
-                (userState.following.includes(user.profileName) ||
-                user.uid === userState.uid))){
-                  users.push(user)
-                }
-            })
-          setToFollow(users)
-        });
-      }
       getNotFollowing(db);
     }
   }, [userState])

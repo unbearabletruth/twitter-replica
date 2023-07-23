@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import './App.css'
 import Sidebar from './components/Sidebar';
 import Content from './components/Content';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { getCurrentUser, db, auth, isUserSignedIn } from './firebase/connection';
+import { db, auth } from './firebase/connection';
 import Login from './components/Login';
 import { doc, onSnapshot } from 'firebase/firestore';
 

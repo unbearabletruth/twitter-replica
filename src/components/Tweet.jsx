@@ -50,13 +50,13 @@ function Tweet({userState}){
     }, [id])
 
     useEffect(() => {
+      async function getParentTweet(db){
+        const tweetRef = doc(db, "tweets", tweet.parent);
+        const tweetSnap = await getDoc(tweetRef);
+        const tweetData = tweetSnap.data();
+        setParent(tweetData);
+      }
       if(tweet && tweet.parent){
-        async function getParentTweet(db){
-          const tweetRef = doc(db, "tweets", tweet.parent);
-          const tweetSnap = await getDoc(tweetRef);
-          const tweetData = tweetSnap.data();
-          setParent(tweetData);
-        }
         getParentTweet(db)
       }
     }, [tweet]);

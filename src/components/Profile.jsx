@@ -37,58 +37,58 @@ function Profile({userState}){
   }, [id])
 
   useEffect(() => {
+    async function getRetweets(db) {
+      const getTweets = query(collection(db, 'tweets'), 
+        where("retweetedBy", "array-contains", userProfile.profileName ), 
+        orderBy("timestamp", "desc"));
+      onSnapshot(getTweets, (snapshot) => {
+        let newTweets = [];
+          snapshot.forEach(doc => {
+              let newPost = doc.data()
+              newTweets.push(newPost)
+          })
+        setRetweets(newTweets)
+      });
+    }
     if (userProfile){
-      async function getRetweets(db) {
-        const getTweets = query(collection(db, 'tweets'), 
-          where("retweetedBy", "array-contains", userProfile.profileName ), 
-          orderBy("timestamp", "desc"));
-        onSnapshot(getTweets, (snapshot) => {
-          let newTweets = [];
-            snapshot.forEach(doc => {
-                let newPost = doc.data()
-                newTweets.push(newPost)
-            })
-          setRetweets(newTweets)
-        });
-      }
       getRetweets(db);
     }
   }, [userProfile])
 
   useEffect(() => {
+    async function getTweets(db) {
+      const getTweets = query(collection(db, 'tweets'), 
+        and(where("profileName", "==", userProfile.profileName ),
+          where("parent", "==", null)), orderBy("timestamp", "desc"));
+      onSnapshot(getTweets, (snapshot) => {
+        let newTweets = [];
+          snapshot.forEach(doc => {
+              let newPost = doc.data()
+              newTweets.push(newPost)
+          })
+        setTweets(newTweets)
+      });
+    }
     if (userProfile){
-      async function getTweets(db) {
-        const getTweets = query(collection(db, 'tweets'), 
-          and(where("profileName", "==", userProfile.profileName ),
-            where("parent", "==", null)), orderBy("timestamp", "desc"));
-        onSnapshot(getTweets, (snapshot) => {
-          let newTweets = [];
-            snapshot.forEach(doc => {
-                let newPost = doc.data()
-                newTweets.push(newPost)
-            })
-          setTweets(newTweets)
-        });
-      }
       getTweets(db);
     }
   }, [userProfile])
 
   useEffect(() => {
+    async function getLikes(db) {
+      const getTweets = query(collection(db, 'tweets'), 
+        where("likedBy", "array-contains", userProfile.profileName ), 
+        orderBy("timestamp", "desc"));
+      onSnapshot(getTweets, (snapshot) => {
+        let newTweets = [];
+          snapshot.forEach(doc => {
+              let newPost = doc.data()
+              newTweets.push(newPost)
+          })
+        setLikes(newTweets)
+      });
+    }
     if (userProfile){
-      async function getLikes(db) {
-        const getTweets = query(collection(db, 'tweets'), 
-          where("likedBy", "array-contains", userProfile.profileName ), 
-          orderBy("timestamp", "desc"));
-        onSnapshot(getTweets, (snapshot) => {
-          let newTweets = [];
-            snapshot.forEach(doc => {
-                let newPost = doc.data()
-                newTweets.push(newPost)
-            })
-          setLikes(newTweets)
-        });
-      }
       getLikes(db);
     }
   }, [userProfile])

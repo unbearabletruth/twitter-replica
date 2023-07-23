@@ -1,4 +1,4 @@
-import { signInWithGoogle, signOutUser, createUser, signIn } from "../firebase/connection";
+import { signInWithGoogle, createUser, signIn } from "../firebase/connection";
 import { useState } from "react";
 import twitterIcon from '../assets/images/twitter-icon.svg'
 import closeIcon from '../assets/images/close-icon.svg'

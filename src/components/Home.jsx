@@ -36,22 +36,22 @@ function Home({userState}){
   }, [])
 
   useEffect(() => {
+    async function getFollowTweets(db) {
+      const getTweets = query(collection(db, 'tweets'), 
+                          and(where("profileName", "in", userState.following),
+                              where("parent", "==", null)), 
+                              orderBy("timestamp", "desc"));
+      onSnapshot(getTweets, (snapshot) => {
+        let tweets = [];
+          snapshot.forEach(doc => {
+              let tweet = doc.data()
+              tweets.push(tweet)
+              
+          })
+        setFollowTweets(tweets)
+      });
+    }
     if (userState && userState.following.length !== 0){
-      async function getFollowTweets(db) {
-        const getTweets = query(collection(db, 'tweets'), 
-                            and(where("profileName", "in", userState.following),
-                                where("parent", "==", null)), 
-                                orderBy("timestamp", "desc"));
-        onSnapshot(getTweets, (snapshot) => {
-          let tweets = [];
-            snapshot.forEach(doc => {
-                let tweet = doc.data()
-                tweets.push(tweet)
-                
-            })
-          setFollowTweets(tweets)
-        });
-      }
       getFollowTweets(db);
     }
   }, [userState])
